@@ -686,6 +686,113 @@ F 3 "" H 3450 2790 60  0000 C CNN
 	1    3675 2580
 	1    0    0    -1  
 $EndComp
+$Comp
+L TST P?
+U 1 1 52A279E6
+P 13430 930
+F 0 "P?" H 13430 1230 40  0000 C CNN
+F 1 "+5V" H 13430 1180 30  0000 C CNN
+F 2 "" H 13430 930 60  0000 C CNN
+F 3 "" H 13430 930 60  0000 C CNN
+	1    13430 930 
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST P?
+U 1 1 52A279FA
+P 13015 4540
+F 0 "P?" H 13015 4840 40  0000 C CNN
+F 1 "GND" H 13015 4790 30  0000 C CNN
+F 2 "" H 13015 4540 60  0000 C CNN
+F 3 "" H 13015 4540 60  0000 C CNN
+	1    13015 4540
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST P?
+U 1 1 52A27A0E
+P 4130 2285
+F 0 "P?" H 4130 2585 40  0000 C CNN
+F 1 "PoE+" H 4130 2535 30  0000 C CNN
+F 2 "" H 4130 2285 60  0000 C CNN
+F 3 "" H 4130 2285 60  0000 C CNN
+	1    4130 2285
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST P?
+U 1 1 52A27A22
+P 4075 3035
+F 0 "P?" H 4075 3335 40  0000 C CNN
+F 1 "PoE-" H 4075 3285 30  0000 C CNN
+F 2 "" H 4075 3035 60  0000 C CNN
+F 3 "" H 4075 3035 60  0000 C CNN
+	1    4075 3035
+	1    0    0    -1  
+$EndComp
+Text Notes 5665 1660 0    60   ~ 0
+Note: GNDA is from ethernet. \nGND on the rest of the circuit is\nisolated from this.
+$Comp
+L LED D?
+U 1 1 52A27A6E
+P 13790 1690
+F 0 "D?" H 13790 1790 50  0000 C CNN
+F 1 "5V LED" H 13795 1575 50  0000 C CNN
+F 2 "" H 13790 1690 60  0000 C CNN
+F 3 "" H 13790 1690 60  0000 C CNN
+	1    13790 1690
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 52A27D1F
+P 13790 1955
+F 0 "#PWR?" H 13790 1955 30  0001 C CNN
+F 1 "GND" H 13790 1885 30  0001 C CNN
+F 2 "" H 13790 1955 60  0000 C CNN
+F 3 "" H 13790 1955 60  0000 C CNN
+	1    13790 1955
+	1    0    0    -1  
+$EndComp
+$Comp
+L RESISTOR R?
+U 1 1 52A27F11
+P 13790 1240
+F 0 "R?" V 13870 1240 40  0000 C CNN
+F 1 "2.8k" V 13700 1245 40  0000 C CNN
+F 2 "" V 13720 1240 30  0000 C CNN
+F 3 "" H 13790 1240 30  0000 C CNN
+	1    13790 1240
+	1    0    0    -1  
+$EndComp
+Text Label 6085 2740 0    60   ~ 0
+PVcc
+Text Label 7830 2090 0    60   ~ 0
+PVcc
+Text Label 8510 3890 0    60   ~ 0
+PVcc
+$Comp
+L ENC28J60 U?
+U 1 1 52A35603
+P 5000 5425
+F 0 "U?" H 5400 6575 60  0000 L CNN
+F 1 "ENC28J60" H 5350 4325 60  0000 L CNN
+F 2 "" H 5000 5425 60  0000 C CNN
+F 3 "" H 5000 5425 60  0000 C CNN
+	1    5000 5425
+	-1   0    0    -1  
+$EndComp
+$Comp
+L 0813-1X1T-57-F J?
+U 1 1 52A39AE0
+P 1475 5150
+F 0 "J?" H 1575 5750 60  0000 L CNN
+F 1 "0813-1X1T-57-F" H 1425 5750 60  0000 R CNN
+F 2 "" H 1530 5280 60  0000 C CNN
+F 3 "" H 1530 5280 60  0000 C CNN
+	1    1475 5150
+	-1   0    0    -1  
+$EndComp
 Wire Wire Line
 	3370 3040 6335 3040
 Connection ~ 4285 2290
@@ -958,98 +1065,45 @@ Wire Wire Line
 Wire Wire Line
 	3370 1860 3370 3040
 Connection ~ 3370 2580
-$Comp
-L TST P?
-U 1 1 52A279E6
-P 13430 930
-F 0 "P?" H 13430 1230 40  0000 C CNN
-F 1 "+5V" H 13430 1180 30  0000 C CNN
-F 2 "" H 13430 930 60  0000 C CNN
-F 3 "" H 13430 930 60  0000 C CNN
-	1    13430 930 
-	1    0    0    -1  
-$EndComp
-$Comp
-L TST P?
-U 1 1 52A279FA
-P 13015 4540
-F 0 "P?" H 13015 4840 40  0000 C CNN
-F 1 "GND" H 13015 4790 30  0000 C CNN
-F 2 "" H 13015 4540 60  0000 C CNN
-F 3 "" H 13015 4540 60  0000 C CNN
-	1    13015 4540
-	1    0    0    -1  
-$EndComp
-$Comp
-L TST P?
-U 1 1 52A27A0E
-P 4130 2285
-F 0 "P?" H 4130 2585 40  0000 C CNN
-F 1 "PoE+" H 4130 2535 30  0000 C CNN
-F 2 "" H 4130 2285 60  0000 C CNN
-F 3 "" H 4130 2285 60  0000 C CNN
-	1    4130 2285
-	1    0    0    -1  
-$EndComp
-$Comp
-L TST P?
-U 1 1 52A27A22
-P 4075 3035
-F 0 "P?" H 4075 3335 40  0000 C CNN
-F 1 "PoE-" H 4075 3285 30  0000 C CNN
-F 2 "" H 4075 3035 60  0000 C CNN
-F 3 "" H 4075 3035 60  0000 C CNN
-	1    4075 3035
-	1    0    0    -1  
-$EndComp
-Text Notes 5665 1660 0    60   ~ 0
-Note: GNDA is from ethernet. \nGND on the rest of the circuit is\nisolated from this.
-$Comp
-L LED D?
-U 1 1 52A27A6E
-P 13790 1690
-F 0 "D?" H 13790 1790 50  0000 C CNN
-F 1 "5V LED" H 13795 1575 50  0000 C CNN
-F 2 "" H 13790 1690 60  0000 C CNN
-F 3 "" H 13790 1690 60  0000 C CNN
-	1    13790 1690
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	13790 930  13790 1060
 Connection ~ 13790 930 
-$Comp
-L GND #PWR?
-U 1 1 52A27D1F
-P 13790 1955
-F 0 "#PWR?" H 13790 1955 30  0001 C CNN
-F 1 "GND" H 13790 1885 30  0001 C CNN
-F 2 "" H 13790 1955 60  0000 C CNN
-F 3 "" H 13790 1955 60  0000 C CNN
-	1    13790 1955
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	13790 1890 13790 1955
-$Comp
-L RESISTOR R?
-U 1 1 52A27F11
-P 13790 1240
-F 0 "R?" V 13870 1240 40  0000 C CNN
-F 1 "2.8k" V 13700 1245 40  0000 C CNN
-F 2 "" V 13720 1240 30  0000 C CNN
-F 3 "" H 13790 1240 30  0000 C CNN
-	1    13790 1240
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	13790 1490 13790 1420
-Text Label 6085 2740 0    60   ~ 0
-PVcc
-Text Label 7830 2090 0    60   ~ 0
-PVcc
 Wire Wire Line
 	7830 2090 9585 2090
-Text Label 8510 3890 0    60   ~ 0
-PVcc
+Wire Wire Line
+	2485 5330 2575 5330
+Wire Wire Line
+	2485 5395 2580 5395
+Wire Wire Line
+	2485 5270 2575 5270
+Wire Wire Line
+	2485 5210 2575 5210
+Text Label 2575 5330 0    20   ~ 0
+EthernetSpare+
+Text Label 2580 5395 0    20   ~ 0
+EthernetSpare-
+Text Label 2575 5210 0    20   ~ 0
+Ethernet-
+Text Label 2575 5270 0    20   ~ 0
+Ethernet+
+Text Label 3675 1470 0    39   ~ 0
+Ethernet+
+Wire Wire Line
+	3675 1555 3675 1470
+Text Label 3675 2200 0    39   ~ 0
+Ethernet-
+Wire Wire Line
+	3675 2165 3675 2200
+Text Label 3675 2955 2    39   ~ 0
+EthernetSpare-
+Text Label 3675 2245 2    39   ~ 0
+EthernetSpare+
+Wire Wire Line
+	3675 2275 3675 2245
+Wire Wire Line
+	3675 2885 3675 2955
 $EndSCHEMATC
