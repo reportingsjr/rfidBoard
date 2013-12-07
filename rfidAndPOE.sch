@@ -420,10 +420,6 @@ F 3 "" H 9235 3740 30  0000 C CNN
 	1    9235 3740
 	0    -1   -1   0   
 $EndComp
-Text GLabel 6085 2740 0    60   Input ~ 0
-PVcc
-Text GLabel 8685 3890 0    60   Input ~ 0
-PVcc
 $Comp
 L OPTOISOLATOR U?
 U 1 1 529FF254
@@ -739,10 +735,6 @@ Wire Wire Line
 	7835 1590 8085 1590
 Connection ~ 8085 1590
 Wire Wire Line
-	6135 2090 9585 2090
-Wire Wire Line
-	6135 2090 6135 2740
-Wire Wire Line
 	6085 2740 6335 2740
 Wire Wire Line
 	8335 1540 8085 1540
@@ -866,11 +858,10 @@ Wire Wire Line
 	9585 2240 9585 3340
 Connection ~ 9585 3340
 Wire Wire Line
-	8685 3890 8735 3890
+	8510 3890 8735 3890
 Wire Wire Line
 	8735 3890 8735 3740
 Connection ~ 8735 3740
-Connection ~ 6135 2740
 Connection ~ 9885 3740
 Wire Wire Line
 	10640 4090 10785 4090
@@ -1053,4 +1044,12 @@ F 3 "" H 13790 1240 30  0000 C CNN
 $EndComp
 Wire Wire Line
 	13790 1490 13790 1420
+Text Label 6085 2740 0    60   ~ 0
+PVcc
+Text Label 7830 2090 0    60   ~ 0
+PVcc
+Wire Wire Line
+	7830 2090 9585 2090
+Text Label 8510 3890 0    60   ~ 0
+PVcc
 $EndSCHEMATC
