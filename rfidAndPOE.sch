@@ -1628,4 +1628,16 @@ Wire Wire Line
 	16610 1315 16610 1355
 Wire Wire Line
 	14040 1450 14040 1490
+Wire Notes Line
+	13530 615  13530 2080
+Wire Notes Line
+	13530 2080 17460 2080
+Wire Notes Line
+	17460 2080 17460 615 
+Wire Notes Line
+	17460 615  13530 615 
+Text Notes 15085 1965 2    60   ~ 0
+5V to 3.3V@600mA buck supply
+Text Notes 12320 755  2    60   ~ 0
+5V@1.8A
 $EndSCHEMATC
