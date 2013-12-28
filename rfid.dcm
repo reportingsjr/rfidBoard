@@ -1,0 +1,36 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 0813-1X1T-57-F
+D RJ45 with transformer + leds WURTH
+K RJ45
+$ENDCMP
+#
+$CMP BRIDGE_RECTIFIER
+D Diode simple
+K DEV DIODE
+$ENDCMP
+#
+$CMP CAPACITOR
+D Condensateur non polarise
+$ENDCMP
+#
+$CMP CDNBS04-B08200
+D Pont de Diodes
+K Pont Diode
+$ENDCMP
+#
+$CMP POLARIZED_CAPACITOR
+D Condensateur polarise
+$ENDCMP
+#
+$CMP RESISTOR
+D Resistance
+K R DEV
+$ENDCMP
+#
+$CMP VREF
+D Diode simple
+K DEV DIODE
+$ENDCMP
+#
+#End Doc Library
