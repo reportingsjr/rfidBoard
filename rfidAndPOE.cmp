@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-11-22 BZR 4496)-product date = Sat 28 Dec 2013 01:06:12 AM EST
+Cmp-Mod V01 Created by CvPcb (2013-11-22 BZR 4496)-product date = Wed 29 Jan 2014 04:43:45 PM EST
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -32,7 +32,7 @@ BeginCmp
 TimeStamp = /529972BA;
 Reference = C5;
 ValeurCmp = 4.7uF, 100v;
-IdModule  = ;
+IdModule  = EEE-2AA4R7UP;
 EndCmp
 
 BeginCmp
@@ -60,7 +60,7 @@ BeginCmp
 TimeStamp = /52A001F3;
 Reference = C9;
 ValeurCmp = 220uF, 6.3v;
-IdModule  = ;
+IdModule  = EEE-FK0J221P;
 EndCmp
 
 BeginCmp
