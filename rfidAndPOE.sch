@@ -2019,9 +2019,9 @@ F 3 "" H 4365 5995 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 2805 5735 0    39   ~ 0
-TPIN+
+TPOUT+
 Text Label 2805 5935 0    39   ~ 0
-TPIN-
+TPOUT-
 Wire Wire Line
 	3535 5935 3535 5735
 Connection ~ 3535 5835
@@ -2045,9 +2045,9 @@ Wire Wire Line
 	4365 5690 4365 5885
 Connection ~ 4365 5790
 Text Label 2805 6035 0    39   ~ 0
-TPOUT+
+TPIN+
 Text Label 2800 6235 0    39   ~ 0
-TPOUT-
+TPIN-
 Wire Wire Line
 	6160 5845 6035 5845
 Wire Wire Line
