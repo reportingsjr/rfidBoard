@@ -1,3 +1,5 @@
 # File types to ignore for KiCAD
 *.bak
 *.bck
+rfidAndPOE-cache.lib
+_autosave-rfidAndPOE.kicad_pcb
