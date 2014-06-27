@@ -2729,4 +2729,9 @@ NoConn ~ 18445 9675
 Wire Wire Line
 	18830 10480 18830 10025
 Connection ~ 18830 10025
+Text GLabel 20330 9745 2    39   Input ~ 0
+3V3
+Wire Wire Line
+	20330 9745 20295 9745
+Connection ~ 20295 9745
 $EndSCHEMATC
