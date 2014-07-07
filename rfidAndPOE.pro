@@ -1,4 +1,4 @@
-update=Mon 16 Jun 2014 11:58:50 PM EDT
+update=Wed 02 Jul 2014 12:33:08 AM EDT
 version=1
 last_client=eeschema
 [general]
@@ -54,6 +54,8 @@ SubpartIdSeparator=0
 SubpartFirstId=65
 LibDir=
 NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
 RptD_X=0
 RptD_Y=100
 RptLab=1
