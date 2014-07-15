@@ -2734,4 +2734,286 @@ Text GLabel 20330 9745 2    39   Input ~ 0
 Wire Wire Line
 	20330 9745 20295 9745
 Connection ~ 20295 9745
+$Comp
+L CONN_8X2 J?
+U 1 1 53C4A28B
+P 19565 6750
+F 0 "J?" H 19565 7200 60  0000 C CNN
+F 1 "MCU Port B" V 19565 6750 50  0000 C CNN
+F 2 "" H 19565 6750 60  0000 C CNN
+F 3 "" H 19565 6750 60  0000 C CNN
+	1    19565 6750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14995 9525 14715 9525
+Wire Wire Line
+	14995 9625 14715 9625
+Wire Wire Line
+	14995 9725 14715 9725
+Wire Wire Line
+	14995 9825 14715 9825
+Wire Wire Line
+	14995 9925 14715 9925
+Wire Wire Line
+	14995 10025 14715 10025
+Wire Wire Line
+	14995 10125 14715 10125
+Wire Wire Line
+	14995 10225 14715 10225
+Wire Wire Line
+	14995 10325 14715 10325
+Wire Wire Line
+	14995 10425 14715 10425
+Wire Wire Line
+	14995 10525 14715 10525
+Wire Wire Line
+	14995 10625 14715 10625
+Wire Wire Line
+	14995 10725 14715 10725
+Wire Wire Line
+	14995 10825 14715 10825
+Wire Wire Line
+	14995 10925 14715 10925
+Wire Wire Line
+	14995 11025 14715 11025
+Text Label 14715 9525 0    60   ~ 0
+PB0
+Text Label 14715 9625 0    60   ~ 0
+PB1
+Text Label 14715 9725 0    60   ~ 0
+PB2
+Text Label 14715 9825 0    60   ~ 0
+PB3
+Text Label 14715 9925 0    60   ~ 0
+PB4
+Text Label 14715 10025 0    60   ~ 0
+PB5
+Text Label 14715 10125 0    60   ~ 0
+PB6
+Text Label 14715 10225 0    60   ~ 0
+PB7
+Text Label 14715 10325 0    60   ~ 0
+PB8
+Text Label 14715 10425 0    60   ~ 0
+PB9
+Text Label 14715 10525 0    60   ~ 0
+PB10
+Text Label 14715 10625 0    60   ~ 0
+PB11
+Text Label 14715 10725 0    60   ~ 0
+PB12
+Text Label 14715 10825 0    60   ~ 0
+PB13
+Text Label 14715 10925 0    60   ~ 0
+PB14
+Text Label 14715 11025 0    60   ~ 0
+PB15
+Wire Wire Line
+	18445 7875 18725 7875
+Wire Wire Line
+	18445 7975 18725 7975
+Wire Wire Line
+	18445 8075 18725 8075
+Wire Wire Line
+	18445 8175 18725 8175
+Wire Wire Line
+	18445 8275 18725 8275
+Wire Wire Line
+	18445 8375 18725 8375
+Wire Wire Line
+	18445 8475 18725 8475
+Wire Wire Line
+	18445 8575 18725 8575
+Wire Wire Line
+	18445 8675 18725 8675
+Wire Wire Line
+	18445 8775 18725 8775
+Wire Wire Line
+	18445 8875 18725 8875
+Wire Wire Line
+	18445 8975 18725 8975
+Wire Wire Line
+	18445 9075 18725 9075
+Wire Wire Line
+	18445 9175 18725 9175
+Wire Wire Line
+	18445 9275 18725 9275
+Wire Wire Line
+	18445 9375 18725 9375
+Text Label 18725 7875 2    60   ~ 0
+PC0
+Text Label 18725 7975 2    60   ~ 0
+PC1
+Text Label 18725 8075 2    60   ~ 0
+PC2
+Text Label 18725 8175 2    60   ~ 0
+PC3
+Text Label 18725 8275 2    60   ~ 0
+PC4
+Text Label 18725 8375 2    60   ~ 0
+PC5
+Text Label 18725 8475 2    60   ~ 0
+PC6
+Text Label 18725 8575 2    60   ~ 0
+PC7
+Text Label 18725 8675 2    60   ~ 0
+PC8
+Text Label 18725 8775 2    60   ~ 0
+PC9
+Text Label 18725 8875 2    60   ~ 0
+PC10
+Text Label 18725 8975 2    60   ~ 0
+PC11
+Text Label 18725 9075 2    60   ~ 0
+PC12
+Text Label 18725 9175 2    60   ~ 0
+PC13
+Text Label 18725 9275 2    60   ~ 0
+PC14
+Text Label 18725 9375 2    60   ~ 0
+PC15
+$Comp
+L CONN_8X2 J?
+U 1 1 53C59014
+P 21410 6730
+F 0 "J?" H 21410 7180 60  0000 C CNN
+F 1 "MCU Port C" V 21410 6730 50  0000 C CNN
+F 2 "" H 21410 6730 60  0000 C CNN
+F 3 "" H 21410 6730 60  0000 C CNN
+	1    21410 6730
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	19165 6400 18885 6400
+Wire Wire Line
+	19965 6400 20245 6400
+Wire Wire Line
+	19165 6500 18885 6500
+Wire Wire Line
+	19965 6500 20245 6500
+Wire Wire Line
+	19165 6600 18885 6600
+Wire Wire Line
+	19965 6600 20245 6600
+Wire Wire Line
+	19165 6700 18885 6700
+Wire Wire Line
+	19965 6700 20245 6700
+Wire Wire Line
+	19165 6800 18885 6800
+Wire Wire Line
+	19965 6800 20245 6800
+Wire Wire Line
+	19165 6900 18885 6900
+Wire Wire Line
+	19965 6900 20245 6900
+Wire Wire Line
+	19165 7000 18885 7000
+Wire Wire Line
+	19965 7000 20245 7000
+Wire Wire Line
+	19165 7100 18885 7100
+Wire Wire Line
+	19965 7100 20245 7100
+Text Label 18885 6400 0    60   ~ 0
+PB0
+Text Label 20245 6400 2    60   ~ 0
+PB1
+Text Label 18885 6500 0    60   ~ 0
+PB2
+Text Label 20245 6500 2    60   ~ 0
+PB3
+Text Label 18885 6600 0    60   ~ 0
+PB4
+Text Label 20245 6600 2    60   ~ 0
+PB5
+Text Label 18885 6700 0    60   ~ 0
+PB6
+Text Label 20245 6700 2    60   ~ 0
+PB7
+Text Label 18885 6800 0    60   ~ 0
+PB8
+Text Label 20245 6800 2    60   ~ 0
+PB9
+Text Label 18885 6900 0    60   ~ 0
+PB10
+Text Label 20245 6900 2    60   ~ 0
+PB11
+Text Label 18885 7000 0    60   ~ 0
+PB12
+Text Label 20245 7000 2    60   ~ 0
+PB13
+Text Label 18885 7100 0    60   ~ 0
+PB14
+Text Label 20245 7100 2    60   ~ 0
+PB15
+Wire Wire Line
+	21010 6380 20730 6380
+Wire Wire Line
+	21810 6380 22090 6380
+Wire Wire Line
+	21010 6480 20730 6480
+Wire Wire Line
+	21810 6480 22090 6480
+Wire Wire Line
+	21010 6580 20730 6580
+Wire Wire Line
+	21810 6580 22090 6580
+Wire Wire Line
+	21010 6680 20730 6680
+Wire Wire Line
+	21810 6680 22090 6680
+Wire Wire Line
+	21010 6780 20730 6780
+Wire Wire Line
+	21810 6780 22090 6780
+Wire Wire Line
+	21010 6880 20730 6880
+Wire Wire Line
+	21810 6880 22090 6880
+Wire Wire Line
+	21010 6980 20730 6980
+Wire Wire Line
+	21810 6980 22090 6980
+Wire Wire Line
+	21010 7080 20730 7080
+Wire Wire Line
+	21810 7080 22090 7080
+Text Label 20730 6380 0    60   ~ 0
+PC0
+Text Label 22090 6380 2    60   ~ 0
+PC1
+Text Label 20730 6480 0    60   ~ 0
+PC2
+Text Label 22090 6480 2    60   ~ 0
+PC3
+Text Label 20730 6580 0    60   ~ 0
+PC4
+Text Label 22090 6580 2    60   ~ 0
+PC5
+Text Label 20730 6680 0    60   ~ 0
+PC6
+Text Label 22090 6680 2    60   ~ 0
+PC7
+Text Label 20730 6780 0    60   ~ 0
+PC8
+Text Label 22090 6780 2    60   ~ 0
+PC9
+Text Label 20730 6880 0    60   ~ 0
+PC10
+Text Label 22090 6880 2    60   ~ 0
+PC11
+Text Label 20730 6980 0    60   ~ 0
+PC12
+Text Label 22090 6980 2    60   ~ 0
+PC13
+Text Label 20730 7080 0    60   ~ 0
+PC14
+Text Label 22090 7080 2    60   ~ 0
+PC15
+Text Notes 18935 6130 0    60   ~ 0
+Port B breakout connector
+Text Notes 20840 6140 0    60   ~ 0
+Port C breakout connector
 $EndSCHEMATC
