@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name rfid)(type Legacy)(uri ${KIPRJMOD}/footprints.mod)(options "")(descr ""))
+)

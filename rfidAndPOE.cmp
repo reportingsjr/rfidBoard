@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-06 BZR 4979)-product   date = Mon 07 Jul 2014 12:18:24 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-14 BZR 4996)-product   date = Mon 14 Jul 2014 09:37:27 PM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -32,7 +32,7 @@ BeginCmp
 TimeStamp = /529972BA;
 Reference = C5;
 ValeurCmp = 4.7uF, 100v;
-IdModule  = EEE-2AA4R7UP;
+IdModule  = rfid:EEE-2AA4R7UP;
 EndCmp
 
 BeginCmp
@@ -60,7 +60,7 @@ BeginCmp
 TimeStamp = /52A001F3;
 Reference = C9;
 ValeurCmp = 220uF, 6.3v;
-IdModule  = EEE-FK0J221P;
+IdModule  = rfid:EEE-FK0J221P;
 EndCmp
 
 BeginCmp
@@ -417,6 +417,20 @@ BeginCmp
 TimeStamp = /53ACD8C8;
 Reference = J2;
 ValeurCmp = SWD;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /53C4A28B;
+Reference = J3;
+ValeurCmp = MCU Port B;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /53C59014;
+Reference = J4;
+ValeurCmp = MCU Port C;
 IdModule  = ;
 EndCmp
 
