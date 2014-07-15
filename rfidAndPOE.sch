@@ -1479,7 +1479,7 @@ TPIN+
 Text Label 2085 6570 0    39   ~ 0
 TPIN-
 Text Label 4575 6420 2    39   ~ 0
-TOPOUT-
+TPOUT-
 Text Label 4575 6520 2    39   ~ 0
 TPOUT+
 Text Label 4570 6670 2    39   ~ 0
