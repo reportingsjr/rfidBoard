@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 02:04:33 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 02:16:02 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -361,21 +361,21 @@ BeginCmp
 TimeStamp = /52BDDDA1;
 Reference = D13;
 ValeurCmp = 1N5189;
-IdModule  = ;
+IdModule  = rfid:SOD-123;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BDDD81;
 Reference = D14;
 ValeurCmp = 1N4148;
-IdModule  = ;
+IdModule  = rfid:SOD-123;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BE3FE7;
 Reference = D15;
 ValeurCmp = MBRA340T3G;
-IdModule  = ;
+IdModule  = SMD_Packages:DO-214AC(SMA);
 EndCmp
 
 BeginCmp
@@ -396,14 +396,14 @@ BeginCmp
 TimeStamp = /53A991AC;
 Reference = G1;
 ValeurCmp = 25MHz OSC;
-IdModule  = ;
+IdModule  = rfid:Si501_2.5x2;
 EndCmp
 
 BeginCmp
 TimeStamp = /53B12187;
 Reference = G2;
 ValeurCmp = 24MHz OSC;
-IdModule  = ;
+IdModule  = rfid:Si501_2.5x2;
 EndCmp
 
 BeginCmp
