@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 02:46:37 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 03:27:57 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -417,21 +417,21 @@ BeginCmp
 TimeStamp = /53ACD8C8;
 Reference = J2;
 ValeurCmp = SWD;
-IdModule  = ;
+IdModule  = rfid:JST_PH_5pin;
 EndCmp
 
 BeginCmp
 TimeStamp = /53C4A28B;
 Reference = J3;
 ValeurCmp = MCU Port B;
-IdModule  = ;
+IdModule  = rfid:16_pin_breakout;
 EndCmp
 
 BeginCmp
 TimeStamp = /53C59014;
 Reference = J4;
 ValeurCmp = MCU Port C;
-IdModule  = ;
+IdModule  = rfid:16_pin_breakout;
 EndCmp
 
 BeginCmp
@@ -466,42 +466,42 @@ BeginCmp
 TimeStamp = /52A27A22;
 Reference = P1;
 ValeurCmp = PoE-;
-IdModule  = ;
+IdModule  = Connect:PINTST;
 EndCmp
 
 BeginCmp
 TimeStamp = /52A27A0E;
 Reference = P2;
 ValeurCmp = PoE+;
-IdModule  = ;
+IdModule  = Connect:PINTST;
 EndCmp
 
 BeginCmp
 TimeStamp = /52A279FA;
 Reference = P3;
 ValeurCmp = GND;
-IdModule  = ;
+IdModule  = Connect:PINTST;
 EndCmp
 
 BeginCmp
 TimeStamp = /52A279E6;
 Reference = P4;
 ValeurCmp = +5V;
-IdModule  = ;
+IdModule  = Connect:PINTST;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BE6E37;
 Reference = P5;
 ValeurCmp = +12V;
-IdModule  = ;
+IdModule  = Connect:PINTST;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BE0492;
 Reference = P6;
 ValeurCmp = +3V3;
-IdModule  = ;
+IdModule  = Connect:PINTST;
 EndCmp
 
 BeginCmp
@@ -781,7 +781,7 @@ BeginCmp
 TimeStamp = /529983B2;
 Reference = T1;
 ValeurCmp = PA1134;
-IdModule  = ;
+IdModule  = rfid:PA1134;
 EndCmp
 
 BeginCmp
