@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 01:48:14 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 01:55:45 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -326,7 +326,7 @@ BeginCmp
 TimeStamp = /539FCA1F;
 Reference = D8;
 ValeurCmp = TLV431;
-IdModule  = ;
+IdModule  = SMD_Packages:SOT23;
 EndCmp
 
 BeginCmp
