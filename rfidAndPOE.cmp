@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 12:33:46 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 01:07:12 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -284,21 +284,21 @@ BeginCmp
 TimeStamp = /52997173;
 Reference = D2;
 ValeurCmp = SMAJ58A;
-IdModule  = ;
+IdModule  = SMD_Packages:DO-214AC(SMA);
 EndCmp
 
 BeginCmp
 TimeStamp = /52998084;
 Reference = D3;
 ValeurCmp = BAS516;
-IdModule  = ;
+IdModule  = rfid:SOD-523;
 EndCmp
 
 BeginCmp
 TimeStamp = /529FE7EB;
 Reference = D4;
 ValeurCmp = BAS516;
-IdModule  = ;
+IdModule  = rfid:SOD-523;
 EndCmp
 
 BeginCmp
@@ -319,7 +319,7 @@ BeginCmp
 TimeStamp = /529FE790;
 Reference = D7;
 ValeurCmp = BAS516;
-IdModule  = ;
+IdModule  = rfid:SOD-523;
 EndCmp
 
 BeginCmp
