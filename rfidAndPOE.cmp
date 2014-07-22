@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 01:28:47 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 01:48:14 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -312,7 +312,7 @@ BeginCmp
 TimeStamp = /539FE102;
 Reference = D6;
 ValeurCmp = CDNBS04-B08200;
-IdModule  = ;
+IdModule  = rfid:CDNBS04;
 EndCmp
 
 BeginCmp
@@ -333,7 +333,7 @@ BeginCmp
 TimeStamp = /539FDFE8;
 Reference = D9;
 ValeurCmp = CDNBS04-B08200;
-IdModule  = ;
+IdModule  = rfid:CDNBS04;
 EndCmp
 
 BeginCmp
