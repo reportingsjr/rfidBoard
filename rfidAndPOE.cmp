@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 03:27:57 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 03:42:11 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -438,28 +438,28 @@ BeginCmp
 TimeStamp = /52997C4A;
 Reference = L1;
 ValeurCmp = 3.3uH;
-IdModule  = ;
+IdModule  = SMD_Packages:SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /52A3B985;
 Reference = L2;
 ValeurCmp = choke;
-IdModule  = ;
+IdModule  = SMD_Packages:SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BE3FBD;
 Reference = L3;
 ValeurCmp = 10uH;
-IdModule  = ;
+IdModule  = rfid:SRU1048;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BDDDC9;
 Reference = L4;
 ValeurCmp = 15uH;
-IdModule  = ;
+IdModule  = rfid:NR6028;
 EndCmp
 
 BeginCmp
