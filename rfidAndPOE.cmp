@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-07-14 BZR 4996)-product   date = Mon 14 Jul 2014 09:37:27 PM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-07-21 BZR 5017)-product   date = Tue 22 Jul 2014 12:33:46 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -53,7 +53,7 @@ BeginCmp
 TimeStamp = /52A00DCC;
 Reference = C8;
 ValeurCmp = 2.8nF, 250VAC, YCAP;
-IdModule  = ;
+IdModule  = rfid:kemet_C900;
 EndCmp
 
 BeginCmp
