@@ -816,14 +816,14 @@ BeginCmp
 TimeStamp = /5297896E;
 Reference = U1;
 ValeurCmp = LTC4267-3;
-IdModule  = SMD_Packages:SMD-1812_c;
+IdModule  = ;
 EndCmp
 
 BeginCmp
 TimeStamp = /52A35603;
 Reference = U2;
 ValeurCmp = ENC28J60;
-IdModule  = SMD_Packages:SMD-1812_l;
+IdModule  = ;
 EndCmp
 
 BeginCmp
