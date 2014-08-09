@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Fri 08 Aug 2014 10:29:22 PM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Sat 09 Aug 2014 01:12:53 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -802,7 +802,7 @@ BeginCmp
 TimeStamp = /53ADE5C4;
 Reference = SW1;
 ValeurCmp = SW_PUSH;
-IdModule  = ;
+IdModule  = rfid:TE-Switch-FSM-JSM;
 EndCmp
 
 BeginCmp
@@ -816,42 +816,42 @@ BeginCmp
 TimeStamp = /5297896E;
 Reference = U1;
 ValeurCmp = LTC4267-3;
-IdModule  = ;
+IdModule  = rfid:SSOP-16;
 EndCmp
 
 BeginCmp
 TimeStamp = /52A35603;
 Reference = U2;
 ValeurCmp = ENC28J60;
-IdModule  = ;
+IdModule  = SMD_Packages:SSOP-28;
 EndCmp
 
 BeginCmp
 TimeStamp = /529FF254;
 Reference = U3;
 ValeurCmp = PS2811;
-IdModule  = ;
+IdModule  = rfid:SSOP-4;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BDDA6A;
 Reference = U4;
 ValeurCmp = MCP16301;
-IdModule  = ;
+IdModule  = SMD_Packages:SOT-23-6;
 EndCmp
 
 BeginCmp
 TimeStamp = /52BE312C;
 Reference = U5;
 ValeurCmp = TPS61175;
-IdModule  = ;
+IdModule  = rfid:HTSSOP-14-1EP;
 EndCmp
 
 BeginCmp
 TimeStamp = /53ABEEE1;
 Reference = U6;
 ValeurCmp = STM32F100RC;
-IdModule  = ;
+IdModule  = rfid:LQFP64;
 EndCmp
 
 EndListe
