@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Fri 08 Aug 2014 07:47:34 PM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Fri 08 Aug 2014 10:29:22 PM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -277,14 +277,14 @@ BeginCmp
 TimeStamp = /529FFB39;
 Reference = D1;
 ValeurCmp = SMB540;
-IdModule  = SMD_Packages:DO-214AA(SMB);
+IdModule  = SMD_Packages:DO-214-AA_SMB;
 EndCmp
 
 BeginCmp
 TimeStamp = /52997173;
 Reference = D2;
 ValeurCmp = SMAJ58A;
-IdModule  = SMD_Packages:DO-214AC(SMA);
+IdModule  = SMD_Packages:DO-214-AC_SMA;
 EndCmp
 
 BeginCmp
@@ -326,7 +326,7 @@ BeginCmp
 TimeStamp = /539FCA1F;
 Reference = D8;
 ValeurCmp = TLV431;
-IdModule  = SMD_Packages:SOT23;
+IdModule  = SMD_Packages:SOT-23;
 EndCmp
 
 BeginCmp
@@ -375,7 +375,7 @@ BeginCmp
 TimeStamp = /52BE3FE7;
 Reference = D15;
 ValeurCmp = MBRA340T3G;
-IdModule  = SMD_Packages:DO-214AC(SMA);
+IdModule  = SMD_Packages:DO-214-AC_SMA;
 EndCmp
 
 BeginCmp
@@ -438,14 +438,14 @@ BeginCmp
 TimeStamp = /52997C4A;
 Reference = L1;
 ValeurCmp = 3.3uH;
-IdModule  = SMD_Packages:SM0805;
+IdModule  = SMD_Packages:SMD-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /52A3B985;
 Reference = L2;
 ValeurCmp = choke;
-IdModule  = SMD_Packages:SM0805;
+IdModule  = SMD_Packages:SMD-0805;
 EndCmp
 
 BeginCmp
