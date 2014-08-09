@@ -10,4 +10,14 @@ D Pont de Diodes
 K Pont Diode
 $ENDCMP
 #
+$CMP SW_PUSH
+D Push Button
+K Switch
+$ENDCMP
+#
+$CMP SW_PUSH_4
+D Push Button
+K Switch
+$ENDCMP
+#
 #End Doc Library
