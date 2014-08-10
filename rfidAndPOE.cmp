@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Sat 09 Aug 2014 07:50:49 PM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Sun 10 Aug 2014 12:04:11 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -508,35 +508,35 @@ BeginCmp
 TimeStamp = /53E4CFC0;
 Reference = P7;
 ValeurCmp = 12V_Switch;
-IdModule  = SMD_Packages:SOT-23-GDS;
+IdModule  = ;
 EndCmp
 
 BeginCmp
 TimeStamp = /5299874E;
 Reference = Q1;
 ValeurCmp = Si3440DV, NFET;
-IdModule  = ;
+IdModule  = rfid:TSOP-6;
 EndCmp
 
 BeginCmp
 TimeStamp = /52997F92;
 Reference = Q2;
 ValeurCmp = MMBTA42;
-IdModule  = ;
+IdModule  = SMD_Packages:SOT-23_Inv2;
 EndCmp
 
 BeginCmp
 TimeStamp = /529FE736;
 Reference = Q3;
 ValeurCmp = 2N7002;
-IdModule  = ;
+IdModule  = SMD_Packages:SOT-23-GDS;
 EndCmp
 
 BeginCmp
 TimeStamp = /53E456BB;
 Reference = Q4;
 ValeurCmp = MOSFET_N;
-IdModule  = ;
+IdModule  = SMD_Packages:SOT-23-GDS;
 EndCmp
 
 BeginCmp
