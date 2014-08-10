@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Sun 10 Aug 2014 12:04:11 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Sun 10 Aug 2014 12:28:08 AM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -508,13 +508,13 @@ BeginCmp
 TimeStamp = /53E4CFC0;
 Reference = P7;
 ValeurCmp = 12V_Switch;
-IdModule  = ;
+IdModule  = rfid:SIL2-3.5mm;
 EndCmp
 
 BeginCmp
-TimeStamp = /5299874E;
+TimeStamp = /53E6FA7D;
 Reference = Q1;
-ValeurCmp = Si3440DV, NFET;
+ValeurCmp = SI3440DV, NFET;
 IdModule  = rfid:TSOP-6;
 EndCmp
 
@@ -799,9 +799,9 @@ IdModule  = SMD_Packages:SMD-0805;
 EndCmp
 
 BeginCmp
-TimeStamp = /53ADE5C4;
+TimeStamp = /53E6B53D;
 Reference = SW1;
-ValeurCmp = SW_PUSH;
+ValeurCmp = reset;
 IdModule  = rfid:TE-Switch-FSM-JSM;
 EndCmp
 
