@@ -10,6 +10,10 @@ D Pont de Diodes
 K Pont Diode
 $ENDCMP
 #
+$CMP SI3440DV
+F transistors/mos/*.*
+$ENDCMP
+#
 $CMP SW_PUSH
 D Push Button
 K Switch

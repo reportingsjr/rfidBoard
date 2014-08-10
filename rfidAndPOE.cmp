@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Sat 09 Aug 2014 07:25:53 PM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-08-06 BZR 5059)-product   date = Sat 09 Aug 2014 07:50:49 PM EDT
 
 BeginCmp
 TimeStamp = /529972CF;
@@ -508,7 +508,7 @@ BeginCmp
 TimeStamp = /53E4CFC0;
 Reference = P7;
 ValeurCmp = 12V_Switch;
-IdModule  = ;
+IdModule  = SMD_Packages:SOT-23-GDS;
 EndCmp
 
 BeginCmp

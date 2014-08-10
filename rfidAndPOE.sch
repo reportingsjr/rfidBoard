@@ -244,17 +244,6 @@ F 3 "" H 9655 1815 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L MOSFET_N Q1
-U 1 1 5299874E
-P 9305 2315
-F 0 "Q1" H 9355 2565 60  0000 R CNN
-F 1 "Si3440DV, NFET" V 9505 2765 60  0000 R CNN
-F 2 "" H 9305 2315 60  0001 C CNN
-F 3 "" H 9305 2315 60  0000 C CNN
-	1    9305 2315
-	1    0    0    -1  
-$EndComp
-$Comp
 L R R4
 U 1 1 529987A2
 P 9305 2915
@@ -1635,6 +1624,518 @@ Text Label 5300 8420 3    39   ~ 0
 VssOSC
 Text Label 7590 7720 0    39   ~ 0
 VssOSC
+NoConn ~ 6300 6420
+Text Notes 6025 6315 0    20   ~ 0
+section 11.1 in the datasheet claims that most circuits \ndon't need a pull up on the reset pin. It has an internal \n(weak) pull up so this is not getting connected. 
+Text Label 6515 6620 0    30   ~ 0
+EthernetSO
+Text Label 6515 6720 0    30   ~ 0
+EthernetSI
+Text Label 6510 6820 0    30   ~ 0
+EthernetSCK
+Text Label 6510 6920 0    30   ~ 0
+EthernetCS
+Text Label 4575 7020 2    30   ~ 0
+EthernetINT
+Text Notes 6045 7935 0    20   ~ 0
+If clock stability issues arise pin 24\ncan be pulled down for lower noise.
+$Comp
+L resistor R32
+U 1 1 53AAE7D9
+P 6550 7720
+F 0 "R32" V 6630 7720 40  0000 C CNN
+F 1 "24.9" V 6470 7710 40  0000 C CNN
+F 2 "SMD_Packages:SMD-0603" V 6480 7720 30  0001 C CNN
+F 3 "" H 6550 7720 30  0000 C CNN
+	1    6550 7720
+	0    1    1    0   
+$EndComp
+NoConn ~ 7590 7920
+Text Notes 7650 7935 0    20   ~ 0
+Has internal pull up
+$Comp
+L STM32F100RC U6
+U 1 1 53ABEEE1
+P 16795 9325
+F 0 "U6" H 18195 11175 59  0000 C CNN
+F 1 "STM32F100RC" H 15470 11175 59  0000 C CNN
+F 2 "rfid:LQFP64" H 16645 7725 20  0001 C CNN
+F 3 "" H 16645 7725 20  0000 C CNN
+	1    16795 9325
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C31
+U 1 1 53AC256C
+P 7935 5590
+F 0 "C31" H 7955 5665 40  0000 L CNN
+F 1 "1uF" H 7965 5525 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 7973 5440 30  0001 C CNN
+F 3 "" H 7935 5590 60  0000 C CNN
+	1    7935 5590
+	1    0    0    -1  
+$EndComp
+NoConn ~ 17145 7425
+Text GLabel 16575 7180 1    39   Input ~ 0
+3V3
+$Comp
+L GND #PWR33
+U 1 1 53AC9E51
+P 16585 11570
+F 0 "#PWR33" H 16585 11570 30  0001 C CNN
+F 1 "GND" H 16585 11500 30  0001 C CNN
+F 2 "" H 16585 11570 60  0000 C CNN
+F 3 "" H 16585 11570 60  0000 C CNN
+	1    16585 11570
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_5 J2
+U 1 1 53ACD8C8
+P 13575 9075
+F 0 "J2" V 13525 9075 50  0000 C CNN
+F 1 "SWD" V 13625 9075 50  0000 C CNN
+F 2 "rfid:JST_PH_5pin" H 13575 9075 60  0001 C CNN
+F 3 "" H 13575 9075 60  0000 C CNN
+	1    13575 9075
+	-1   0    0    -1  
+$EndComp
+Text Label 19260 10025 2    20   ~ 0
+nRST
+Text Label 14195 9075 0    39   ~ 0
+nRST
+Text Label 16490 7180 1    39   ~ 0
+SWD_3V3
+Text Label 14195 8875 0    39   ~ 0
+SWD_3V3
+Text Label 14195 8975 0    39   ~ 0
+SWD_GND
+Text Label 16490 11570 3    20   ~ 0
+SWD_GND
+Text GLabel 19305 10480 2    39   Input ~ 0
+3V3
+$Comp
+L resistor R34
+U 1 1 53ADAD98
+P 19060 10480
+F 0 "R34" V 19140 10480 40  0000 C CNN
+F 1 "4.7k" V 18970 10485 40  0000 C CNN
+F 2 "SMD_Packages:SMD-0603" V 18990 10480 30  0001 C CNN
+F 3 "" H 19060 10480 30  0000 C CNN
+	1    19060 10480
+	0    -1   -1   0   
+$EndComp
+$Comp
+L capacitor C38
+U 1 1 53ADF873
+P 19665 10315
+F 0 "C38" H 19685 10390 40  0000 L CNN
+F 1 "100nF" H 19695 10250 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 19703 10165 30  0001 C CNN
+F 3 "" H 19665 10315 60  0000 C CNN
+	1    19665 10315
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR40
+U 1 1 53ADFE84
+P 20170 10230
+F 0 "#PWR40" H 20170 10230 30  0001 C CNN
+F 1 "GND" H 20170 10160 30  0001 C CNN
+F 2 "" H 20170 10230 60  0000 C CNN
+F 3 "" H 20170 10230 60  0000 C CNN
+	1    20170 10230
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR39
+U 1 1 53AE23E2
+P 18555 10310
+F 0 "#PWR39" H 18555 10310 30  0001 C CNN
+F 1 "GND" H 18555 10240 30  0001 C CNN
+F 2 "" H 18555 10310 60  0000 C CNN
+F 3 "" H 18555 10310 60  0000 C CNN
+	1    18555 10310
+	1    0    0    -1  
+$EndComp
+Text Label 14780 8475 2    30   ~ 0
+EthernetSO
+Text Label 14780 8575 2    30   ~ 0
+EthernetSI
+Text Label 14785 8375 2    30   ~ 0
+EthernetSCK
+Text Label 14785 8275 2    30   ~ 0
+EthernetCS
+Text Label 14785 8175 2    30   ~ 0
+EthernetINT
+$Comp
+L capacitor C33
+U 1 1 53AFDBC5
+P 16090 6445
+F 0 "C33" H 16110 6520 40  0000 L CNN
+F 1 "100nF" H 16120 6380 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 16128 6295 30  0001 C CNN
+F 3 "" H 16090 6445 60  0000 C CNN
+	1    16090 6445
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C34
+U 1 1 53AFDBCB
+P 16410 6445
+F 0 "C34" H 16430 6520 40  0000 L CNN
+F 1 "100nF" H 16440 6380 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 16448 6295 30  0001 C CNN
+F 3 "" H 16410 6445 60  0000 C CNN
+	1    16410 6445
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C35
+U 1 1 53AFDBD1
+P 16730 6440
+F 0 "C35" H 16750 6515 40  0000 L CNN
+F 1 "100nF" H 16760 6375 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 16768 6290 30  0001 C CNN
+F 3 "" H 16730 6440 60  0000 C CNN
+	1    16730 6440
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C36
+U 1 1 53AFDBD7
+P 17050 6445
+F 0 "C36" H 17070 6520 40  0000 L CNN
+F 1 "100nF" H 17080 6380 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 17088 6295 30  0001 C CNN
+F 3 "" H 17050 6445 60  0000 C CNN
+	1    17050 6445
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR32
+U 1 1 53AFDBDD
+P 16560 6650
+F 0 "#PWR32" H 16560 6650 30  0001 C CNN
+F 1 "GND" H 16560 6580 30  0001 C CNN
+F 2 "" H 16560 6650 60  0000 C CNN
+F 3 "" H 16560 6650 60  0000 C CNN
+	1    16560 6650
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C37
+U 1 1 53AFDBF9
+P 17415 6445
+F 0 "C37" H 17435 6520 40  0000 L CNN
+F 1 "1uF" H 17445 6380 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 17453 6295 30  0001 C CNN
+F 3 "" H 17415 6445 60  0000 C CNN
+	1    17415 6445
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C32
+U 1 1 53AFF189
+P 15775 6445
+F 0 "C32" H 15795 6520 40  0000 L CNN
+F 1 "100nF" H 15805 6380 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 15813 6295 30  0001 C CNN
+F 3 "" H 15775 6445 60  0000 C CNN
+	1    15775 6445
+	1    0    0    -1  
+$EndComp
+Text GLabel 16570 6160 1    39   Input ~ 0
+3V3
+Text Notes 16810 6160 0    20   ~ 0
+Put the 1uF cap near the analog supply\n and the digital supply near it.
+$Comp
+L capacitor C39
+U 1 1 53B12180
+P 20075 9575
+F 0 "C39" H 20095 9650 40  0000 L CNN
+F 1 "100nF" H 20105 9510 40  0000 L CNN
+F 2 "Capacitors_SMD:c_0603" H 20113 9425 30  0001 C CNN
+F 3 "" H 20075 9575 60  0000 C CNN
+	1    20075 9575
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CMEMS_OSC G2
+U 1 1 53B12187
+P 19335 9775
+F 0 "G2" H 19185 9875 60  0000 C CNN
+F 1 "24MHz OSC" H 19335 9425 60  0000 C CNN
+F 2 "rfid:Si501_2.5x2" H 19335 9575 60  0001 C CNN
+F 3 "" H 19335 9575 60  0000 C CNN
+	1    19335 9775
+	-1   0    0    1   
+$EndComp
+$Comp
+L resistor R33
+U 1 1 53B12195
+P 18695 9575
+F 0 "R33" V 18775 9575 40  0000 C CNN
+F 1 "24.9" V 18615 9565 40  0000 C CNN
+F 2 "SMD_Packages:SMD-0603" V 18625 9575 30  0001 C CNN
+F 3 "" H 18695 9575 30  0000 C CNN
+	1    18695 9575
+	0    1    1    0   
+$EndComp
+NoConn ~ 19735 9775
+Text Notes 19795 9790 0    20   ~ 0
+Has internal pull up
+NoConn ~ 18445 9675
+Text GLabel 20330 9745 2    39   Input ~ 0
+3V3
+$Comp
+L CONN_8X2 J3
+U 1 1 53C4A28B
+P 19565 6750
+F 0 "J3" H 19565 7200 60  0000 C CNN
+F 1 "MCU Port B" V 19565 6750 50  0000 C CNN
+F 2 "rfid:16_pin_breakout" H 19565 6750 60  0001 C CNN
+F 3 "" H 19565 6750 60  0000 C CNN
+	1    19565 6750
+	1    0    0    -1  
+$EndComp
+Text Label 14715 9525 0    60   ~ 0
+PB0
+Text Label 14715 9625 0    60   ~ 0
+PB1
+Text Label 14715 9725 0    60   ~ 0
+PB2
+Text Label 14715 9825 0    60   ~ 0
+PB3
+Text Label 14715 9925 0    60   ~ 0
+PB4
+Text Label 14715 10025 0    60   ~ 0
+PB5
+Text Label 14715 10125 0    60   ~ 0
+PB6
+Text Label 14715 10225 0    60   ~ 0
+PB7
+Text Label 14715 10325 0    60   ~ 0
+PB8
+Text Label 14715 10425 0    60   ~ 0
+PB9
+Text Label 14715 10525 0    60   ~ 0
+PB10
+Text Label 14715 10625 0    60   ~ 0
+PB11
+Text Label 14715 10725 0    60   ~ 0
+PB12
+Text Label 14715 10825 0    60   ~ 0
+PB13
+Text Label 14715 10925 0    60   ~ 0
+PB14
+Text Label 14715 11025 0    60   ~ 0
+PB15
+Text Label 18725 7875 2    60   ~ 0
+PC0
+Text Label 18725 7975 2    60   ~ 0
+PC1
+Text Label 18725 8075 2    60   ~ 0
+PC2
+Text Label 18725 8175 2    60   ~ 0
+PC3
+Text Label 18725 8275 2    60   ~ 0
+PC4
+Text Label 18725 8375 2    60   ~ 0
+PC5
+Text Label 18725 8475 2    60   ~ 0
+PC6
+Text Label 18725 8575 2    60   ~ 0
+PC7
+Text Label 18725 8675 2    60   ~ 0
+PC8
+Text Label 18725 8775 2    60   ~ 0
+PC9
+Text Label 18725 8875 2    60   ~ 0
+PC10
+Text Label 18725 8975 2    60   ~ 0
+PC11
+Text Label 18725 9075 2    60   ~ 0
+PC12
+Text Label 18725 9175 2    60   ~ 0
+PC13
+Text Label 18725 9275 2    60   ~ 0
+PC14
+Text Label 18725 9375 2    60   ~ 0
+PC15
+$Comp
+L CONN_8X2 J4
+U 1 1 53C59014
+P 21410 6730
+F 0 "J4" H 21410 7180 60  0000 C CNN
+F 1 "MCU Port C" V 21410 6730 50  0000 C CNN
+F 2 "rfid:16_pin_breakout" H 21410 6730 60  0001 C CNN
+F 3 "" H 21410 6730 60  0000 C CNN
+	1    21410 6730
+	1    0    0    -1  
+$EndComp
+Text Label 18885 6400 0    60   ~ 0
+PB0
+Text Label 20245 6400 2    60   ~ 0
+PB1
+Text Label 18885 6500 0    60   ~ 0
+PB2
+Text Label 20245 6500 2    60   ~ 0
+PB3
+Text Label 18885 6600 0    60   ~ 0
+PB4
+Text Label 20245 6600 2    60   ~ 0
+PB5
+Text Label 18885 6700 0    60   ~ 0
+PB6
+Text Label 20245 6700 2    60   ~ 0
+PB7
+Text Label 18885 6800 0    60   ~ 0
+PB8
+Text Label 20245 6800 2    60   ~ 0
+PB9
+Text Label 18885 6900 0    60   ~ 0
+PB10
+Text Label 20245 6900 2    60   ~ 0
+PB11
+Text Label 18885 7000 0    60   ~ 0
+PB12
+Text Label 20245 7000 2    60   ~ 0
+PB13
+Text Label 18885 7100 0    60   ~ 0
+PB14
+Text Label 20245 7100 2    60   ~ 0
+PB15
+Text Label 20730 6380 0    60   ~ 0
+PC0
+Text Label 22090 6380 2    60   ~ 0
+PC1
+Text Label 20730 6480 0    60   ~ 0
+PC2
+Text Label 22090 6480 2    60   ~ 0
+PC3
+Text Label 20730 6580 0    60   ~ 0
+PC4
+Text Label 22090 6580 2    60   ~ 0
+PC5
+Text Label 20730 6680 0    60   ~ 0
+PC6
+Text Label 22090 6680 2    60   ~ 0
+PC7
+Text Label 20730 6780 0    60   ~ 0
+PC8
+Text Label 22090 6780 2    60   ~ 0
+PC9
+Text Label 20730 6880 0    60   ~ 0
+PC10
+Text Label 22090 6880 2    60   ~ 0
+PC11
+Text Label 20730 6980 0    60   ~ 0
+PC12
+Text Label 22090 6980 2    60   ~ 0
+PC13
+Text Label 20730 7080 0    60   ~ 0
+PC14
+Text Label 22090 7080 2    60   ~ 0
+PC15
+Text Notes 18935 6130 0    60   ~ 0
+Port B breakout connector
+Text Notes 20840 6140 0    60   ~ 0
+Port C breakout connector
+$Comp
+L MOSFET_N Q4
+U 1 1 53E456BB
+P 21790 8570
+F 0 "Q4" H 21800 8740 60  0000 R CNN
+F 1 "MOSFET_N" V 22020 8790 60  0000 R CNN
+F 2 "" H 21790 8570 60  0001 C CNN
+F 3 "" H 21790 8570 60  0000 C CNN
+	1    21790 8570
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR42
+U 1 1 53E4BE38
+P 21890 8855
+F 0 "#PWR42" H 21890 8855 30  0001 C CNN
+F 1 "GND" H 21890 8785 30  0001 C CNN
+F 2 "" H 21890 8855 60  0000 C CNN
+F 3 "" H 21890 8855 60  0000 C CNN
+	1    21890 8855
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P7
+U 1 1 53E4CFC0
+P 22285 8010
+F 0 "P7" V 22235 8010 40  0000 C CNN
+F 1 "12V_Switch" V 22335 8010 40  0000 C CNN
+F 2 "SMD_Packages:SOT-23-GDS" H 22285 8010 60  0001 C CNN
+F 3 "" H 22285 8010 60  0000 C CNN
+	1    22285 8010
+	1    0    0    -1  
+$EndComp
+Text GLabel 21755 7910 0    60   Input ~ 0
+12V
+Text Label 14785 7975 2    30   ~ 0
+12VSwitch
+Text Label 20575 8570 2    30   ~ 0
+12VSwitch
+$Comp
+L R R36
+U 1 1 53E52949
+P 21420 8870
+F 0 "R36" V 21500 8870 40  0000 C CNN
+F 1 "10k" V 21427 8871 40  0000 C CNN
+F 2 "SMD_Packages:SMD-0603" V 21350 8870 30  0001 C CNN
+F 3 "" H 21420 8870 30  0000 C CNN
+	1    21420 8870
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR41
+U 1 1 53E54977
+P 21420 9155
+F 0 "#PWR41" H 21420 9155 30  0001 C CNN
+F 1 "GND" H 21420 9085 30  0001 C CNN
+F 2 "" H 21420 9155 60  0000 C CNN
+F 3 "" H 21420 9155 60  0000 C CNN
+	1    21420 9155
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R35
+U 1 1 53E56788
+P 20965 8570
+F 0 "R35" V 21045 8570 40  0000 C CNN
+F 1 "470R" V 20972 8571 40  0000 C CNN
+F 2 "SMD_Packages:SMD-0603" V 20895 8570 30  0001 C CNN
+F 3 "" H 20965 8570 30  0000 C CNN
+	1    20965 8570
+	0    1    1    0   
+$EndComp
+$Comp
+L SW_PUSH_4 SW1
+U 1 1 53E6B53D
+P 19655 10055
+F 0 "SW1" H 19805 9980 50  0000 C CNN
+F 1 "reset" H 19590 9990 50  0000 C CNN
+F 2 "rfid:TE-Switch-FSM-JSM" H 19655 10055 60  0001 C CNN
+F 3 "" H 19655 10055 60  0000 C CNN
+	1    19655 10055
+	1    0    0    -1  
+$EndComp
+$Comp
+L SI3440DV Q1
+U 1 1 53E6FA7D
+P 9305 2315
+F 0 "Q1" H 9315 2485 60  0000 R CNN
+F 1 "SI3440DV, NFET" V 9505 2755 60  0000 R CNN
+F 2 "" H 9305 2315 60  0000 C CNN
+F 3 "" H 9305 2315 60  0000 C CNN
+	1    9305 2315
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	1440 3015 4405 3015
 Connection ~ 2355 2265
@@ -2276,9 +2777,6 @@ Wire Wire Line
 	8150 8115 8150 7720
 Wire Wire Line
 	8150 7720 8040 7720
-NoConn ~ 6300 6420
-Text Notes 6025 6315 0    20   ~ 0
-section 11.1 in the datasheet claims that most circuits \ndon't need a pull up on the reset pin. It has an internal \n(weak) pull up so this is not getting connected. 
 Wire Wire Line
 	6300 6620 6515 6620
 Wire Wire Line
@@ -2287,60 +2785,12 @@ Wire Wire Line
 	6300 6820 6510 6820
 Wire Wire Line
 	6300 6920 6510 6920
-Text Label 6515 6620 0    30   ~ 0
-EthernetSO
-Text Label 6515 6720 0    30   ~ 0
-EthernetSI
-Text Label 6510 6820 0    30   ~ 0
-EthernetSCK
-Text Label 6510 6920 0    30   ~ 0
-EthernetCS
 Wire Wire Line
 	4700 7020 4575 7020
-Text Label 4575 7020 2    30   ~ 0
-EthernetINT
-Text Notes 6045 7935 0    20   ~ 0
-If clock stability issues arise pin 24\ncan be pulled down for lower noise.
-$Comp
-L resistor R32
-U 1 1 53AAE7D9
-P 6550 7720
-F 0 "R32" V 6630 7720 40  0000 C CNN
-F 1 "24.9" V 6470 7710 40  0000 C CNN
-F 2 "SMD_Packages:SMD-0603" V 6480 7720 30  0001 C CNN
-F 3 "" H 6550 7720 30  0000 C CNN
-	1    6550 7720
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	6300 7720 6370 7720
 Wire Wire Line
 	6730 7720 6790 7720
-NoConn ~ 7590 7920
-Text Notes 7650 7935 0    20   ~ 0
-Has internal pull up
-$Comp
-L STM32F100RC U6
-U 1 1 53ABEEE1
-P 16795 9325
-F 0 "U6" H 18195 11175 59  0000 C CNN
-F 1 "STM32F100RC" H 15470 11175 59  0000 C CNN
-F 2 "rfid:LQFP64" H 16645 7725 20  0001 C CNN
-F 3 "" H 16645 7725 20  0000 C CNN
-	1    16795 9325
-	1    0    0    -1  
-$EndComp
-$Comp
-L capacitor C31
-U 1 1 53AC256C
-P 7935 5590
-F 0 "C31" H 7955 5665 40  0000 L CNN
-F 1 "1uF" H 7965 5525 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 7973 5440 30  0001 C CNN
-F 3 "" H 7935 5590 60  0000 C CNN
-	1    7935 5590
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	7570 5435 7935 5435
 Wire Wire Line
@@ -2349,9 +2799,6 @@ Connection ~ 7570 5435
 Wire Wire Line
 	7935 5740 7935 5700
 Connection ~ 7570 5740
-NoConn ~ 17145 7425
-Text GLabel 16575 7180 1    39   Input ~ 0
-3V3
 Wire Wire Line
 	16945 7300 16945 7425
 Wire Wire Line
@@ -2367,17 +2814,6 @@ Connection ~ 16745 7300
 Wire Wire Line
 	16845 7425 16845 7300
 Connection ~ 16845 7300
-$Comp
-L GND #PWR33
-U 1 1 53AC9E51
-P 16585 11570
-F 0 "#PWR33" H 16585 11570 30  0001 C CNN
-F 1 "GND" H 16585 11500 30  0001 C CNN
-F 2 "" H 16585 11570 60  0000 C CNN
-F 3 "" H 16585 11570 60  0000 C CNN
-	1    16585 11570
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	16945 11465 16945 11375
 Wire Wire Line
@@ -2393,66 +2829,30 @@ Connection ~ 16745 11465
 Wire Wire Line
 	16845 11375 16845 11465
 Connection ~ 16845 11465
-$Comp
-L CONN_5 J2
-U 1 1 53ACD8C8
-P 13575 9075
-F 0 "J2" V 13525 9075 50  0000 C CNN
-F 1 "SWD" V 13625 9075 50  0000 C CNN
-F 2 "rfid:JST_PH_5pin" H 13575 9075 60  0001 C CNN
-F 3 "" H 13575 9075 60  0000 C CNN
-	1    13575 9075
-	-1   0    0    -1  
-$EndComp
 Wire Wire Line
 	13975 9275 14995 9275
 Wire Wire Line
 	14995 9175 13975 9175
 Wire Wire Line
 	18445 10025 19260 10025
-Text Label 19260 10025 2    20   ~ 0
-nRST
 Wire Wire Line
 	13975 9075 14195 9075
-Text Label 14195 9075 0    39   ~ 0
-nRST
 Wire Wire Line
 	16575 7180 16575 7300
 Connection ~ 16575 7300
 Wire Wire Line
 	16490 7300 16490 7180
 Connection ~ 16490 7300
-Text Label 16490 7180 1    39   ~ 0
-SWD_3V3
 Wire Wire Line
 	13975 8875 14195 8875
 Wire Wire Line
 	13975 8975 14195 8975
-Text Label 14195 8875 0    39   ~ 0
-SWD_3V3
-Text Label 14195 8975 0    39   ~ 0
-SWD_GND
-Text Label 16490 11570 3    20   ~ 0
-SWD_GND
 Wire Wire Line
 	16585 11465 16585 11570
 Connection ~ 16585 11465
 Wire Wire Line
 	16490 11465 16490 11570
 Connection ~ 16490 11465
-Text GLabel 19305 10480 2    39   Input ~ 0
-3V3
-$Comp
-L resistor R34
-U 1 1 53ADAD98
-P 19060 10480
-F 0 "R34" V 19140 10480 40  0000 C CNN
-F 1 "4.7k" V 18970 10485 40  0000 C CNN
-F 2 "SMD_Packages:SMD-0603" V 18990 10480 30  0001 C CNN
-F 3 "" H 19060 10480 30  0000 C CNN
-	1    19060 10480
-	0    -1   -1   0   
-$EndComp
 Wire Wire Line
 	19305 10480 19240 10480
 Wire Wire Line
@@ -2460,28 +2860,6 @@ Wire Wire Line
 Wire Wire Line
 	19095 10025 19095 10185
 Connection ~ 19095 10025
-$Comp
-L capacitor C38
-U 1 1 53ADF873
-P 19665 10315
-F 0 "C38" H 19685 10390 40  0000 L CNN
-F 1 "100nF" H 19695 10250 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 19703 10165 30  0001 C CNN
-F 3 "" H 19665 10315 60  0000 C CNN
-	1    19665 10315
-	0    1    1    0   
-$EndComp
-$Comp
-L GND #PWR40
-U 1 1 53ADFE84
-P 20170 10230
-F 0 "#PWR40" H 20170 10230 30  0001 C CNN
-F 1 "GND" H 20170 10160 30  0001 C CNN
-F 2 "" H 20170 10230 60  0000 C CNN
-F 3 "" H 20170 10230 60  0000 C CNN
-	1    20170 10230
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	19375 10070 19335 10070
 Wire Wire Line
@@ -2502,17 +2880,6 @@ Connection ~ 20035 10190
 Wire Wire Line
 	19095 10185 19335 10185
 Connection ~ 19335 10185
-$Comp
-L GND #PWR39
-U 1 1 53AE23E2
-P 18555 10310
-F 0 "#PWR39" H 18555 10310 30  0001 C CNN
-F 1 "GND" H 18555 10240 30  0001 C CNN
-F 2 "" H 18555 10310 60  0000 C CNN
-F 3 "" H 18555 10310 60  0000 C CNN
-	1    18555 10310
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	18555 10225 18555 10310
 Wire Wire Line
@@ -2525,73 +2892,8 @@ Wire Wire Line
 	14995 8375 14785 8375
 Wire Wire Line
 	14995 8275 14785 8275
-Text Label 14780 8475 2    30   ~ 0
-EthernetSO
-Text Label 14780 8575 2    30   ~ 0
-EthernetSI
-Text Label 14785 8375 2    30   ~ 0
-EthernetSCK
-Text Label 14785 8275 2    30   ~ 0
-EthernetCS
 Wire Wire Line
 	14995 8175 14785 8175
-Text Label 14785 8175 2    30   ~ 0
-EthernetINT
-$Comp
-L capacitor C33
-U 1 1 53AFDBC5
-P 16090 6445
-F 0 "C33" H 16110 6520 40  0000 L CNN
-F 1 "100nF" H 16120 6380 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 16128 6295 30  0001 C CNN
-F 3 "" H 16090 6445 60  0000 C CNN
-	1    16090 6445
-	1    0    0    -1  
-$EndComp
-$Comp
-L capacitor C34
-U 1 1 53AFDBCB
-P 16410 6445
-F 0 "C34" H 16430 6520 40  0000 L CNN
-F 1 "100nF" H 16440 6380 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 16448 6295 30  0001 C CNN
-F 3 "" H 16410 6445 60  0000 C CNN
-	1    16410 6445
-	1    0    0    -1  
-$EndComp
-$Comp
-L capacitor C35
-U 1 1 53AFDBD1
-P 16730 6440
-F 0 "C35" H 16750 6515 40  0000 L CNN
-F 1 "100nF" H 16760 6375 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 16768 6290 30  0001 C CNN
-F 3 "" H 16730 6440 60  0000 C CNN
-	1    16730 6440
-	1    0    0    -1  
-$EndComp
-$Comp
-L capacitor C36
-U 1 1 53AFDBD7
-P 17050 6445
-F 0 "C36" H 17070 6520 40  0000 L CNN
-F 1 "100nF" H 17080 6380 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 17088 6295 30  0001 C CNN
-F 3 "" H 17050 6445 60  0000 C CNN
-	1    17050 6445
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR32
-U 1 1 53AFDBDD
-P 16560 6650
-F 0 "#PWR32" H 16560 6650 30  0001 C CNN
-F 1 "GND" H 16560 6580 30  0001 C CNN
-F 2 "" H 16560 6650 60  0000 C CNN
-F 3 "" H 16560 6650 60  0000 C CNN
-	1    16560 6650
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	15775 6595 17415 6595
 Wire Wire Line
@@ -2615,33 +2917,11 @@ Wire Wire Line
 	16730 6260 16730 6330
 Wire Wire Line
 	17050 6260 17050 6335
-$Comp
-L capacitor C37
-U 1 1 53AFDBF9
-P 17415 6445
-F 0 "C37" H 17435 6520 40  0000 L CNN
-F 1 "1uF" H 17445 6380 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 17453 6295 30  0001 C CNN
-F 3 "" H 17415 6445 60  0000 C CNN
-	1    17415 6445
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	17415 6260 17415 6335
 Wire Wire Line
 	17415 6595 17415 6555
 Connection ~ 17050 6595
-$Comp
-L capacitor C32
-U 1 1 53AFF189
-P 15775 6445
-F 0 "C32" H 15795 6520 40  0000 L CNN
-F 1 "100nF" H 15805 6380 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 15813 6295 30  0001 C CNN
-F 3 "" H 15775 6445 60  0000 C CNN
-	1    15775 6445
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	15775 6555 15775 6595
 Connection ~ 16090 6595
@@ -2653,35 +2933,9 @@ Connection ~ 16090 6260
 Connection ~ 16410 6260
 Connection ~ 16730 6260
 Connection ~ 17050 6260
-Text GLabel 16570 6160 1    39   Input ~ 0
-3V3
 Wire Wire Line
 	16570 6160 16570 6260
 Connection ~ 16570 6260
-Text Notes 16810 6160 0    20   ~ 0
-Put the 1uF cap near the analog supply\n and the digital supply near it.
-$Comp
-L capacitor C39
-U 1 1 53B12180
-P 20075 9575
-F 0 "C39" H 20095 9650 40  0000 L CNN
-F 1 "100nF" H 20105 9510 40  0000 L CNN
-F 2 "Capacitors_SMD:c_0603" H 20113 9425 30  0001 C CNN
-F 3 "" H 20075 9575 60  0000 C CNN
-	1    20075 9575
-	0    -1   -1   0   
-$EndComp
-$Comp
-L CMEMS_OSC G2
-U 1 1 53B12187
-P 19335 9775
-F 0 "G2" H 19185 9875 60  0000 C CNN
-F 1 "24MHz OSC" H 19335 9425 60  0000 C CNN
-F 2 "rfid:Si501_2.5x2" H 19335 9575 60  0001 C CNN
-F 3 "" H 19335 9575 60  0000 C CNN
-	1    19335 9775
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
 	18935 9775 18860 9775
 Wire Wire Line
@@ -2694,44 +2948,16 @@ Wire Wire Line
 	20295 9925 20295 9575
 Wire Wire Line
 	20295 9575 20185 9575
-$Comp
-L resistor R33
-U 1 1 53B12195
-P 18695 9575
-F 0 "R33" V 18775 9575 40  0000 C CNN
-F 1 "24.9" V 18615 9565 40  0000 C CNN
-F 2 "SMD_Packages:SMD-0603" V 18625 9575 30  0001 C CNN
-F 3 "" H 18695 9575 30  0000 C CNN
-	1    18695 9575
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	18445 9575 18515 9575
 Wire Wire Line
 	18875 9575 18935 9575
-NoConn ~ 19735 9775
-Text Notes 19795 9790 0    20   ~ 0
-Has internal pull up
-NoConn ~ 18445 9675
 Wire Wire Line
 	18830 10480 18830 10025
 Connection ~ 18830 10025
-Text GLabel 20330 9745 2    39   Input ~ 0
-3V3
 Wire Wire Line
 	20330 9745 20295 9745
 Connection ~ 20295 9745
-$Comp
-L CONN_8X2 J3
-U 1 1 53C4A28B
-P 19565 6750
-F 0 "J3" H 19565 7200 60  0000 C CNN
-F 1 "MCU Port B" V 19565 6750 50  0000 C CNN
-F 2 "rfid:16_pin_breakout" H 19565 6750 60  0001 C CNN
-F 3 "" H 19565 6750 60  0000 C CNN
-	1    19565 6750
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	14995 9525 14715 9525
 Wire Wire Line
@@ -2764,38 +2990,6 @@ Wire Wire Line
 	14995 10925 14715 10925
 Wire Wire Line
 	14995 11025 14715 11025
-Text Label 14715 9525 0    60   ~ 0
-PB0
-Text Label 14715 9625 0    60   ~ 0
-PB1
-Text Label 14715 9725 0    60   ~ 0
-PB2
-Text Label 14715 9825 0    60   ~ 0
-PB3
-Text Label 14715 9925 0    60   ~ 0
-PB4
-Text Label 14715 10025 0    60   ~ 0
-PB5
-Text Label 14715 10125 0    60   ~ 0
-PB6
-Text Label 14715 10225 0    60   ~ 0
-PB7
-Text Label 14715 10325 0    60   ~ 0
-PB8
-Text Label 14715 10425 0    60   ~ 0
-PB9
-Text Label 14715 10525 0    60   ~ 0
-PB10
-Text Label 14715 10625 0    60   ~ 0
-PB11
-Text Label 14715 10725 0    60   ~ 0
-PB12
-Text Label 14715 10825 0    60   ~ 0
-PB13
-Text Label 14715 10925 0    60   ~ 0
-PB14
-Text Label 14715 11025 0    60   ~ 0
-PB15
 Wire Wire Line
 	18445 7875 18725 7875
 Wire Wire Line
@@ -2828,49 +3022,6 @@ Wire Wire Line
 	18445 9275 18725 9275
 Wire Wire Line
 	18445 9375 18725 9375
-Text Label 18725 7875 2    60   ~ 0
-PC0
-Text Label 18725 7975 2    60   ~ 0
-PC1
-Text Label 18725 8075 2    60   ~ 0
-PC2
-Text Label 18725 8175 2    60   ~ 0
-PC3
-Text Label 18725 8275 2    60   ~ 0
-PC4
-Text Label 18725 8375 2    60   ~ 0
-PC5
-Text Label 18725 8475 2    60   ~ 0
-PC6
-Text Label 18725 8575 2    60   ~ 0
-PC7
-Text Label 18725 8675 2    60   ~ 0
-PC8
-Text Label 18725 8775 2    60   ~ 0
-PC9
-Text Label 18725 8875 2    60   ~ 0
-PC10
-Text Label 18725 8975 2    60   ~ 0
-PC11
-Text Label 18725 9075 2    60   ~ 0
-PC12
-Text Label 18725 9175 2    60   ~ 0
-PC13
-Text Label 18725 9275 2    60   ~ 0
-PC14
-Text Label 18725 9375 2    60   ~ 0
-PC15
-$Comp
-L CONN_8X2 J4
-U 1 1 53C59014
-P 21410 6730
-F 0 "J4" H 21410 7180 60  0000 C CNN
-F 1 "MCU Port C" V 21410 6730 50  0000 C CNN
-F 2 "rfid:16_pin_breakout" H 21410 6730 60  0001 C CNN
-F 3 "" H 21410 6730 60  0000 C CNN
-	1    21410 6730
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	19165 6400 18885 6400
 Wire Wire Line
@@ -2903,38 +3054,6 @@ Wire Wire Line
 	19165 7100 18885 7100
 Wire Wire Line
 	19965 7100 20245 7100
-Text Label 18885 6400 0    60   ~ 0
-PB0
-Text Label 20245 6400 2    60   ~ 0
-PB1
-Text Label 18885 6500 0    60   ~ 0
-PB2
-Text Label 20245 6500 2    60   ~ 0
-PB3
-Text Label 18885 6600 0    60   ~ 0
-PB4
-Text Label 20245 6600 2    60   ~ 0
-PB5
-Text Label 18885 6700 0    60   ~ 0
-PB6
-Text Label 20245 6700 2    60   ~ 0
-PB7
-Text Label 18885 6800 0    60   ~ 0
-PB8
-Text Label 20245 6800 2    60   ~ 0
-PB9
-Text Label 18885 6900 0    60   ~ 0
-PB10
-Text Label 20245 6900 2    60   ~ 0
-PB11
-Text Label 18885 7000 0    60   ~ 0
-PB12
-Text Label 20245 7000 2    60   ~ 0
-PB13
-Text Label 18885 7100 0    60   ~ 0
-PB14
-Text Label 20245 7100 2    60   ~ 0
-PB15
 Wire Wire Line
 	21010 6380 20730 6380
 Wire Wire Line
@@ -2967,144 +3086,25 @@ Wire Wire Line
 	21010 7080 20730 7080
 Wire Wire Line
 	21810 7080 22090 7080
-Text Label 20730 6380 0    60   ~ 0
-PC0
-Text Label 22090 6380 2    60   ~ 0
-PC1
-Text Label 20730 6480 0    60   ~ 0
-PC2
-Text Label 22090 6480 2    60   ~ 0
-PC3
-Text Label 20730 6580 0    60   ~ 0
-PC4
-Text Label 22090 6580 2    60   ~ 0
-PC5
-Text Label 20730 6680 0    60   ~ 0
-PC6
-Text Label 22090 6680 2    60   ~ 0
-PC7
-Text Label 20730 6780 0    60   ~ 0
-PC8
-Text Label 22090 6780 2    60   ~ 0
-PC9
-Text Label 20730 6880 0    60   ~ 0
-PC10
-Text Label 22090 6880 2    60   ~ 0
-PC11
-Text Label 20730 6980 0    60   ~ 0
-PC12
-Text Label 22090 6980 2    60   ~ 0
-PC13
-Text Label 20730 7080 0    60   ~ 0
-PC14
-Text Label 22090 7080 2    60   ~ 0
-PC15
-Text Notes 18935 6130 0    60   ~ 0
-Port B breakout connector
-Text Notes 20840 6140 0    60   ~ 0
-Port C breakout connector
-$Comp
-L MOSFET_N Q4
-U 1 1 53E456BB
-P 21790 8570
-F 0 "Q4" H 21800 8740 60  0000 R CNN
-F 1 "MOSFET_N" V 22020 8790 60  0000 R CNN
-F 2 "" H 21790 8570 60  0001 C CNN
-F 3 "" H 21790 8570 60  0000 C CNN
-	1    21790 8570
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR42
-U 1 1 53E4BE38
-P 21890 8855
-F 0 "#PWR42" H 21890 8855 30  0001 C CNN
-F 1 "GND" H 21890 8785 30  0001 C CNN
-F 2 "" H 21890 8855 60  0000 C CNN
-F 3 "" H 21890 8855 60  0000 C CNN
-	1    21890 8855
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	21890 8770 21890 8855
-$Comp
-L CONN_2 P7
-U 1 1 53E4CFC0
-P 22285 8010
-F 0 "P7" V 22235 8010 40  0000 C CNN
-F 1 "12V_Switch" V 22335 8010 40  0000 C CNN
-F 2 "" H 22285 8010 60  0001 C CNN
-F 3 "" H 22285 8010 60  0000 C CNN
-	1    22285 8010
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	21935 8110 21890 8110
 Wire Wire Line
 	21890 8110 21890 8370
-Text GLabel 21755 7910 0    60   Input ~ 0
-12V
 Wire Wire Line
 	21755 7910 21935 7910
 Wire Wire Line
 	14995 7975 14785 7975
-Text Label 14785 7975 2    30   ~ 0
-12VSwitch
-Text Label 20575 8570 2    30   ~ 0
-12VSwitch
-$Comp
-L R R36
-U 1 1 53E52949
-P 21420 8870
-F 0 "R36" V 21500 8870 40  0000 C CNN
-F 1 "10k" V 21427 8871 40  0000 C CNN
-F 2 "SMD_Packages:SMD-0603" V 21350 8870 30  0001 C CNN
-F 3 "" H 21420 8870 30  0000 C CNN
-	1    21420 8870
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	21215 8570 21590 8570
 Wire Wire Line
 	21420 8620 21420 8570
-$Comp
-L GND #PWR41
-U 1 1 53E54977
-P 21420 9155
-F 0 "#PWR41" H 21420 9155 30  0001 C CNN
-F 1 "GND" H 21420 9085 30  0001 C CNN
-F 2 "" H 21420 9155 60  0000 C CNN
-F 3 "" H 21420 9155 60  0000 C CNN
-	1    21420 9155
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	21420 9120 21420 9155
-$Comp
-L R R35
-U 1 1 53E56788
-P 20965 8570
-F 0 "R35" V 21045 8570 40  0000 C CNN
-F 1 "470R" V 20972 8571 40  0000 C CNN
-F 2 "SMD_Packages:SMD-0603" V 20895 8570 30  0001 C CNN
-F 3 "" H 20965 8570 30  0000 C CNN
-	1    20965 8570
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	20710 8570 20575 8570
 Connection ~ 21420 8570
-$Comp
-L SW_PUSH_4 SW1
-U 1 1 53E6B53D
-P 19655 10055
-F 0 "SW1" H 19805 9980 50  0000 C CNN
-F 1 "reset" H 19590 9990 50  0000 C CNN
-F 2 "" H 19655 10055 60  0000 C CNN
-F 3 "" H 19655 10055 60  0000 C CNN
-	1    19655 10055
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	19375 10055 19375 10085
 Wire Wire Line
@@ -3119,4 +3119,27 @@ Wire Wire Line
 Wire Wire Line
 	19990 10085 19955 10085
 Connection ~ 19990 10070
+Wire Wire Line
+	9360 2115 9360 2085
+Wire Wire Line
+	9360 2085 9285 2085
+Wire Wire Line
+	9285 2085 9285 1990
+Wire Wire Line
+	9285 1990 9405 1990
+Connection ~ 9405 1990
+Wire Wire Line
+	9375 2065 9375 2115
+Wire Wire Line
+	9315 2065 9375 2065
+Wire Wire Line
+	9390 2115 9390 2045
+Wire Wire Line
+	9390 2045 9360 2045
+Wire Wire Line
+	9360 2045 9360 1990
+Connection ~ 9360 1990
+Wire Wire Line
+	9315 2065 9315 1990
+Connection ~ 9315 1990
 $EndSCHEMATC
