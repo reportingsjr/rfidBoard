@@ -89,7 +89,9 @@ F 3 "" H 2020 2870 60  0000 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	2130 2530 2635 2530
+	2130 2530 2365 2530
+Wire Wire Line
+	2365 2530 2635 2530
 Wire Wire Line
 	2365 2530 2365 2565
 Wire Wire Line
@@ -98,7 +100,9 @@ Wire Wire Line
 	2635 2645 2785 2645
 Connection ~ 2365 2530
 Wire Wire Line
-	2130 2870 2635 2870
+	2130 2870 2365 2870
+Wire Wire Line
+	2365 2870 2635 2870
 Wire Wire Line
 	2365 2870 2365 2835
 Wire Wire Line
@@ -120,7 +124,9 @@ $EndComp
 Wire Wire Line
 	1910 2530 1800 2530
 Wire Wire Line
-	1800 2530 1800 2870
+	1800 2530 1800 2660
+Wire Wire Line
+	1800 2660 1800 2870
 Wire Wire Line
 	1800 2870 1910 2870
 Wire Wire Line
@@ -161,9 +167,76 @@ Reserved Pins
 Text GLabel 3495 1050 1    60   Input ~ 0
 3V3
 Wire Wire Line
-	3495 1175 3495 1050
+	3495 1175 3495 1100
+Wire Wire Line
+	3495 1100 3495 1050
 Text GLabel 2575 3100 0    60   Input ~ 0
 3V3
 Wire Wire Line
 	2785 3100 2575 3100
+$Comp
+L resistor R?
+U 1 1 54191892
+P 2635 1310
+F 0 "R?" V 2715 1310 40  0000 C CNN
+F 1 "3.3k" V 2545 1315 40  0000 C CNN
+F 2 "" V 2565 1310 30  0000 C CNN
+F 3 "" H 2635 1310 30  0000 C CNN
+	1    2635 1310
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2440 1545 2635 1545
+Wire Wire Line
+	2635 1545 2785 1545
+Wire Wire Line
+	2635 1490 2635 1545
+Connection ~ 2635 1545
+Wire Wire Line
+	2635 1130 2635 1100
+Wire Wire Line
+	2635 1100 3495 1100
+Connection ~ 3495 1100
+$Comp
+L GND #PWR?
+U 1 1 54191BE5
+P 2680 2355
+F 0 "#PWR?" H 2680 2355 30  0001 C CNN
+F 1 "GND" H 2680 2285 30  0001 C CNN
+F 2 "" H 2680 2355 60  0000 C CNN
+F 3 "" H 2680 2355 60  0000 C CNN
+	1    2680 2355
+	1    0    0    -1  
+$EndComp
+Text GLabel 2630 2210 0    60   Input ~ 0
+3V3
+Wire Wire Line
+	2785 2210 2630 2210
+Wire Wire Line
+	2785 2310 2680 2310
+Wire Wire Line
+	2680 2310 2680 2355
+Text Notes 1840 2300 0    39   ~ 0
+This permanently \nselects SPI
+Wire Wire Line
+	2785 1630 2440 1630
+Wire Wire Line
+	2785 1765 2440 1765
+Wire Wire Line
+	2785 1865 2440 1865
+Wire Wire Line
+	2785 1965 2440 1965
+Wire Wire Line
+	2785 2065 2440 2065
+$Comp
+L CONN_01X06 P?
+U 1 1 54192185
+P 2005 1815
+F 0 "P?" H 2005 2165 50  0000 C CNN
+F 1 "CONN_01X06" V 2105 1815 50  0000 C CNN
+F 2 "" H 2005 1815 60  0000 C CNN
+F 3 "" H 2005 1815 60  0000 C CNN
+	1    2005 1815
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC
