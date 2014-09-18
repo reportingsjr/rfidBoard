@@ -158,11 +158,11 @@ Wire Wire Line
 	2690 3495 2690 3545
 Text Notes 2220 3280 0    39   ~ 0
 Reserved Pins
-Text GLabel 3495 1050 1    60   Input ~ 0
+Text GLabel 3495 1050 1    39   Input ~ 0
 3V3
 Wire Wire Line
 	3495 1050 3495 1175
-Text GLabel 2185 3100 0    60   Input ~ 0
+Text GLabel 2185 3100 0    39   Input ~ 0
 3V3
 $Comp
 L resistor R?
@@ -196,7 +196,7 @@ F 3 "" H 2680 2355 60  0000 C CNN
 	1    2680 2355
 	1    0    0    -1  
 $EndComp
-Text GLabel 2235 2210 0    60   Input ~ 0
+Text GLabel 2235 2210 0    39   Input ~ 0
 3V3
 Wire Wire Line
 	2785 2210 2630 2210
@@ -306,4 +306,188 @@ Connection ~ 3565 3475
 Wire Wire Line
 	3525 3475 3525 3530
 Connection ~ 3525 3475
+$Comp
+L CONN_01X02 P?
+U 1 1 541A49C8
+P 1775 4235
+F 0 "P?" H 1775 4385 50  0000 C CNN
+F 1 "CONN_01X02" V 1875 4235 50  0000 C CNN
+F 2 "" H 1775 4235 60  0000 C CNN
+F 3 "" H 1775 4235 60  0000 C CNN
+	1    1775 4235
+	-1   0    0    1   
+$EndComp
+Text GLabel 3580 1050 1    39   Input ~ 0
+3V3_RF
+Wire Wire Line
+	3580 1175 3580 1050
+$Comp
+L GND #PWR?
+U 1 1 541A5357
+P 2030 4335
+F 0 "#PWR?" H 2030 4335 30  0001 C CNN
+F 1 "GND" H 2030 4265 30  0001 C CNN
+F 2 "" H 2030 4335 60  0000 C CNN
+F 3 "" H 2030 4335 60  0000 C CNN
+	1    2030 4335
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1975 4285 2030 4285
+Wire Wire Line
+	2030 4285 2030 4335
+Wire Wire Line
+	1975 4185 3090 4185
+Text GLabel 3090 4185 2    39   Input ~ 0
+3V3
+Text GLabel 3105 4845 2    39   Input ~ 0
+3V3_RF
+$Comp
+L INDUCTOR_SMALL L?
+U 1 1 541A56A3
+P 2190 4515
+F 0 "L?" H 2190 4615 50  0000 C CNN
+F 1 "tx_3v3_choke" H 2190 4465 50  0000 C CNN
+F 2 "" H 2190 4515 60  0000 C CNN
+F 3 "" H 2190 4515 60  0000 C CNN
+	1    2190 4515
+	0    1    1    0   
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541A58CF
+P 2425 4370
+F 0 "C?" H 2445 4445 40  0000 L CNN
+F 1 "10nF" H 2440 4285 40  0000 L CNN
+F 2 "" H 2463 4220 30  0000 C CNN
+F 3 "" H 2425 4370 60  0000 C CNN
+	1    2425 4370
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541A5A22
+P 2685 4370
+F 0 "C?" H 2705 4445 40  0000 L CNN
+F 1 "100nF" H 2705 4280 40  0000 L CNN
+F 2 "" H 2723 4220 30  0000 C CNN
+F 3 "" H 2685 4370 60  0000 C CNN
+	1    2685 4370
+	1    0    0    -1  
+$EndComp
+$Comp
+L Polarized_Capacitor C?
+U 1 1 541A5A83
+P 2965 4365
+F 0 "C?" H 2990 4440 39  0000 L CNN
+F 1 "1uF" H 3015 4270 39  0000 L CNN
+F 2 "" H 2965 4365 60  0000 C CNN
+F 3 "" H 2965 4365 60  0000 C CNN
+	1    2965 4365
+	1    0    0    -1  
+$EndComp
+$Comp
+L Polarized_Capacitor C?
+U 1 1 541A5D75
+P 2965 5005
+F 0 "C?" H 2990 5080 50  0000 L CNN
+F 1 "4.7uF" H 3000 4910 39  0000 L CNN
+F 2 "" H 2965 5005 60  0000 C CNN
+F 3 "" H 2965 5005 60  0000 C CNN
+	1    2965 5005
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541A5E22
+P 2685 5010
+F 0 "C?" H 2705 5085 40  0000 L CNN
+F 1 "100nF" H 2700 4920 40  0000 L CNN
+F 2 "" H 2723 4860 30  0000 C CNN
+F 3 "" H 2685 5010 60  0000 C CNN
+	1    2685 5010
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541A5EC3
+P 2425 5015
+F 0 "C?" H 2445 5090 40  0000 L CNN
+F 1 "10nF" H 2445 4935 40  0000 L CNN
+F 2 "" H 2463 4865 30  0000 C CNN
+F 3 "" H 2425 5015 60  0000 C CNN
+	1    2425 5015
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2425 4185 2425 4260
+Connection ~ 2425 4185
+Wire Wire Line
+	2685 4260 2685 4185
+Connection ~ 2685 4185
+Wire Wire Line
+	2965 4255 2965 4185
+Connection ~ 2965 4185
+Wire Wire Line
+	2190 4265 2190 4185
+Connection ~ 2190 4185
+Wire Wire Line
+	3105 4845 2190 4845
+Wire Wire Line
+	2190 4845 2190 4765
+Wire Wire Line
+	2425 4905 2425 4845
+Connection ~ 2425 4845
+Wire Wire Line
+	2685 4900 2685 4845
+Connection ~ 2685 4845
+Wire Wire Line
+	2965 4895 2965 4845
+Connection ~ 2965 4845
+$Comp
+L GND #PWR?
+U 1 1 541A734A
+P 2585 4585
+F 0 "#PWR?" H 2585 4585 30  0001 C CNN
+F 1 "GND" H 2585 4515 30  0001 C CNN
+F 2 "" H 2585 4585 60  0000 C CNN
+F 3 "" H 2585 4585 60  0000 C CNN
+	1    2585 4585
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 541A750E
+P 2585 5215
+F 0 "#PWR?" H 2585 5215 30  0001 C CNN
+F 1 "GND" H 2585 5145 30  0001 C CNN
+F 2 "" H 2585 5215 60  0000 C CNN
+F 3 "" H 2585 5215 60  0000 C CNN
+	1    2585 5215
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2425 4480 2425 4530
+Wire Wire Line
+	2425 4530 2965 4530
+Wire Wire Line
+	2965 4530 2965 4470
+Wire Wire Line
+	2685 4480 2685 4530
+Connection ~ 2685 4530
+Wire Wire Line
+	2585 4585 2585 4530
+Connection ~ 2585 4530
+Wire Wire Line
+	2425 5125 2425 5165
+Wire Wire Line
+	2425 5165 2965 5165
+Wire Wire Line
+	2965 5165 2965 5110
+Wire Wire Line
+	2685 5120 2685 5165
+Connection ~ 2685 5165
+Wire Wire Line
+	2585 5215 2585 5165
+Connection ~ 2585 5165
 $EndSCHEMATC
