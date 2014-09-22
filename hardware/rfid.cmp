@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-09-17 BZR 5140)-product   date = Mon 22 Sep 2014 02:37:36 AM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-09-17 BZR 5140)-product   date = Mon 22 Sep 2014 04:28:43 PM EDT
 
 BeginCmp
 TimeStamp = /54173C81;
@@ -116,14 +116,14 @@ BeginCmp
 TimeStamp = /541A49C8;
 Reference = P1;
 ValeurCmp = CONN_01X02;
-IdModule  = ;
+IdModule  = rfid:JST_PH_2pin_side;
 EndCmp
 
 BeginCmp
 TimeStamp = /54192185;
 Reference = P2;
 ValeurCmp = COMMS;
-IdModule  = ;
+IdModule  = rfid:JST_PH_6pin;
 EndCmp
 
 BeginCmp
@@ -193,14 +193,14 @@ BeginCmp
 TimeStamp = /541504F3;
 Reference = U1;
 ValeurCmp = CR95HF;
-IdModule  = ;
+IdModule  = SMD_Packages:QFN-32-1EP;
 EndCmp
 
 BeginCmp
 TimeStamp = /54173929;
 Reference = X1;
 ValeurCmp = 27.12MHz;
-IdModule  = ;
+IdModule  = rfid:2x1.6_crystal;
 EndCmp
 
 EndListe
