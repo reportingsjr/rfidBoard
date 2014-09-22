@@ -35,9 +35,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
+Title "RFID TXRX"
 Date ""
-Rev ""
+Rev "1"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -490,4 +490,229 @@ Connection ~ 2685 5165
 Wire Wire Line
 	2585 5215 2585 5165
 Connection ~ 2585 5165
+$Comp
+L capacitor C?
+U 1 1 541FBF59
+P 4935 1520
+F 0 "C?" V 4985 1550 40  0000 L CNN
+F 1 "open" V 4980 1335 40  0000 L CNN
+F 2 "" H 4973 1370 30  0000 C CNN
+F 3 "" H 4935 1520 60  0000 C CNN
+	1    4935 1520
+	0    1    1    0   
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541FC0D8
+P 4935 1720
+F 0 "C?" V 4895 1750 40  0000 L CNN
+F 1 "open" V 4895 1535 40  0000 L CNN
+F 2 "" H 4973 1570 30  0000 C CNN
+F 3 "" H 4935 1720 60  0000 C CNN
+	1    4935 1720
+	0    1    1    0   
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541FC26B
+P 5490 1475
+F 0 "C?" V 5555 1525 40  0000 L CNN
+F 1 "150pF" V 5555 1245 40  0000 L CNN
+F 2 "" H 5528 1325 30  0000 C CNN
+F 3 "" H 5490 1475 60  0000 C CNN
+	1    5490 1475
+	0    1    1    0   
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541FC326
+P 5490 1775
+F 0 "C?" V 5550 1825 40  0000 L CNN
+F 1 "150pF" V 5550 1550 40  0000 L CNN
+F 2 "" H 5528 1625 30  0000 C CNN
+F 3 "" H 5490 1775 60  0000 C CNN
+	1    5490 1775
+	0    1    1    0   
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541FC46F
+P 5790 1620
+F 0 "C?" H 5810 1695 40  0000 L CNN
+F 1 "220pF" H 5820 1555 40  0000 L CNN
+F 2 "" H 5828 1470 30  0000 C CNN
+F 3 "" H 5790 1620 60  0000 C CNN
+	1    5790 1620
+	1    0    0    -1  
+$EndComp
+$Comp
+L capacitor C?
+U 1 1 541FC5B5
+P 6140 1620
+F 0 "C?" H 6160 1695 40  0000 L CNN
+F 1 "15pF" H 6170 1555 40  0000 L CNN
+F 2 "" H 6178 1470 30  0000 C CNN
+F 3 "" H 6140 1620 60  0000 C CNN
+	1    6140 1620
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 541FD180
+P 5180 1655
+F 0 "#PWR?" H 5180 1655 30  0001 C CNN
+F 1 "GND" H 5180 1585 30  0001 C CNN
+F 2 "" H 5180 1655 60  0000 C CNN
+F 3 "" H 5180 1655 60  0000 C CNN
+	1    5180 1655
+	1    0    0    -1  
+$EndComp
+$Comp
+L resistor R?
+U 1 1 541FD7DD
+P 4495 1205
+F 0 "R?" V 4575 1205 40  0000 C CNN
+F 1 "330" V 4405 1210 40  0000 C CNN
+F 2 "" V 4425 1205 30  0000 C CNN
+F 3 "" H 4495 1205 30  0000 C CNN
+	1    4495 1205
+	0    1    1    0   
+$EndComp
+$Comp
+L resistor R?
+U 1 1 541FDA06
+P 4495 1475
+F 0 "R?" V 4575 1475 40  0000 C CNN
+F 1 "0" V 4405 1480 40  0000 C CNN
+F 2 "" V 4425 1475 30  0000 C CNN
+F 3 "" H 4495 1475 30  0000 C CNN
+	1    4495 1475
+	0    1    1    0   
+$EndComp
+$Comp
+L resistor R?
+U 1 1 541FDC12
+P 4485 1775
+F 0 "R?" V 4565 1775 40  0000 C CNN
+F 1 "0" V 4395 1780 40  0000 C CNN
+F 2 "" V 4415 1775 30  0000 C CNN
+F 3 "" H 4485 1775 30  0000 C CNN
+	1    4485 1775
+	0    1    1    0   
+$EndComp
+$Comp
+L resistor R?
+U 1 1 541FDD23
+P 4485 2055
+F 0 "R?" V 4565 2055 40  0000 C CNN
+F 1 "330" V 4395 2060 40  0000 C CNN
+F 2 "" V 4415 2055 30  0000 C CNN
+F 3 "" H 4485 2055 30  0000 C CNN
+	1    4485 2055
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4235 1475 4315 1475
+Wire Wire Line
+	4235 1775 4305 1775
+$Comp
+L resistor R?
+U 1 1 542007D4
+P 6490 1620
+F 0 "R?" H 6595 1655 40  0000 C CNN
+F 1 "2.26k" H 6635 1575 40  0000 C CNN
+F 2 "" V 6420 1620 30  0000 C CNN
+F 3 "" H 6490 1620 30  0000 C CNN
+	1    6490 1620
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4235 1375 4275 1375
+Wire Wire Line
+	4275 1375 4275 1205
+Wire Wire Line
+	4275 1205 4315 1205
+Wire Wire Line
+	4235 1875 4265 1875
+Wire Wire Line
+	4265 1875 4265 2055
+Wire Wire Line
+	4265 2055 4305 2055
+Wire Wire Line
+	4675 1475 4790 1475
+Wire Wire Line
+	4790 1405 4790 1520
+Wire Wire Line
+	4790 1520 4825 1520
+Wire Wire Line
+	4665 1775 4790 1775
+Wire Wire Line
+	4790 1720 4790 1835
+Wire Wire Line
+	4790 1720 4825 1720
+Wire Wire Line
+	5045 1520 5080 1520
+Wire Wire Line
+	5080 1520 5080 1720
+Wire Wire Line
+	5080 1720 5045 1720
+Wire Wire Line
+	5080 1615 5180 1615
+Wire Wire Line
+	5180 1615 5180 1655
+Connection ~ 5080 1615
+Wire Wire Line
+	4790 1405 5275 1405
+Wire Wire Line
+	5275 1405 5275 1475
+Wire Wire Line
+	5275 1475 5380 1475
+Connection ~ 4790 1475
+Wire Wire Line
+	4790 1835 5255 1835
+Wire Wire Line
+	5255 1835 5255 1775
+Wire Wire Line
+	5255 1775 5380 1775
+Connection ~ 4790 1775
+Wire Wire Line
+	5600 1475 6380 1475
+Wire Wire Line
+	6380 1475 6380 1410
+Wire Wire Line
+	6380 1410 6490 1410
+Wire Wire Line
+	6490 1410 6490 1440
+Wire Wire Line
+	5600 1775 6375 1775
+Wire Wire Line
+	6375 1775 6375 1840
+Wire Wire Line
+	6375 1840 6490 1840
+Wire Wire Line
+	6490 1840 6490 1800
+Wire Wire Line
+	5790 1730 5790 1775
+Connection ~ 5790 1775
+Wire Wire Line
+	5790 1510 5790 1475
+Connection ~ 5790 1475
+Wire Wire Line
+	6140 1510 6140 1475
+Connection ~ 6140 1475
+Wire Wire Line
+	6140 1730 6140 1775
+Connection ~ 6140 1775
+Wire Wire Line
+	4665 2055 5965 2055
+Wire Wire Line
+	5965 2055 5965 1775
+Connection ~ 5965 1775
+Wire Wire Line
+	4675 1205 5965 1205
+Wire Wire Line
+	5965 1205 5965 1475
+Connection ~ 5965 1475
+Text Notes 6755 1675 0    39   ~ 0
+antenna should \nbranch off here
 $EndSCHEMATC
