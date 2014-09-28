@@ -9,6 +9,9 @@ Hardware
 =========
 The hardware consists of two separate boards: rfidBoard and PoE. rfidBoard is simply an rfid transceiver and antenna. PoE has an STM32F103 microcontroller which is connected to a 10mbit ethernet MAC/PHY. It alsohas a power over ethernet supply that provides 5V@1.8A total. This 5 volt supply provides power for a 3.3V supply and a 12V supply. The 3.3V supply is meant for powering ICs and other electronics while the 12V supply is meant for providing power to electronic door latches (solenoids).
 
+rfid antenna
+ST Micro's antenna.exe (can be found with google) was used to calculate the antenna size for an approximately 430nH antenna. A similar antenna of different shapes can be created by using the equations in the paper "Simple Accurate Expressions for Planar Spiral Inductances" (DOI 10.1109/4.792620). The parameters I used in antenna.exe are as follows: 2 turns, 8 segments, 1mm wide conductor, 0.25mm spacing between conductors, 35um conductor thickness, and 40mm by 40mm width and length.
+
 Software
 ========
 There is no software or firmware set up or written yet!
