@@ -17,6 +17,9 @@ Software
 There is no software or firmware set up or written yet!
 It will consist of a TCP/IP stack, an RFID stack, and a user access stack.
 
+programs needed for compilation on fedora:
+sudo yum install arm-none-eabi-gcc-cs scons
+
 Notes and Issues
 =========
 * ~~The 12V power supply current rating pretty much maxes out what the PoE can theoretically supply. Probably should derate the 12V supply quite a lot. This means that the 3.3V, 5V, and 12V will interfere with each other which is bad.~~ Updated current rating to 500mA which provides an ok margin for total power.

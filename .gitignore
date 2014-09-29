@@ -3,3 +3,7 @@
 *.bck
 *.000
 *.kicad_pcb-bak
+*.o
+*.a
+*.elf
+*.swp
