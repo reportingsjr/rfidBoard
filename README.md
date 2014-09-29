@@ -7,6 +7,8 @@ RFID/NFC board with ethernet+PoE with numerous I/Os.
 
 Hardware
 =========
+TODO: Add fuses on to POE board.
+
 The hardware consists of two separate boards: rfidBoard and PoE. rfidBoard is simply an rfid transceiver and antenna. PoE has an STM32F103 microcontroller which is connected to a 10mbit ethernet MAC/PHY. It alsohas a power over ethernet supply that provides 5V@1.8A total. This 5 volt supply provides power for a 3.3V supply and a 12V supply. The 3.3V supply is meant for powering ICs and other electronics while the 12V supply is meant for providing power to electronic door latches (solenoids).
 
 rfid antenna
