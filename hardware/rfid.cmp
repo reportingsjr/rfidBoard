@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by Cvpcb (2014-09-17 BZR 5140)-product   date = Mon 22 Sep 2014 04:28:43 PM EDT
+Cmp-Mod V01 Created by Cvpcb (2014-09-17 BZR 5140)-product   date = Sun 28 Sep 2014 09:04:28 PM EDT
 
 BeginCmp
 TimeStamp = /54173C81;
@@ -106,6 +106,13 @@ IdModule  = SMD_Packages:SMD-0603;
 EndCmp
 
 BeginCmp
+TimeStamp = /54173929;
+Reference = G1;
+ValeurCmp = 27.12MHz;
+IdModule  = rfid:2x1.6_crystal;
+EndCmp
+
+BeginCmp
 TimeStamp = /541A56A3;
 Reference = L1;
 ValeurCmp = tx_3v3_choke;
@@ -194,13 +201,6 @@ TimeStamp = /541504F3;
 Reference = U1;
 ValeurCmp = CR95HF;
 IdModule  = SMD_Packages:QFN-32-1EP;
-EndCmp
-
-BeginCmp
-TimeStamp = /54173929;
-Reference = X1;
-ValeurCmp = 27.12MHz;
-IdModule  = rfid:2x1.6_crystal;
 EndCmp
 
 EndListe

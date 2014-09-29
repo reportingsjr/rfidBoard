@@ -57,10 +57,10 @@ F 3 "" H 3485 2765 20  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L MURATA_CRYSTAL_SMD X1
+L MURATA_CRYSTAL_SMD G1
 U 1 1 54173929
 P 2365 2700
-F 0 "X1" V 2255 2765 30  0000 C CNN
+F 0 "G1" V 2255 2765 30  0000 C CNN
 F 1 "27.12MHz" V 2370 2770 30  0000 L CNN
 F 2 "rfid:2x1.6_crystal" H 2365 2700 60  0001 C CNN
 F 3 "" H 2365 2700 60  0000 C CNN
@@ -681,7 +681,7 @@ Wire Wire Line
 Wire Wire Line
 	6380 1475 6380 1410
 Wire Wire Line
-	6380 1410 6490 1410
+	6380 1410 6785 1410
 Wire Wire Line
 	6490 1410 6490 1440
 Wire Wire Line
@@ -689,7 +689,7 @@ Wire Wire Line
 Wire Wire Line
 	6375 1775 6375 1840
 Wire Wire Line
-	6375 1840 6490 1840
+	6375 1840 6785 1840
 Wire Wire Line
 	6490 1840 6490 1800
 Wire Wire Line
@@ -714,6 +714,10 @@ Wire Wire Line
 Wire Wire Line
 	5965 1205 5965 1475
 Connection ~ 5965 1475
-Text Notes 6755 1675 0    39   ~ 0
+Text Notes 6815 1680 0    39   ~ 0
 antenna should \nbranch off here
+Wire Wire Line
+	6785 1840 6785 1410
+Connection ~ 6490 1840
+Connection ~ 6490 1410
 $EndSCHEMATC
