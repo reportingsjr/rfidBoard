@@ -20,7 +20,10 @@ There is no software or firmware set up or written yet!
 It will consist of a TCP/IP stack, an RFID stack, and a user access stack.
 
 programs needed for compilation on fedora:
-sudo yum install arm-none-eabi-gcc-cs scons
+sudo yum install arm-none-eabi-gcc-cs arm-none-eabi-newlib scons
+
+To program the board an STLINK v2 programmer is needed as well as stlink (on linux).
+
 
 Notes and Issues
 =========
