@@ -7,7 +7,6 @@ RFID/NFC board with ethernet+PoE with numerous I/Os.
 
 Hardware
 =========
-TODO: Add fuses on to POE board.
 
 The hardware consists of two separate boards: rfidBoard and PoE. rfidBoard is simply an rfid transceiver and antenna. PoE has an STM32F103 microcontroller which is connected to a 10mbit ethernet MAC/PHY. It alsohas a power over ethernet supply that provides 5V@1.8A total. This 5 volt supply provides power for a 3.3V supply and a 12V supply. The 3.3V supply is meant for powering ICs and other electronics while the 12V supply is meant for providing power to electronic door latches (solenoids).
 
@@ -24,11 +23,21 @@ sudo yum install arm-none-eabi-gcc-cs arm-none-eabi-newlib scons
 
 To program the board an STLINK v2 programmer is needed as well as stlink (on linux).
 
+Datasheets
+========
+The datasheets directory contains some datasheets for different chips on board.
+Currently it only contains STM32 microcontroller stuff.
+They are large and don't fit well in to a git repository, but it helps keep
+everything together and makes things easier to investigate down the line.
+
 
 Notes and Issues
 =========
+* TODO: Add fuses on to POE board to protect circuitry.
+* Several of the components in the PoE circuitry get WAY too hot.
+* C5 (4.7uF cap on the PoE input) should have the negative pin connected to  GNDA/Pout rather than VPortN.
 * ~~The 12V power supply current rating pretty much maxes out what the PoE can theoretically supply. Probably should derate the 12V supply quite a lot. This means that the 3.3V, 5V, and 12V will interfere with each other which is bad.~~ Updated current rating to 500mA which provides an ok margin for total power.
 * ~~D1 may need to be unidirectional. The part specified in the BOM is currently bidirectional.~~ D1 should be a schottky!
 * D2 is actually a zener, not a schottky as currently shown.
-* The footprint for U1 (LTC4267) is undersized. 
+* *The footprint for U1 (LTC4267) is undersized.*
 
