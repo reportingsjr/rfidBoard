@@ -8,16 +8,18 @@ env = Environment(
         CCFLAGS = '-O2 -Wall -Wextra -fno-common -ggdb -mcpu=cortex-m3 -mthumb', 
         ASFLAGS = '-c',
         
+        CPPPATH = 'include',
+
         LINK = 'arm-none-eabi-gcc',
         LINKFLAGS = '-Wall -mcpu=cortex-m3 -mthumb -Tstm32f103.ld'
 )
 
-sources = ['main.c']
+sources = ['main.c', 'system_stm32f10x.c']
 
 firmware = env.Program('rfid.elf', sources)
 env.Depends(firmware, 'stm32f103.ld')
 
-env.Command('prog', ['rfid.elf'], 'openocd -f openocd.cfg -c flash_chip')
+env.Command('prog', ['rfid.elf'], 'arm-none-eabi-gdb $SOURCE')
 
 Default('rfid.elf')
 
