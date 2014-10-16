@@ -14,15 +14,20 @@ SECTIONS {
   . = 0;
   
   /* ISR vectors must come first. */
-  .vectors: {
-    *(.vectors);
+  .vectors : {
+    *(.vectors)
   } > flash
   
-  .text: {
-    *(.text);
+  .text : {
+    *(.text)
   } > flash
 
-  .data: {
-    *(.data);
+  .data : {
+    *(.data)
   } > ram AT > flash
+
+  .bss : {
+    *(.bss)
+    *(COMMON)
+  } > ram
 }
