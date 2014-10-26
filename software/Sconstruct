@@ -4,9 +4,7 @@ env = Environment(
         ENV = os.environ,
 
         CC = 'arm-none-eabi-gcc',
-        AS = 'arm-none-eabi-gcc',
         CCFLAGS = '-O2 -Wall -Wextra -fno-common -ggdb -mcpu=cortex-m3 -mthumb', 
-        ASFLAGS = '-c',
         
         CPPPATH = 'include',
 
