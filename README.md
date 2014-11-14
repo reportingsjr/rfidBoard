@@ -23,6 +23,15 @@ sudo yum install arm-none-eabi-gcc-cs arm-none-eabi-newlib scons
 
 To program the board an STLINK v2 programmer is needed as well as stlink (on linux).
 
+When cloning from git cd in to software/libopencm3 and run:
+`git submodule init`
+`git submodule update`
+
+To flash the board with gdb and an st-link device:
+In a separate terminal run the st-link server `st-util -1`
+In another terminal run `arm-none-eabi-gdb firmware.elf`
+Then in gdb run `tar ext :4242`, `load`, and finally either `continue` or `run`.
+
 Datasheets
 ========
 The datasheets directory contains some datasheets for different chips on board.
