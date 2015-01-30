@@ -28,26 +28,26 @@ static const SPIConfig spicfg = {
 };
 
 static void spicb(SPIDriver *spip) {
-  //chSysLockFromIsr();
   spiUnselectI(spip);
-  //chSysUnlockFromIsr();
 }
 
 
 static WORKING_AREA(ledBlinkerThreadWA, 128);
 static msg_t ledBlinkerThread(void *arg) {
   (void)arg;
-  //uint32_t spiMessage = 100;
-  //char spiMessage[2] = "hi";
   while (TRUE) {
+    // toggle LED on then off
     palSetPad(GPIOC, GPIOC_LED4);
     chThdSleepMilliseconds(10);
     palClearPad(GPIOC, GPIOC_LED4);
     chThdSleepMilliseconds(50);
-    //chSysLock();
+  
+    // Toggle PA3
+    palTogglePad(GPIOA, 3);
+    
+    // send test SPI message
     spiSelect(&SPID1);
     spiSend(&SPID1, 12, "Hello world");
-    //chSysUnlock();
   }
 
   return (msg_t) 0;
@@ -73,7 +73,8 @@ int main(void) {
   palSetGroupMode(GPIOC, GPIOC_LED3 | GPIOC_LED4,
                   0,
                   PAL_MODE_STM32_ALTERNATE_PUSHPULL);
-
+  palSetPadMode(GPIOA, 3, PAL_MODE_OUTPUT_PUSHPULL);
+  
   /*
    * Creates the example thread.
    */
