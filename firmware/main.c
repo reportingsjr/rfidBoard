@@ -21,10 +21,10 @@
 static void spicb(SPIDriver *spip);
 
 static const SPIConfig spicfg = {
-  spicb,
+  NULL,//spicb,
   GPIOA,
   GPIOA_SPI1NSS,
-  SPI_CR1_BR_0 | SPI_CR1_BR_1
+  SPI_CR1_BR_2// | SPI_CR1_BR_1
 };
 
 static void spicb(SPIDriver *spip) {
@@ -36,18 +36,9 @@ static WORKING_AREA(ledBlinkerThreadWA, 128);
 static msg_t ledBlinkerThread(void *arg) {
   (void)arg;
   while (TRUE) {
-    // toggle LED on then off
-    palSetPad(GPIOC, GPIOC_LED4);
-    chThdSleepMilliseconds(10);
-    palClearPad(GPIOC, GPIOC_LED4);
-    chThdSleepMilliseconds(50);
-  
-    // Toggle PA3
-    palTogglePad(GPIOA, 3);
-    
     // send test SPI message
-    spiSelect(&SPID1);
-    spiSend(&SPID1, 12, "Hello world");
+    //spiSelect(&SPID1);
+    //spiSend(&SPID1, 12, "Hello world");
   }
 
   return (msg_t) 0;
@@ -70,10 +61,32 @@ int main(void) {
 
   spiStart(&SPID1, &spicfg);
 
-  palSetGroupMode(GPIOC, GPIOC_LED3 | GPIOC_LED4,
-                  0,
-                  PAL_MODE_STM32_ALTERNATE_PUSHPULL);
   palSetPadMode(GPIOA, 3, PAL_MODE_OUTPUT_PUSHPULL);
+  
+  // Send a 20us pulse to wake up the CR95HF
+  palClearPad(GPIOA, 3);
+  // delay for 20 microseconds
+  halPolledDelay(US2RTT(20));
+  palSetPad(GPIOA, 3);
+  // wait 10 ms to let the CR95HF set itself up
+  chThdSleepMilliseconds(15);
+  
+  uint8_t echo = 0x55;
+  uint8_t length = 0x00;
+  uint8_t command = 0x00;
+  uint8_t poll = 0x03;
+
+  spiSelect(&SPID1);
+  spiSend(&SPID1, 1, &command);
+  spiSend(&SPID1, 1, &echo);
+  spiUnselect(&SPID1);
+
+  halPolledDelay(US2RTT(10));
+  spiSelect(&SPID1);
+  while(true) {
+    spiSend(&SPID1, 1, &poll);
+  }
+  spiUnselect(&SPID1);
   
   /*
    * Creates the example thread.
