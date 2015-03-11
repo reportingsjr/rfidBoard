@@ -72,7 +72,7 @@ static void rfidREQA() {
   uint8_t command = 0x00;
   uint8_t sendRecv = 0x04;
   uint8_t length = 0x02;
-  uint8_t data[2] = {0x26, 0x07}; //REQA
+  uint8_t data[2] = {0x26, 0x07}; //REQA, topaz send format respectively
 
   uint8_t read = 0x02;
   uint8_t resultCode = 0x00;
@@ -137,6 +137,8 @@ int main(void) {
    */
   halInit();
   chSysInit();
+
+  EXTD1
 
   spiStart(&SPID1, &spicfg);
 
