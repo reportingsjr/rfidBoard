@@ -123,6 +123,32 @@ static void echo() {
   spiUnselect(&SPID1);
 }
 
+static void extcb2(EXTDriver *extp, expchannel_t channel) {                     
+  (void)extp;                                                                   
+  (void)channel;                                                                
+} 
+
+static const EXTConfig extcfg = {                                               
+  {                                                                             
+    {EXT_CH_MODE_BOTH_EDGES | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, extcb1},  
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOC, extcb2}, 
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL}                                                
+  }                                                                             
+};
+
 /*
  * Application entry point.
  */
@@ -138,7 +164,7 @@ int main(void) {
   halInit();
   chSysInit();
 
-  EXTD1
+  extStart(&EXTD1, &extcfg);
 
   spiStart(&SPID1, &spicfg);
 
