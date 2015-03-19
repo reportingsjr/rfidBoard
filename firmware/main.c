@@ -16,12 +16,12 @@
 
 #include "ch.h"
 #include "hal.h"
-#include "test.h"
+#include "halconf.h"
 
 static void echo(void);
 static void setProtocol(void);
 static void rfidREQA(void);
-
+static void readReadycb(EXTDriver *extp, expchannel_t channel);
 
 static const SPIConfig spicfg = {
   NULL,
@@ -31,13 +31,12 @@ static const SPIConfig spicfg = {
 };
 
 
-
-static WORKING_AREA(ledBlinkerThreadWA, 128);
+static THD_WORKING_AREA(ledBlinkerThreadWA, 128);
 static msg_t ledBlinkerThread(void *arg) {
   (void)arg;
   while (TRUE) {
     echo();
-    halPolledDelay(MS2RTT(500));
+    osalSysPolledDelayX(OSAL_MS2ST(500));
   }
 
   return (msg_t) 0;
@@ -60,7 +59,7 @@ static void setProtocol() {
 
   // Loop until IRQ_OUT is low which means the data is ready.                   
   while(palReadPad(GPIOA, 2) != PAL_LOW) {
-    halPolledDelay(US2RTT(10));                                                   
+    osalSysPolledDelayX(OSAL_US2ST(10));                                                   
   }                                                                             
   spiSelect(&SPID1);                                                            
   spiSend(&SPID1, 1, &read);                                                    
@@ -88,7 +87,7 @@ static void rfidREQA() {
 
   // Loop until IRQ_OUT is low which means the data is ready.                   
   while(palReadPad(GPIOA, 2) != PAL_LOW) {                                      
-    halPolledDelay(US2RTT(10));                                                 
+    osalSysPolledDelayX(OSAL_US2ST(10));
   }                                                                             
   spiSelect(&SPID1);                                                            
   spiSend(&SPID1, 1, &read);                                                    
@@ -109,8 +108,8 @@ static void echo() {
   spiSend(&SPID1, 1, &control);
   spiSend(&SPID1, 1, &echo);
   spiUnselect(&SPID1);
-
-  halPolledDelay(US2RTT(10));
+  
+  osalSysPolledDelayX(OSAL_US2ST(10));
   spiSelect(&SPID1);
   // Loop until IRQ_OUT is low which means the data is ready.
   while(palReadPad(GPIOA, 2) != PAL_LOW) {
@@ -123,14 +122,19 @@ static void echo() {
   spiUnselect(&SPID1);
 }
 
-static void extcb2(EXTDriver *extp, expchannel_t channel) {                     
+static void readReadycb(EXTDriver *extp, expchannel_t channel) {                
   (void)extp;                                                                   
   (void)channel;                                                                
+  palClearPad(GPIOA, 3);                                                        
+  osalSysPolledDelayX(OSAL_US2ST(20));
+  palSetPad(GPIOA, 3);                                                          
 } 
 
 static const EXTConfig extcfg = {                                               
   {                                                                             
-    {EXT_CH_MODE_BOTH_EDGES | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, extcb1},  
+    {EXT_CH_MODE_DISABLED, NULL},  
+    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, readReadycb},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
@@ -140,9 +144,7 @@ static const EXTConfig extcfg = {
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOC, extcb2}, 
+    {EXT_CH_MODE_DISABLED, NULL }, 
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL}                                                
@@ -173,10 +175,10 @@ int main(void) {
   // Send a 20us pulse to wake up the CR95HF
   palClearPad(GPIOA, 3);
   // delay for 20 microseconds
-  halPolledDelay(US2RTT(20));
+  osalSysPolledDelayX(OSAL_US2ST(20));
   palSetPad(GPIOA, 3);
   // wait 10 ms to let the CR95HF set itself up
-  chThdSleepMilliseconds(15);
+  osalSysPolledDelayX(OSAL_MS2ST(10));
   setProtocol();
   rfidREQA();
   /*
