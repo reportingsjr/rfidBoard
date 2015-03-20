@@ -89,16 +89,15 @@ int main(void) {
   extStart(&EXTD1, &extcfg);
 
   spiStart(&SPID1, &spicfg);
+  
+  struct pin IRQ_IN, IRQ_OUT;
+  IRQ_IN.port = GPIOA;
+  IRQ_IN.pin = 3;
+  IRQ_OUT.port = GPIOA;
+  IRQ_OUT.pin = 2;
+  
+  cr95hf_init(IRQ_IN, IRQ_OUT);
 
-  palSetPadMode(GPIOA, 2, PAL_MODE_INPUT);
-  palSetPadMode(GPIOA, 3, PAL_MODE_OUTPUT_PUSHPULL);
-  // Send a 20us pulse to wake up the CR95HF
-  palClearPad(GPIOA, 3);
-  // delay for 20 microseconds
-  osalSysPolledDelayX(OSAL_US2ST(20));
-  palSetPad(GPIOA, 3);
-  // wait 10 ms to let the CR95HF set itself up
-  osalSysPolledDelayX(OSAL_MS2ST(10));
   setProtocol();
   rfidREQA();
   /*

@@ -2,6 +2,28 @@
 #include "cr95hf_driver.h"
 #include "hal.h"
 
+static struct pin IRQ_IN, IRQ_OUT;
+
+// Initializes SPI and interrupt for the cr95hf IC.
+// Sends initialize command and waits for the chip to start up.
+void cr95hf_init(struct pin IRQ_IN_temp, struct pin IRQ_OUT_temp) {
+  IRQ_IN = IRQ_IN_temp;
+  IRQ_OUT = IRQ_OUT_temp;
+  // set up interrupt and SPI
+  // send idle command to start from known state
+  // send wake up on IRQ_IN pin
+  // wait 10us so we know commands can be sent to the IC
+  palSetPadMode(IRQ_IN.port, IRQ_IN.pin, PAL_MODE_INPUT);
+  palSetPadMode(IRQ_OUT.port, IRQ_OUT.pin, PAL_MODE_OUTPUT_PUSHPULL);
+  // Send a 20us pulse to wake up the CR95HF
+  palClearPad(IRQ_IN.port, IRQ_IN.pin);
+  // delay for 20 microseconds (double what is called for)
+  osalSysPolledDelayX(OSAL_US2ST(20));
+  palSetPad(IRQ_IN.port, IRQ_IN.pin);
+  // wait 10 ms to let the CR95HF set itself up
+  osalSysPolledDelayX(OSAL_MS2ST(10));
+}
+
 void setProtocol() {
   uint8_t control = 0x00; // send command
   uint8_t command = 0x02; // protocol select
