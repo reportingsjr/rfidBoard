@@ -21,13 +21,6 @@
 
 static void readReadycb(EXTDriver *extp, expchannel_t channel);
 
-static const SPIConfig spicfg = {
-  NULL,
-  GPIOA,
-  GPIOA_SPI1NSS,
-  SPI_CR1_BR_2
-};
-
 
 static THD_WORKING_AREA(ledBlinkerThreadWA, 128);
 static msg_t ledBlinkerThread(void *arg) {
@@ -54,7 +47,7 @@ static const EXTConfig extcfg = {
   {                                                                             
     {EXT_CH_MODE_DISABLED, NULL},  
     {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, readReadycb},                                               
+    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, readReadycb},
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
@@ -64,7 +57,7 @@ static const EXTConfig extcfg = {
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL }, 
+    {EXT_CH_MODE_DISABLED, NULL}, 
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL},                                               
     {EXT_CH_MODE_DISABLED, NULL}                                                
@@ -87,8 +80,6 @@ int main(void) {
   chSysInit();
 
   extStart(&EXTD1, &extcfg);
-
-  spiStart(&SPID1, &spicfg);
   
   struct pin IRQ_IN, IRQ_OUT;
   IRQ_IN.port = GPIOA;
@@ -96,10 +87,10 @@ int main(void) {
   IRQ_OUT.port = GPIOA;
   IRQ_OUT.pin = 2;
   
-  cr95hf_init(IRQ_IN, IRQ_OUT);
+  cr95hf_init(IRQ_IN, IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
 
-  setProtocol();
-  rfidREQA();
+  //setProtocol();
+  //rfidREQA();
   /*
    * Creates the example thread.
    */

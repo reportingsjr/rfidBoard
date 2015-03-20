@@ -6,18 +6,29 @@ static struct pin IRQ_IN, IRQ_OUT;
 
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
-void cr95hf_init(struct pin IRQ_IN_temp, struct pin IRQ_OUT_temp) {
+void cr95hf_init(struct pin IRQ_IN_temp,
+                 struct pin IRQ_OUT_temp,
+                 ioportid_t spi_port,
+                 uint16_t spi_select_pin) {
   IRQ_IN = IRQ_IN_temp;
   IRQ_OUT = IRQ_OUT_temp;
-  // set up interrupt and SPI
+  
+  /*SPIConfig spicfg = {
+    NULL,
+    spi_port,
+    spi_select_pin,
+    SPI_CR1_BR_2
+  };
+  spiStart(&SPID1, &spicfg);
+  */
   // send idle command to start from known state
   // send wake up on IRQ_IN pin
-  // wait 10us so we know commands can be sent to the IC
   palSetPadMode(IRQ_IN.port, IRQ_IN.pin, PAL_MODE_INPUT);
   palSetPadMode(IRQ_OUT.port, IRQ_OUT.pin, PAL_MODE_OUTPUT_PUSHPULL);
   // Send a 20us pulse to wake up the CR95HF
   palClearPad(IRQ_IN.port, IRQ_IN.pin);
-  // delay for 20 microseconds (double what is called for)
+  // delay for 20 microseconds so the cr95hf sees it for sure
+  // (this is double what is called for)
   osalSysPolledDelayX(OSAL_US2ST(20));
   palSetPad(IRQ_IN.port, IRQ_IN.pin);
   // wait 10 ms to let the CR95HF set itself up
@@ -94,7 +105,7 @@ void echo() {
   osalSysPolledDelayX(OSAL_US2ST(10));
   spiSelect(&SPID1);
   // Loop until IRQ_OUT is low which means the data is ready.
-  while(palReadPad(GPIOA, 2) != PAL_LOW) {
+  while(palReadPad(IRQ_OUT.port, IRQ_OUT.pin) != PAL_LOW) {
     spiSend(&SPID1, 1, &poll);
   }
   spiUnselect(&SPID1);
