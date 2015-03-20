@@ -81,13 +81,10 @@ int main(void) {
 
   extStart(&EXTD1, &extcfg);
   
-  struct pin IRQ_IN, IRQ_OUT;
-  IRQ_IN.port = GPIOA;
-  IRQ_IN.pin = 3;
-  IRQ_OUT.port = GPIOA;
-  IRQ_OUT.pin = 2;
+  struct pin IRQ_OUT = {GPIOA, 2};
+  struct pin IRQ_IN = {GPIOA, 3};
   
-  cr95hf_init(IRQ_IN, IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
+  cr95hf_init(&IRQ_IN, &IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
 
   //setProtocol();
   //rfidREQA();

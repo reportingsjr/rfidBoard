@@ -1,17 +1,18 @@
 // STM CR95HF chibios driver
 #include "cr95hf_driver.h"
 #include "hal.h"
+#include "string.h"
 
 static struct pin IRQ_IN, IRQ_OUT;
 
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
-void cr95hf_init(struct pin IRQ_IN_temp,
-                 struct pin IRQ_OUT_temp,
+void cr95hf_init(struct pin *IRQ_IN_temp,
+                 struct pin *IRQ_OUT_temp,
                  ioportid_t spi_port,
                  uint16_t spi_select_pin) {
-  IRQ_IN = IRQ_IN_temp;
-  IRQ_OUT = IRQ_OUT_temp;
+  memcpy(&IRQ_IN, IRQ_IN_temp, sizeof(IRQ_IN));
+  memcpy(&IRQ_OUT, IRQ_OUT_temp, sizeof(IRQ_OUT));
   
   /*SPIConfig spicfg = {
     NULL,
