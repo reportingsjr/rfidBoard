@@ -35,33 +35,31 @@ static msg_t ledBlinkerThread(void *arg) {
 
 
 
-static void readReadycb(EXTDriver *extp, expchannel_t channel) {                
-  (void)extp;                                                                   
-  (void)channel;                                                                
-  //palClearPad(GPIOA, 3);                                                        
+static void readReadycb(EXTDriver *extp, expchannel_t channel) {
+  (void)extp;
+  (void)channel;
+  //palClearPad(GPIOA, 3);
   osalSysPolledDelayX(OSAL_US2ST(20));
-  //palSetPad(GPIOA, 3);                                                          
+  //palSetPad(GPIOA, 3);
 } 
 
-static const EXTConfig extcfg = {                                               
-  {                                                                             
+static const EXTConfig extcfg = {
+  {
     {EXT_CH_MODE_DISABLED, NULL},  
-    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, readReadycb},
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL}, 
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL},                                               
-    {EXT_CH_MODE_DISABLED, NULL}                                                
-  }                                                                             
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL}
+  }
 };
 
 /*

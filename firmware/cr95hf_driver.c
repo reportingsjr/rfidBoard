@@ -116,3 +116,21 @@ void echo() {
   spiReceive(&SPID1, 1, &rxbuf);
   spiUnselect(&SPID1);
 }
+
+// thread that watches for messages in a mailbox
+// when the cr95hf sends a pulse on IRQ_OUT an interrupt is generated
+// which reads the message the IC has and puts it in the mailbox.
+// This thread loops every x ms and when it sees data parses it and
+// calls the appropriate function.
+msg_t watchForMessage(void *arg) {
+  (void)arg;
+  
+  while (TRUE) {
+    // see if there are message(s) in the mailbox
+    // if there are parse the message(s)
+    // if not go back to sleep for x ms.
+    chThdSleepMilliseconds(10);
+  }
+
+  return (msg_t) 0;
+}
