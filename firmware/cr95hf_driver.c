@@ -14,18 +14,18 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   memcpy(&IRQ_IN, IRQ_IN_temp, sizeof(IRQ_IN));
   memcpy(&IRQ_OUT, IRQ_OUT_temp, sizeof(IRQ_OUT));
   
-  /*SPIConfig spicfg = {
+  SPIConfig spicfg = {
     NULL,
     spi_port,
     spi_select_pin,
     SPI_CR1_BR_2
   };
   spiStart(&SPID1, &spicfg);
-  */
+  
   // send idle command to start from known state
   // send wake up on IRQ_IN pin
-  palSetPadMode(IRQ_IN.port, IRQ_IN.pin, PAL_MODE_INPUT);
-  palSetPadMode(IRQ_OUT.port, IRQ_OUT.pin, PAL_MODE_OUTPUT_PUSHPULL);
+  palSetPadMode(IRQ_OUT.port, IRQ_OUT.pin, PAL_MODE_INPUT);
+  palSetPadMode(IRQ_IN.port, IRQ_IN.pin, PAL_MODE_OUTPUT_PUSHPULL);
   // Send a 20us pulse to wake up the CR95HF
   palClearPad(IRQ_IN.port, IRQ_IN.pin);
   // delay for 20 microseconds so the cr95hf sees it for sure
