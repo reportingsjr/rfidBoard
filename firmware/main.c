@@ -27,7 +27,7 @@ static msg_t ledBlinkerThread(void *arg) {
   (void)arg;
   while (TRUE) {
     echo();
-    osalSysPolledDelayX(OSAL_MS2ST(500));
+    chThdSleepMilliseconds(500);
   }
 
   return (msg_t) 0;
@@ -38,9 +38,9 @@ static msg_t ledBlinkerThread(void *arg) {
 static void readReadycb(EXTDriver *extp, expchannel_t channel) {                
   (void)extp;                                                                   
   (void)channel;                                                                
-  palClearPad(GPIOA, 3);                                                        
+  //palClearPad(GPIOA, 3);                                                        
   osalSysPolledDelayX(OSAL_US2ST(20));
-  palSetPad(GPIOA, 3);                                                          
+  //palSetPad(GPIOA, 3);                                                          
 } 
 
 static const EXTConfig extcfg = {                                               

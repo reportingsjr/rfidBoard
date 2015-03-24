@@ -1,9 +1,11 @@
 // STM CR95HF chibios driver
 #include "cr95hf_driver.h"
+#include "ch.h"
 #include "hal.h"
 #include "string.h"
 
 static struct pin IRQ_IN, IRQ_OUT;
+static SPIConfig spicfg;
 
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
@@ -14,7 +16,7 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   memcpy(&IRQ_IN, IRQ_IN_temp, sizeof(IRQ_IN));
   memcpy(&IRQ_OUT, IRQ_OUT_temp, sizeof(IRQ_OUT));
   
-  SPIConfig spicfg = {
+  spicfg = (SPIConfig) {
     NULL,
     spi_port,
     spi_select_pin,
@@ -30,10 +32,10 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   palClearPad(IRQ_IN.port, IRQ_IN.pin);
   // delay for 20 microseconds so the cr95hf sees it for sure
   // (this is double what is called for)
-  osalSysPolledDelayX(OSAL_US2ST(20));
+  chSysPolledDelayX(US2RTC(STM32_HCLK, 20));
   palSetPad(IRQ_IN.port, IRQ_IN.pin);
   // wait 10 ms to let the CR95HF set itself up
-  osalSysPolledDelayX(OSAL_MS2ST(10));
+  chSysPolledDelayX(MS2RTC(STM32_HCLK, 10));
 }
 
 void setProtocol() {
@@ -53,7 +55,7 @@ void setProtocol() {
 
   // Loop until IRQ_OUT is low which means the data is ready.                   
   while(palReadPad(GPIOA, 2) != PAL_LOW) {
-    osalSysPolledDelayX(OSAL_US2ST(10));                                                   
+    chSysPolledDelayX(US2RTC(STM32_HCLK, 10));                                                   
   }                                                                             
   spiSelect(&SPID1);                                                            
   spiSend(&SPID1, 1, &read);                                                    
@@ -81,7 +83,7 @@ void rfidREQA() {
 
   // Loop until IRQ_OUT is low which means the data is ready.                   
   while(palReadPad(GPIOA, 2) != PAL_LOW) {                                      
-    osalSysPolledDelayX(OSAL_US2ST(10));
+    chSysPolledDelayX(US2RTC(STM32_HCLK, 10));
   }                                                                             
   spiSelect(&SPID1);                                                            
   spiSend(&SPID1, 1, &read);                                                    
@@ -96,14 +98,14 @@ void echo() {
   uint8_t control = 0x00;
   uint8_t poll = 0x03;
   uint8_t read = 0x02;
-  static uint8_t rxbuf[20];
+  static uint8_t rxbuf[2];
   
   spiSelect(&SPID1);
   spiSend(&SPID1, 1, &control);
   spiSend(&SPID1, 1, &echo);
   spiUnselect(&SPID1);
   
-  osalSysPolledDelayX(OSAL_US2ST(10));
+  chSysPolledDelayX(US2RTC(STM32_HCLK, 10));
   spiSelect(&SPID1);
   // Loop until IRQ_OUT is low which means the data is ready.
   while(palReadPad(IRQ_OUT.port, IRQ_OUT.pin) != PAL_LOW) {
@@ -112,6 +114,6 @@ void echo() {
   spiUnselect(&SPID1);
   spiSelect(&SPID1);
   spiSend(&SPID1, 1, &read);
-  spiReceive(&SPID1, 10, &rxbuf);
+  spiReceive(&SPID1, 1, &rxbuf);
   spiUnselect(&SPID1);
 }
