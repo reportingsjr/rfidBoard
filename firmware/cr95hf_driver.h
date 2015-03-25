@@ -11,5 +11,6 @@ void cr95hf_init(struct pin *IRQ_IN, struct pin *IRQ_OUT, ioportid_t, uint16_t);
 void echo(void);
 void setProtocol(void);
 void rfidREQA(void);
-
+msg_t cr95hfMessageThread(void *arg);
+extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel);
 

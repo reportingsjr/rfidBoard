@@ -19,35 +19,12 @@
 #include "halconf.h"
 #include "cr95hf_driver.h"
 
-static void readReadycb(EXTDriver *extp, expchannel_t channel);
-
-
-static THD_WORKING_AREA(ledBlinkerThreadWA, 128);
-static msg_t ledBlinkerThread(void *arg) {
-  (void)arg;
-  while (TRUE) {
-    echo();
-    chThdSleepMilliseconds(500);
-  }
-
-  return (msg_t) 0;
-}
-
-
-
-static void readReadycb(EXTDriver *extp, expchannel_t channel) {
-  (void)extp;
-  (void)channel;
-  //palClearPad(GPIOA, 3);
-  osalSysPolledDelayX(OSAL_US2ST(20));
-  //palSetPad(GPIOA, 3);
-} 
-
 static const EXTConfig extcfg = {
   {
     {EXT_CH_MODE_DISABLED, NULL},  
     {EXT_CH_MODE_DISABLED, NULL},
-    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, readReadycb},
+    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, 
+     cr95hfInterrupt},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
@@ -77,18 +54,18 @@ int main(void) {
   halInit();
   chSysInit();
 
-  extStart(&EXTD1, &extcfg);
-  
   struct pin IRQ_OUT = {GPIOA, 2};
   struct pin IRQ_IN = {GPIOA, 3};
   
   cr95hf_init(&IRQ_IN, &IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
 
+  extStart(&EXTD1, &extcfg);
+  
+  echo();
   //setProtocol();
   //rfidREQA();
   /*
    * Creates the example thread.
    */
-  chThdCreateStatic(ledBlinkerThreadWA, sizeof(ledBlinkerThreadWA), HIGHPRIO, ledBlinkerThread, NULL);
   return 0;
 }

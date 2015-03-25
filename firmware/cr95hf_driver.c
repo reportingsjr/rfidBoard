@@ -12,6 +12,12 @@ uint8_t CR95HF_RESET = 0x01;
 static struct pin IRQ_IN, IRQ_OUT;
 static SPIConfig spicfg;
 
+static THD_WORKING_AREA(cr95hfMessageThreadWA, 128);
+
+static mailbox_t cr95hfMailbox;
+// 10 messages should be enough of a buffer
+static msg_t cr95hfMailboxBuf[10];
+
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
 void cr95hf_init(struct pin *IRQ_IN_temp,
@@ -21,6 +27,8 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   memcpy(&IRQ_IN, IRQ_IN_temp, sizeof(IRQ_IN));
   memcpy(&IRQ_OUT, IRQ_OUT_temp, sizeof(IRQ_OUT));
   
+  chMBObjectInit(&cr95hfMailbox, cr95hfMailboxBuf, sizeof(cr95hfMailboxBuf)/sizeof(msg_t));
+
   spicfg = (SPIConfig) {
     NULL,
     spi_port,
@@ -28,7 +36,11 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
     SPI_CR1_BR_2
   };
   spiStart(&SPID1, &spicfg);
-  
+  // send a reset command just in case the cr95hf hasn't been powered off
+  spiSelect(&SPID1);
+  spiSend(&SPID1, 1, &CR95HF_RESET);
+  spiUnselect(&SPID1);
+
   // send idle command to start from known state
   // send wake up on IRQ_IN pin
   palSetPadMode(IRQ_OUT.port, IRQ_OUT.pin, PAL_MODE_INPUT);
@@ -41,6 +53,10 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   palSetPad(IRQ_IN.port, IRQ_IN.pin);
   // wait 10 ms to let the CR95HF set itself up
   chSysPolledDelayX(MS2RTC(STM32_HCLK, 10));
+  
+  //start the thread that watches for messages from the cr95hf
+  chThdCreateStatic(cr95hfMessageThreadWA, sizeof(cr95hfMessageThreadWA), 
+                    HIGHPRIO, cr95hfMessageThread, NULL);
 }
 
 void setProtocol() {
@@ -98,23 +114,12 @@ void rfidREQA() {
 
 void echo() {
   uint8_t echo = 0x55;
-  static uint8_t rxbuf[2];
-  
+  chSysLockFromISR();
   spiSelect(&SPID1);
   spiSend(&SPID1, 1, &CR95HF_CMD);
   spiSend(&SPID1, 1, &echo);
   spiUnselect(&SPID1);
-  
-  chSysPolledDelayX(US2RTC(STM32_HCLK, 10));
-  spiSelect(&SPID1);
-  // Loop until IRQ_OUT is low which means the data is ready.
-  while(palReadPad(IRQ_OUT.port, IRQ_OUT.pin) != PAL_LOW) {
-  }
-  spiUnselect(&SPID1);
-  spiSelect(&SPID1);
-  spiSend(&SPID1, 1, &CR95HF_READ);
-  spiReceive(&SPID1, 1, &rxbuf);
-  spiUnselect(&SPID1);
+  chSysUnlockFromISR();
 }
 
 // thread that watches for messages in a mailbox
@@ -122,15 +127,37 @@ void echo() {
 // which reads the message the IC has and puts it in the mailbox.
 // This thread loops every x ms and when it sees data parses it and
 // calls the appropriate function.
-msg_t watchForMessage(void *arg) {
+msg_t cr95hfMessageThread(void *arg) {
   (void)arg;
-  
+  msg_t *message;
+  static uint8_t rxbuf[2];
+
   while (TRUE) {
     // see if there are message(s) in the mailbox
     // if there are parse the message(s)
     // if not go back to sleep for x ms.
-    chThdSleepMilliseconds(10);
+    chMBFetch(&cr95hfMailbox, message, TIME_INFINITE);
+    if(*message == (msg_t)0x20) {
+      chSysLockFromISR();
+      spiSelect(&SPID1);
+      spiSend(&SPID1, 1, &CR95HF_READ);
+      spiReceive(&SPID1, 1, &rxbuf);
+      spiUnselect(&SPID1);
+      chSysUnlockFromISR();
+      echo();
+    }
   }
 
   return (msg_t) 0;
+}
+
+extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
+  (void)extp;
+  (void)channel;
+  msg_t msg;
+  // add a message to the mailbox for cr95hfMessageThread
+  chSysLockFromISR();
+  msg = chMBPostI(&cr95hfMailbox, (msg_t)0x20);
+  palClearPad(IRQ_IN.port, IRQ_IN.pin);
+  chSysUnlockFromISR();
 }
