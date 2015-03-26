@@ -114,12 +114,10 @@ void rfidREQA() {
 
 void echo() {
   uint8_t echo = 0x55;
-  chSysLockFromISR();
   spiSelect(&SPID1);
   spiSend(&SPID1, 1, &CR95HF_CMD);
   spiSend(&SPID1, 1, &echo);
   spiUnselect(&SPID1);
-  chSysUnlockFromISR();
 }
 
 // thread that watches for messages in a mailbox
@@ -133,22 +131,19 @@ msg_t cr95hfMessageThread(void *arg) {
   msg_t ret;
   static uint8_t rxbuf[2];
 
-  while (TRUE) {
+  while (!chThdShouldTerminateX()) {
     // see if there are message(s) in the mailbox
     // if there are parse the message(s)
     // if not go back to sleep for x ms.
-    chMBFetch(&cr95hfMailbox, &message, TIME_IMMEDIATE);
-    chSysLockFromISR();
+    ret = chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
     //  echo();
-    //chThdSleep(MS2ST(50));
     if(message == (msg_t)0x20) {
       spiSelect(&SPID1);
       spiSend(&SPID1, 1, &CR95HF_READ);
       spiReceive(&SPID1, 1, &rxbuf);
       spiUnselect(&SPID1);
+      message = 0x00;
     }
-    chSysUnlockFromISR();
-    chThdSleep(MS2ST(50));
   }
 
   return (msg_t) 0;
@@ -161,6 +156,5 @@ extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
   // add a message to the mailbox for cr95hfMessageThread
   chSysLockFromISR();
   msg = chMBPostI(&cr95hfMailbox, (msg_t)0x20);
-  palClearPad(IRQ_IN.port, IRQ_IN.pin);
   chSysUnlockFromISR();
 }
