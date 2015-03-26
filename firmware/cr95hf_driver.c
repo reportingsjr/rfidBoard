@@ -12,7 +12,7 @@ uint8_t CR95HF_RESET = 0x01;
 static struct pin IRQ_IN, IRQ_OUT;
 static SPIConfig spicfg;
 
-static THD_WORKING_AREA(cr95hfMessageThreadWA, 128);
+static THD_WORKING_AREA(cr95hfMessageThreadWA, 512);
 
 static mailbox_t cr95hfMailbox;
 // 10 messages should be enough of a buffer
@@ -129,23 +129,26 @@ void echo() {
 // calls the appropriate function.
 msg_t cr95hfMessageThread(void *arg) {
   (void)arg;
-  msg_t *message;
+  msg_t message;
+  msg_t ret;
   static uint8_t rxbuf[2];
 
   while (TRUE) {
     // see if there are message(s) in the mailbox
     // if there are parse the message(s)
     // if not go back to sleep for x ms.
-    chMBFetch(&cr95hfMailbox, message, TIME_INFINITE);
-    if(*message == (msg_t)0x20) {
-      chSysLockFromISR();
+    chMBFetch(&cr95hfMailbox, &message, TIME_IMMEDIATE);
+    chSysLockFromISR();
+    //  echo();
+    //chThdSleep(MS2ST(50));
+    if(message == (msg_t)0x20) {
       spiSelect(&SPID1);
       spiSend(&SPID1, 1, &CR95HF_READ);
       spiReceive(&SPID1, 1, &rxbuf);
       spiUnselect(&SPID1);
-      chSysUnlockFromISR();
-      echo();
     }
+    chSysUnlockFromISR();
+    chThdSleep(MS2ST(50));
   }
 
   return (msg_t) 0;
