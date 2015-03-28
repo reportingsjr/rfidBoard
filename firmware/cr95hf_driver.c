@@ -63,7 +63,6 @@ void setProtocol() {
   uint8_t command = 0x02; // protocol select
   uint8_t length  = 0x02; // 2 bytes of data
   uint8_t data[2] = {0x02, 0x00};
-  static uint8_t rxbuf[2];
   
   spiSelect(&SPID1);
   // send control byte for send command
@@ -71,15 +70,6 @@ void setProtocol() {
   spiSend(&SPID1, 1, &command);
   spiSend(&SPID1, 1, &length);
   spiSend(&SPID1, 2, &data);
-  spiUnselect(&SPID1);
-
-  // Loop until IRQ_OUT is low which means the data is ready.
-  while(palReadPad(GPIOA, 2) != PAL_LOW) {
-    chSysPolledDelayX(US2RTC(STM32_HCLK, 10));
-  }
-  spiSelect(&SPID1);
-  spiSend(&SPID1, 1, &CR95HF_READ);
-  spiReceive(&SPID1, 2, &rxbuf);
   spiUnselect(&SPID1);
 }
 
@@ -89,8 +79,6 @@ void rfidREQA() {
   uint8_t data[2] = {0x26, 0x07}; //REQA, topaz send format respectively
 
   uint8_t resultCode = 0x00;
-  uint8_t resultLength = 0x00;
-  uint8_t resultData[255];
   
   spiSelect(&SPID1);
   // send command byte
@@ -98,17 +86,6 @@ void rfidREQA() {
   spiSend(&SPID1, 1, &sendRecv);
   spiSend(&SPID1, 1, &length);
   spiSend(&SPID1, 2, &data);
-  spiUnselect(&SPID1);
-
-  // Loop until IRQ_OUT is low which means the data is ready.
-  while(palReadPad(GPIOA, 2) != PAL_LOW) {
-    chSysPolledDelayX(US2RTC(STM32_HCLK, 10));
-  }
-  spiSelect(&SPID1);
-  spiSend(&SPID1, 1, &CR95HF_READ);
-  spiReceive(&SPID1, 1, &resultCode);
-  spiReceive(&SPID1, 1, &resultLength);
-  spiReceive(&SPID1, resultLength, &resultData);
   spiUnselect(&SPID1);
 }
 
@@ -129,7 +106,8 @@ msg_t cr95hfMessageThread(void *arg) {
   (void)arg;
   msg_t message;
   msg_t ret;
-  static uint8_t rxbuf[2];
+  uint8_t rxbuf[255];
+  uint8_t resultLength;
 
   while (!chThdShouldTerminateX()) {
     // see if there are message(s) in the mailbox
@@ -141,6 +119,9 @@ msg_t cr95hfMessageThread(void *arg) {
       spiSelect(&SPID1);
       spiSend(&SPID1, 1, &CR95HF_READ);
       spiReceive(&SPID1, 1, &rxbuf);
+      // figure out what the code is and if it needs more data read
+      spiReceive(&SPID1, 1, &resultLength);
+      spiReceive(&SPID1, resultLength, &rxbuf);
       spiUnselect(&SPID1);
       message = 0x00;
     }
