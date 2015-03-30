@@ -56,7 +56,7 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   
   //start the thread that watches for messages from the cr95hf
   chThdCreateStatic(cr95hfMessageThreadWA, sizeof(cr95hfMessageThreadWA), 
-                    HIGHPRIO, cr95hfMessageThread, NULL);
+                    NORMALPRIO, cr95hfMessageThread, NULL);
 }
 
 void setProtocol() {
