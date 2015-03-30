@@ -18,8 +18,6 @@ static mailbox_t cr95hfMailbox;
 // 10 messages should be enough of a buffer
 static msg_t cr95hfMailboxBuf[10];
 
-static binary_semaphore_t spiCommandSem;
-
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
 void cr95hf_init(struct pin *IRQ_IN_temp,
@@ -56,8 +54,6 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   // wait 10 ms to let the CR95HF set itself up
   chSysPolledDelayX(MS2RTC(STM32_HCLK, 10));
   
-  chBSemObjectInit(&spiCommandSem, false);
-
   //start the thread that watches for messages from the cr95hf
   chThdCreateStatic(cr95hfMessageThreadWA, sizeof(cr95hfMessageThreadWA), 
                     HIGHPRIO, cr95hfMessageThread, NULL);
@@ -93,12 +89,12 @@ void rfidREQA() {
 
 void echo() {
   uint8_t echo = 0x55;
-  chBSemWait(&spiCommandSem);
+  spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
   spiSend(&SPID1, 1, &CR95HF_CMD);
   spiSend(&SPID1, 1, &echo);
   spiUnselect(&SPID1);
-  chBSemSignal(&spiCommandSem);
+  spiReleaseBus(&SPID1);
 }
 
 // thread that watches for messages in a mailbox
@@ -119,7 +115,7 @@ msg_t cr95hfMessageThread(void *arg) {
     chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
     //  echo();
     if(message == (msg_t)0x20) {
-      chBSemWait(&spiCommandSem);
+      spiAcquireBus(&SPID1);
       spiSelect(&SPID1);
       spiSend(&SPID1, 1, &CR95HF_READ);
       spiUnselect(&SPID1);
@@ -130,7 +126,7 @@ msg_t cr95hfMessageThread(void *arg) {
       spiReceive(&SPID1, 1, &resultLength);
       spiReceive(&SPID1, resultLength, &rxbuf);
       spiUnselect(&SPID1);
-      chBSemSignal(&spiCommandSem);
+      spiReleaseBus(&SPID1);
       message = 0x00;
     }
   }
