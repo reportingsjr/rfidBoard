@@ -118,8 +118,6 @@ msg_t cr95hfMessageThread(void *arg) {
       spiAcquireBus(&SPID1);
       spiSelect(&SPID1);
       spiSend(&SPID1, 1, &CR95HF_READ);
-      spiUnselect(&SPID1);
-      spiSelect(&SPID1);
       // get the response code
       spiReceive(&SPID1, 1, &rxbuf);
       // get the response length
