@@ -93,15 +93,18 @@ void echo() {
   uint8_t echo = 0x55;
   msg_t message;
   
-  while (!chThdShouldTerminateX()) {
-    spiAcquireBus(&SPID1);
-    spiSelect(&SPID1);
-    spiSend(&SPID1, 1, &CR95HF_CMD);
-    spiSend(&SPID1, 1, &echo);
-    spiUnselect(&SPID1);
-    // watch for a message here and when received parse the data
-    spiReleaseBus(&SPID1);
-    chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  spiAcquireBus(&SPID1);
+  spiSelect(&SPID1);
+  spiSend(&SPID1, 1, &CR95HF_CMD);
+  spiSend(&SPID1, 1, &echo);
+  spiUnselect(&SPID1);
+  // watch for a message here and when received parse the data
+  spiReleaseBus(&SPID1);
+  chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  if(message == (msg_t)0x00) {
+    // echo was a success, end function now
+  } else {
+    // throw an error here
   }
 }
 
@@ -124,14 +127,20 @@ msg_t cr95hfMessageThread(void *arg) {
       spiReceive(&SPID1, 1, &rxbuf);
       if(rxbuf[0] == 0x55) {
         // just send back the message new
+        spiUnselect(&SPID1);
+        spiReleaseBus(&SPID1);
+        chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
       } else {
         // get the response length
         spiReceive(&SPID1, 1, &resultLength);
         spiReceive(&SPID1, resultLength, &rxbuf);
+        spiUnselect(&SPID1);
+        spiReleaseBus(&SPID1);
+        chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
       }
-      spiUnselect(&SPID1);
-      spiReleaseBus(&SPID1);
-      chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
+      // clear variables before next loop
+      memset(rxbuf, 0x00, sizeof(rxbuf));
+      resultLength = 0x00;
   }
 
   return (msg_t) 0;
