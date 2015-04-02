@@ -13,6 +13,7 @@ static struct pin IRQ_IN, IRQ_OUT;
 static SPIConfig spicfg;
 
 static THD_WORKING_AREA(cr95hfMessageThreadWA, 512);
+static thread_t *messageThread;
 
 static mailbox_t cr95hfMailbox;
 // 10 messages should be enough of a buffer
@@ -55,8 +56,9 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   chSysPolledDelayX(MS2RTC(STM32_HCLK, 10));
   
   //start the thread that watches for messages from the cr95hf
-  chThdCreateStatic(cr95hfMessageThreadWA, sizeof(cr95hfMessageThreadWA), 
-                    NORMALPRIO, cr95hfMessageThread, NULL);
+  messageThread = chThdCreateStatic(cr95hfMessageThreadWA, 
+                                    sizeof(cr95hfMessageThreadWA), 
+                                    NORMALPRIO, cr95hfMessageThread, NULL);
 }
 
 void setProtocol() {
@@ -89,12 +91,18 @@ void rfidREQA() {
 
 void echo() {
   uint8_t echo = 0x55;
-  spiAcquireBus(&SPID1);
-  spiSelect(&SPID1);
-  spiSend(&SPID1, 1, &CR95HF_CMD);
-  spiSend(&SPID1, 1, &echo);
-  spiUnselect(&SPID1);
-  spiReleaseBus(&SPID1);
+  msg_t message;
+  
+  while (!chThdShouldTerminateX()) {
+    spiAcquireBus(&SPID1);
+    spiSelect(&SPID1);
+    spiSend(&SPID1, 1, &CR95HF_CMD);
+    spiSend(&SPID1, 1, &echo);
+    spiUnselect(&SPID1);
+    // watch for a message here and when received parse the data
+    spiReleaseBus(&SPID1);
+    chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  }
 }
 
 // thread that watches for messages in a mailbox
@@ -104,29 +112,26 @@ void echo() {
 // calls the appropriate function.
 msg_t cr95hfMessageThread(void *arg) {
   (void)arg;
-  msg_t message;
   uint8_t rxbuf[255];
   uint8_t resultLength;
-
+  
   while (!chThdShouldTerminateX()) {
-    // see if there are message(s) in the mailbox
-    // if there are parse the message(s)
-    // if not go back to sleep for x ms.
-    chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
-    //  echo();
-    if(message == (msg_t)0x20) {
+      chEvtWaitAny((eventmask_t)1);
       spiAcquireBus(&SPID1);
       spiSelect(&SPID1);
       spiSend(&SPID1, 1, &CR95HF_READ);
       // get the response code
       spiReceive(&SPID1, 1, &rxbuf);
-      // get the response length
-      spiReceive(&SPID1, 1, &resultLength);
-      spiReceive(&SPID1, resultLength, &rxbuf);
+      if(rxbuf[0] == 0x55) {
+        // just send back the message new
+      } else {
+        // get the response length
+        spiReceive(&SPID1, 1, &resultLength);
+        spiReceive(&SPID1, resultLength, &rxbuf);
+      }
       spiUnselect(&SPID1);
       spiReleaseBus(&SPID1);
-      message = 0x00;
-    }
+      chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
   }
 
   return (msg_t) 0;
@@ -137,6 +142,6 @@ extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
   (void)channel;
   // add a message to the mailbox for cr95hfMessageThread
   chSysLockFromISR();
-  chMBPostI(&cr95hfMailbox, (msg_t)0x20);
+  chEvtSignalI(messageThread, (eventmask_t)1);
   chSysUnlockFromISR();
 }
