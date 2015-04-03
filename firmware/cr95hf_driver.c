@@ -65,7 +65,9 @@ void setProtocol() {
   uint8_t command = 0x02; // protocol select
   uint8_t length  = 0x02; // 2 bytes of data
   uint8_t data[2] = {0x02, 0x00};
+  msg_t message;
   
+  spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
   // send control byte for send command
   spiSend(&SPID1, 1, &CR95HF_CMD);
@@ -73,6 +75,13 @@ void setProtocol() {
   spiSend(&SPID1, 1, &length);
   spiSend(&SPID1, 2, &data);
   spiUnselect(&SPID1);
+  spiReleaseBus(&SPID1);
+  chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  if(message == (msg_t)0x00) {
+    // everything went as planned
+  } else if(message == (msg_t)0x82) {
+    // invalid command length
+  }
 }
 
 void rfidREQA() {
@@ -101,7 +110,7 @@ void echo() {
   // watch for a message here and when received parse the data
   spiReleaseBus(&SPID1);
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
-  if(message == (msg_t)0x00) {
+  if(message == (msg_t)0x55) {
     // echo was a success, end function now
   } else {
     // throw an error here
@@ -129,14 +138,14 @@ msg_t cr95hfMessageThread(void *arg) {
         // just send back the message new
         spiUnselect(&SPID1);
         spiReleaseBus(&SPID1);
-        chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
+        //chMBPost(&cr95hfMailbox, (msg_t)rxbuf[0], TIME_INFINITE);
       } else {
         // get the response length
         spiReceive(&SPID1, 1, &resultLength);
         spiReceive(&SPID1, resultLength, &rxbuf);
         spiUnselect(&SPID1);
         spiReleaseBus(&SPID1);
-        chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
+        chMBPost(&cr95hfMailbox, (msg_t)rxbuf[0], TIME_INFINITE);
       }
       // clear variables before next loop
       memset(rxbuf, 0x00, sizeof(rxbuf));
