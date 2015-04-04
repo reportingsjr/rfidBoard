@@ -62,6 +62,8 @@ int main(void) {
   extStart(&EXTD1, &extcfg);
   
   echo();
+  setProtocol();
+  idle();
   chThdSleep(TIME_INFINITE);
   //setProtocol();
   //rfidREQA();

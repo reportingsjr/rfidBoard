@@ -19,6 +19,8 @@ static mailbox_t cr95hfMailbox;
 // 10 messages should be enough of a buffer
 static msg_t cr95hfMailboxBuf[10];
 
+static uint8_t rxbuf[255];
+
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
 void cr95hf_init(struct pin *IRQ_IN_temp,
@@ -28,6 +30,8 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   memcpy(&IRQ_IN, IRQ_IN_temp, sizeof(IRQ_IN));
   memcpy(&IRQ_OUT, IRQ_OUT_temp, sizeof(IRQ_OUT));
   
+  memset(rxbuf, 0x00, sizeof(rxbuf));
+
   chMBObjectInit(&cr95hfMailbox, cr95hfMailboxBuf, sizeof(cr95hfMailboxBuf)/sizeof(msg_t));
 
   spicfg = (SPIConfig) {
@@ -77,11 +81,12 @@ void setProtocol() {
   spiUnselect(&SPID1);
   spiReleaseBus(&SPID1);
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
-  if(message == (msg_t)0x00) {
+  if(rxbuf[0] == 0x00) {
     // everything went as planned
-  } else if(message == (msg_t)0x82) {
+  } else if(rxbuf[0] == 0x82) {
     // invalid command length
   }
+  memset(rxbuf, 0x00, sizeof(rxbuf));
 }
 
 void rfidREQA() {
@@ -110,11 +115,34 @@ void echo() {
   // watch for a message here and when received parse the data
   spiReleaseBus(&SPID1);
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
-  if(message == (msg_t)0x55) {
+  if(rxbuf[0] == (msg_t)0x55) {
     // echo was a success, end function now
   } else {
     // throw an error here
   }
+  memset(rxbuf, 0x00, sizeof(rxbuf));
+}
+
+void idle() {
+  uint8_t data[16] = {0x07, 0x0E, 0x0A, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
+                      0x20, 0x60, 0x60, 0x64, 0x74, 0x3F, 0x08};
+  msg_t message;
+
+  spiAcquireBus(&SPID1);
+  spiSelect(&SPID1);
+  spiSend(&SPID1, 1 ,&CR95HF_CMD);
+  spiSend(&SPID1, 16, &data);
+  spiUnselect(&SPID1);
+  spiReleaseBus(&SPID1);
+  chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  if(rxbuf[0] == 0x00) {
+    if(rxbuf[1] == 0x01) {
+      if(rxbuf[2] == 0x02) {
+        memset(rxbuf, 0x00, sizeof(rxbuf));
+      }
+    }
+  }
+  memset(rxbuf, 0x00, sizeof(rxbuf));
 }
 
 // thread that watches for messages in a mailbox
@@ -124,32 +152,18 @@ void echo() {
 // calls the appropriate function.
 msg_t cr95hfMessageThread(void *arg) {
   (void)arg;
-  uint8_t rxbuf[255];
-  uint8_t resultLength;
   
   while (!chThdShouldTerminateX()) {
-      chEvtWaitAny((eventmask_t)1);
-      spiAcquireBus(&SPID1);
-      spiSelect(&SPID1);
-      spiSend(&SPID1, 1, &CR95HF_READ);
-      // get the response code
-      spiReceive(&SPID1, 1, &rxbuf);
-      if(rxbuf[0] == 0x55) {
-        // just send back the message new
-        spiUnselect(&SPID1);
-        spiReleaseBus(&SPID1);
-        //chMBPost(&cr95hfMailbox, (msg_t)rxbuf[0], TIME_INFINITE);
-      } else {
-        // get the response length
-        spiReceive(&SPID1, 1, &resultLength);
-        spiReceive(&SPID1, resultLength, &rxbuf);
-        spiUnselect(&SPID1);
-        spiReleaseBus(&SPID1);
-        chMBPost(&cr95hfMailbox, (msg_t)rxbuf[0], TIME_INFINITE);
-      }
-      // clear variables before next loop
-      memset(rxbuf, 0x00, sizeof(rxbuf));
-      resultLength = 0x00;
+    chEvtWaitAny((eventmask_t)1);
+    spiAcquireBus(&SPID1);
+    spiSelect(&SPID1);
+    spiSend(&SPID1, 1, &CR95HF_READ);
+    // get the response code
+    spiReceive(&SPID1, sizeof(rxbuf), &rxbuf);
+    spiUnselect(&SPID1);
+    spiReleaseBus(&SPID1);
+    chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
+    // clear variables before next loop
   }
 
   return (msg_t) 0;
