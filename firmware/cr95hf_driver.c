@@ -20,6 +20,7 @@ static mailbox_t cr95hfMailbox;
 static msg_t cr95hfMailboxBuf[10];
 
 static uint8_t rxbuf[255];
+static uint8_t txbuf[255];
 
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
@@ -124,25 +125,102 @@ void echo() {
 }
 
 void idle() {
-  uint8_t data[16] = {0x07, 0x0E, 0x0A, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
+  uint8_t thisdata[16] = {0x07, 0x0E, 0x0A, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
                       0x20, 0x60, 0x60, 0x64, 0x74, 0x3F, 0x08};
   msg_t message;
 
   spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
   spiSend(&SPID1, 1 ,&CR95HF_CMD);
-  spiSend(&SPID1, 16, &data);
+  spiSend(&SPID1, 16, &thisdata);
   spiUnselect(&SPID1);
   spiReleaseBus(&SPID1);
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
   if(rxbuf[0] == 0x00) {
     if(rxbuf[1] == 0x01) {
       if(rxbuf[2] == 0x02) {
-        memset(rxbuf, 0x00, sizeof(rxbuf));
+        sendRecv(0x26);
       }
     }
   }
   memset(rxbuf, 0x00, sizeof(rxbuf));
+}
+
+void sendRecv(uint8_t rfidCommand) {
+  // list of RFID commands:
+  // REQA = 0x26 (request type a)
+  // WUPA = 0x52 (wake up type a)
+  // the commands below need an address operand that is:
+  //  b0xxxxyyy where x is the block (0 to E) and y is the byte in that block
+  // they also need a 2 byte CRC
+  // RID = 0x78 (read ID)
+  // RALL = 0x00 (read all)
+  // WRITE-E = 0x53 (write with erase)
+  // WRITE-NE = 0x1A (write with no erase)
+  uint8_t length = 0;
+  msg_t message;
+  
+  txbuf[0] = CR95HF_CMD;
+  txbuf[1] = 0x04; // SendRecv command
+  length += 2;
+  switch(rfidCommand) {
+    case 0x26:
+    case 0x52:
+      txbuf[2] = 0x02;
+      txbuf[3] = 0x26;
+      txbuf[4] = 0x07;
+      length += 3;
+      break;
+  }
+  spiAcquireBus(&SPID1);
+  spiSelect(&SPID1);
+  spiSend(&SPID1, length, &txbuf);
+  spiUnselect(&SPID1);
+  spiReleaseBus(&SPID1);
+
+  chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  switch(rxbuf[0]) {
+    case 0x80:
+      // decode data
+      memset(rxbuf, 0x00, sizeof(rxbuf));
+      break;
+    case 0x90:
+      // non integer number of bytes received
+      // response to ACK or NACK?
+      break;
+    case 0x86:
+      // communication error
+      break;
+    case 0x87:
+      // frame wait time out or no tag
+      break;
+    case 0x88:
+      // invalid SOF
+      break;
+    case 0x89:
+      // receive buffer overflow
+      break;
+    case 0x8A:
+      // framing error
+      break;
+    case 0x8B:
+      // EGT time out
+      break;
+    case 0x8C:
+      // invalid length
+      break;
+    case 0x8D:
+      // CRC error
+      break;
+    case 0x8E:
+      // reception lost without EOF received
+      break;
+    default:
+      // ruh roh
+      break;
+  }
+  memset(rxbuf, 0x00, sizeof(rxbuf));
+  memset(txbuf, 0x00, sizeof(txbuf));
 }
 
 // thread that watches for messages in a mailbox
