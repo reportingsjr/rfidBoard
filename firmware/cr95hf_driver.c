@@ -131,7 +131,7 @@ void idle() {
 
   spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
-  spiSend(&SPID1, 1 ,&CR95HF_CMD);
+  spiSend(&SPID1, 1, &CR95HF_CMD);
   spiSend(&SPID1, 16, &thisdata);
   spiUnselect(&SPID1);
   spiReleaseBus(&SPID1);
@@ -232,7 +232,7 @@ msg_t cr95hfMessageThread(void *arg) {
   (void)arg;
   
   while (!chThdShouldTerminateX()) {
-    chEvtWaitAny((eventmask_t)1);
+    chEvtWaitAnyTimeout((eventmask_t)20, TIME_INFINITE);
     spiAcquireBus(&SPID1);
     spiSelect(&SPID1);
     spiSend(&SPID1, 1, &CR95HF_READ);
@@ -252,6 +252,6 @@ extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
   (void)channel;
   // add a message to the mailbox for cr95hfMessageThread
   chSysLockFromISR();
-  chEvtSignalI(messageThread, (eventmask_t)1);
+  chEvtSignalI(messageThread, (eventmask_t)20);
   chSysUnlockFromISR();
 }
