@@ -51,6 +51,7 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   // send wake up on IRQ_IN pin
   palSetPadMode(IRQ_OUT.port, IRQ_OUT.pin, PAL_MODE_INPUT);
   palSetPadMode(IRQ_IN.port, IRQ_IN.pin, PAL_MODE_OUTPUT_PUSHPULL);
+  palSetPadMode(GPIOA, 1, PAL_MODE_OUTPUT_PUSHPULL);
   // Send a 20us pulse to wake up the CR95HF
   palClearPad(IRQ_IN.port, IRQ_IN.pin);
   // delay for 20 microseconds so the cr95hf sees it for sure
@@ -254,4 +255,8 @@ extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
   chSysLockFromISR();
   chEvtSignalI(messageThread, (eventmask_t)1);
   chSysUnlockFromISR();
+  palClearPad(GPIOA, 1);                                           
+  // wait 10 ms to let the CR95HF set itself up                                 
+  chSysPolledDelayX(MS2RTC(STM32_HCLK, 10));
+  palSetPad(GPIOA, 1);
 }
