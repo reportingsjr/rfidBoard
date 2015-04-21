@@ -233,7 +233,7 @@ msg_t cr95hfMessageThread(void *arg) {
   (void)arg;
   
   while (!chThdShouldTerminateX()) {
-    chEvtWaitAnyTimeout((eventmask_t)20, TIME_INFINITE);
+    chEvtWaitAnyTimeout((eventmask_t)1, TIME_INFINITE);
     spiAcquireBus(&SPID1);
     spiSelect(&SPID1);
     spiSend(&SPID1, 1, &CR95HF_READ);
@@ -253,10 +253,6 @@ extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
   (void)channel;
   // add a message to the mailbox for cr95hfMessageThread
   chSysLockFromISR();
-  chEvtSignalI(messageThread, (eventmask_t)20);
+  chEvtSignalI(messageThread, (eventmask_t)1);
   chSysUnlockFromISR();
-  palClearPad(GPIOA, 1);                                           
-  // wait 10 ms to let the CR95HF set itself up                                 
-  chSysPolledDelayX(MS2RTC(STM32_HCLK, 10));
-  palSetPad(GPIOA, 1);
 }

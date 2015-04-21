@@ -23,7 +23,7 @@ static const EXTConfig extcfg = {
   {
     {EXT_CH_MODE_DISABLED, NULL},  
     {EXT_CH_MODE_DISABLED, NULL},
-    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOA, 
+    {EXT_CH_MODE_FALLING_EDGE | EXT_MODE_GPIOA, 
      cr95hfInterrupt},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
@@ -57,9 +57,9 @@ int main(void) {
   struct pin IRQ_OUT = {GPIOA, 2};
   struct pin IRQ_IN = {GPIOA, 3};
   
-  cr95hf_init(&IRQ_IN, &IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
-
   extStart(&EXTD1, &extcfg);
+  cr95hf_init(&IRQ_IN, &IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
+  extChannelEnable(&EXTD1, (expchannel_t) 2);
   
   echo();
   setProtocol();
