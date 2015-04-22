@@ -12,7 +12,6 @@ uint8_t CR95HF_RESET = 0x01;
 static struct pin IRQ_IN, IRQ_OUT;
 static SPIConfig spicfg;
 
-static THD_WORKING_AREA(cr95hfMessageThreadWA, 512);
 static thread_t *messageThread;
 
 static mailbox_t cr95hfMailbox;
@@ -21,6 +20,29 @@ static msg_t cr95hfMailboxBuf[10];
 
 static uint8_t rxbuf[255];
 static uint8_t txbuf[255];
+
+// thread that watches for messages in a mailbox
+// when the cr95hf sends a pulse on IRQ_OUT an interrupt is generated
+// which reads the message the IC has and puts it in the mailbox.
+// This thread loops every x ms and when it sees data parses it and
+// calls the appropriate function.
+static THD_WORKING_AREA(cr95hfMessageThreadWA, 512);
+static THD_FUNCTION(cr95hfMessageThread, arg) {
+  (void)arg;
+  
+  while (!chThdShouldTerminateX()) {
+    chEvtWaitAnyTimeout((eventmask_t)1, TIME_INFINITE);
+    spiAcquireBus(&SPID1);
+    spiSelect(&SPID1);
+    spiSend(&SPID1, 1, &CR95HF_READ);
+    // get the response code
+    spiReceive(&SPID1, sizeof(rxbuf), &rxbuf);
+    spiUnselect(&SPID1);
+    spiReleaseBus(&SPID1);
+    chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
+    // clear variables before next loop
+  }
+}
 
 // Initializes SPI and interrupt for the cr95hf IC.
 // Sends initialize command and waits for the chip to start up.
@@ -224,29 +246,7 @@ void sendRecv(uint8_t rfidCommand) {
   memset(txbuf, 0x00, sizeof(txbuf));
 }
 
-// thread that watches for messages in a mailbox
-// when the cr95hf sends a pulse on IRQ_OUT an interrupt is generated
-// which reads the message the IC has and puts it in the mailbox.
-// This thread loops every x ms and when it sees data parses it and
-// calls the appropriate function.
-msg_t cr95hfMessageThread(void *arg) {
-  (void)arg;
-  
-  while (!chThdShouldTerminateX()) {
-    chEvtWaitAnyTimeout((eventmask_t)1, TIME_INFINITE);
-    spiAcquireBus(&SPID1);
-    spiSelect(&SPID1);
-    spiSend(&SPID1, 1, &CR95HF_READ);
-    // get the response code
-    spiReceive(&SPID1, sizeof(rxbuf), &rxbuf);
-    spiUnselect(&SPID1);
-    spiReleaseBus(&SPID1);
-    chMBPost(&cr95hfMailbox, (msg_t)0x00, TIME_INFINITE);
-    // clear variables before next loop
-  }
 
-  return (msg_t) 0;
-}
 
 extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
   (void)extp;
