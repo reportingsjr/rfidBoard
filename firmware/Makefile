@@ -83,7 +83,7 @@ PROJECT = ch
 CHIBIOS = /home/jon/dev/ChibiOS3
 # Startup files.
 include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/startup_stm32f1xx.mk
-# HAL-SOAL files (optional).
+# HAL-OSAL files (optional).
 include $(CHIBIOS)/os/hal/hal.mk
 include $(CHIBIOS)/os/hal/boards/ST_STM32VL_DISCOVERY/board.mk
 include $(CHIBIOS)/os/hal/ports/STM32/STM32F1xx/platform.mk
@@ -91,7 +91,7 @@ include $(CHIBIOS)/os/hal/osal/rt/osal.mk
 # RTOS files (optional).
 include $(CHIBIOS)/os/rt/rt.mk
 include $(CHIBIOS)/os/rt/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
-# Other files (optional)
+# Other files (optional).
 include $(CHIBIOS)/test/rt/test.mk
 
 # Define linker script file here
@@ -137,7 +137,7 @@ TCPPSRC =
 # List ASM source files here
 ASMSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 
-INCDIR = $(STARTUPIN) $(PORTINC) $(KERNINC) $(TESTINC) \
+INCDIR = $(STARTUPINC) $(PORTINC) $(KERNINC) $(TESTINC) \
          $(HALINC) $(OSALINC) $(PLATFORMINC) $(BOARDINC) \
          $(CHIBIOS)/os/various
 
