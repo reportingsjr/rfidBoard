@@ -21,6 +21,8 @@ static msg_t cr95hfMailboxBuf[10];
 static uint8_t rxbuf[255];
 static uint8_t txbuf[255];
 
+static uint8_t idleCommand[16];
+
 // thread that watches for messages in a mailbox
 // when the cr95hf sends a pulse on IRQ_OUT an interrupt is generated
 // which reads the message the IC has and puts it in the mailbox.
@@ -53,7 +55,10 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
   memcpy(&IRQ_IN, IRQ_IN_temp, sizeof(IRQ_IN));
   memcpy(&IRQ_OUT, IRQ_OUT_temp, sizeof(IRQ_OUT));
   
+  // initalize static arrays to all zeros
   memset(rxbuf, 0x00, sizeof(rxbuf));
+  memset(rxbuf, 0x00, sizeof(txbuf));
+  memset(idleCommand, 0x00, sizeof(idleCommand));
 
   chMBObjectInit(&cr95hfMailbox, cr95hfMailboxBuf, sizeof(cr95hfMailboxBuf)/sizeof(msg_t));
 
@@ -148,14 +153,12 @@ void echo() {
 }
 
 void idle() {
-  uint8_t thisdata[16] = {0x07, 0x0E, 0x0A, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
-                      0x20, 0x60, 0x60, 0x64, 0x74, 0x3F, 0x08};
   msg_t message;
 
   spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
   spiSend(&SPID1, 1, &CR95HF_CMD);
-  spiSend(&SPID1, 16, &thisdata);
+  spiSend(&SPID1, 16, &idleCommand);
   spiUnselect(&SPID1);
   spiReleaseBus(&SPID1);
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
@@ -167,6 +170,90 @@ void idle() {
     }
   }
   memset(rxbuf, 0x00, sizeof(rxbuf));
+}
+
+void tagCalibrate() {
+  uint8_t thisdata[16] = {0x07, 0x0E, 0x03, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
+                      0x02, 0x60, 0x60, 0x00, 0x00, 0x3F, 0x01};
+  msg_t message;
+  int i;
+
+  for(i = 0; i < 8; i++) {
+    spiAcquireBus(&SPID1);
+    spiSelect(&SPID1);
+    spiSend(&SPID1, 1, &CR95HF_CMD);
+    spiSend(&SPID1, 16, &thisdata);
+    spiUnselect(&SPID1);
+    spiReleaseBus(&SPID1);
+    chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+    if(rxbuf[0] == 0x00) {
+      if(rxbuf[1] == 0x01) {
+        if(rxbuf[2] == 0x02) {
+          switch(i) {
+            case 0:
+              thisdata[13] = 0xFC;
+              break;
+            case 1:
+              //error
+              break;
+            case 2:
+              thisdata[13] += 0x40;
+              break;
+            case 3:
+              thisdata[13] += 0x20;
+              break;
+            case 4:
+              thisdata[13] += 0x10;
+              break;
+            case 5:
+              thisdata[13] += 0x08;
+              break;
+            case 6:
+              thisdata[13] += 0x04;
+              break;
+            case 7:
+              // settings are good. Do nothing.
+              break;
+          }
+        } else if(rxbuf[2] == 0x01) {
+          switch(i) {
+            case 0:
+              //error
+              break;
+            case 1:
+              thisdata[13] -= 0x80;
+              break;
+            case 2:
+              thisdata[13] -= 0x40;
+              break;
+            case 3:
+              thisdata[13] -= 0x20;
+              break;
+            case 4:
+              thisdata[13] -= 0x10;
+              break;
+            case 5:
+              thisdata[13] -= 0x08;
+              break;
+            case 6:
+              thisdata[13] -= 0x04;
+              break;
+            case 7:
+              thisdata[13] -= 0x04;
+              break;
+          }
+        }
+      }
+    }
+    memset(rxbuf, 0x00, sizeof(rxbuf));
+  }
+  // Now that we know appropriate tag values set the idle command to the final
+  // values we want for further operations.
+  thisdata[2]   = 0x02;
+  thisdata[9]   = 0x20;
+  thisdata[12]  = thisdata[13] - 0x08;
+  thisdata[13] += 0x08;
+  memcpy(idleCommand, thisdata, sizeof(idleCommand));
 }
 
 void sendRecv(uint8_t rfidCommand) {

@@ -61,14 +61,11 @@ int main(void) {
   cr95hf_init(&IRQ_IN, &IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
   extChannelEnable(&EXTD1, (expchannel_t) 2);
   
-  echo();
+
   setProtocol();
+  tagCalibrate();
   idle();
   chThdSleep(TIME_INFINITE);
-  //setProtocol();
-  //rfidREQA();
-  /*
-   * Creates the example thread.
-   */
-  return 0;
+  
+    return 0;
 }
