@@ -63,6 +63,7 @@ int main(void) {
   
 
   setProtocol();
+  topazAdjustRegisters();
   tagCalibrate();
   idle();
   chThdSleep(TIME_INFINITE);

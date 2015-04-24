@@ -13,6 +13,7 @@ void setProtocol(void);
 void rfidREQA(void);
 void idle(void);
 void tagCalibrate(void);
+void topazAdjustRegisters(void);
 void sendRecv(uint8_t);
 extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel);
 

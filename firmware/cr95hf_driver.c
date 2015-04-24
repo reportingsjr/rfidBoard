@@ -96,8 +96,8 @@ void cr95hf_init(struct pin *IRQ_IN_temp,
 
 void setProtocol() {
   uint8_t command = 0x02; // protocol select
-  uint8_t length  = 0x02; // 2 bytes of data
-  uint8_t data[2] = {0x02, 0x00};
+  uint8_t length  = 0x04; // 2 bytes of data
+  uint8_t data[4] = {0x02, 0x00, 0x03, 0x00};
   msg_t message;
   
   spiAcquireBus(&SPID1);
@@ -106,7 +106,7 @@ void setProtocol() {
   spiSend(&SPID1, 1, &CR95HF_CMD);
   spiSend(&SPID1, 1, &command);
   spiSend(&SPID1, 1, &length);
-  spiSend(&SPID1, 2, &data);
+  spiSend(&SPID1, 4, &data);
   spiUnselect(&SPID1);
   spiReleaseBus(&SPID1);
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
@@ -132,6 +132,8 @@ void rfidREQA() {
   spiUnselect(&SPID1);
 }
 
+// Echo is a special command since it does not require a data length to be sent.
+// Sends 0x55 and expects to receive 0x55 back if SPI is working.
 void echo() {
   uint8_t echo = 0x55;
   msg_t message;
@@ -172,7 +174,15 @@ void idle() {
   memset(rxbuf, 0x00, sizeof(rxbuf));
 }
 
+// tagCalibrate adjusts the threshold detection values for an antenna.
+// It starts off at the maximum settings to verify everything 
+// is working correctly.
+// It then converges/iterates to a set of threshold values that should work
+// well for most environments.
+// This can be skipped if good DAC Data values are known for a certain antenna.
 void tagCalibrate() {
+  // Initial idle command. Has a very short timeout period and DAC Data
+  // values are not initialized.
   uint8_t thisdata[16] = {0x07, 0x0E, 0x03, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
                       0x02, 0x60, 0x60, 0x00, 0x00, 0x3F, 0x01};
   msg_t message;
@@ -333,7 +343,41 @@ void sendRecv(uint8_t rfidCommand) {
   memset(txbuf, 0x00, sizeof(txbuf));
 }
 
+void topazAdjustRegisters() {
+  msg_t message;
 
+  uint8_t adjustModAndGain[6] = {0x09, 0x04, 0x68, 0x01, 0x01, 0xD1};
+  uint8_t adjustTimerW[6] = {0x09, 0x04, 0x3A, 0x00, 0x58, 0x04};
+
+  spiAcquireBus(&SPID1);
+  spiSelect(&SPID1);
+  spiSend(&SPID1, 1, &CR95HF_CMD);
+  spiSend(&SPID1, 6, &adjustTimerW);
+  spiUnselect(&SPID1);
+  spiReleaseBus(&SPID1);
+  chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  if(rxbuf[0] == 0x00) {
+    if(rxbuf[1] == 0x00) {
+      // success
+    }
+  }
+  memset(rxbuf, 0x00, sizeof(rxbuf));
+
+  spiAcquireBus(&SPID1);
+  spiSelect(&SPID1);
+  spiSend(&SPID1, 1, &CR95HF_CMD);
+  spiSend(&SPID1, 6, &adjustModAndGain);
+  spiUnselect(&SPID1);
+  spiReleaseBus(&SPID1);
+  chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
+  if(rxbuf[0] == 0x00) {
+    if(rxbuf[1] == 0x00) {
+      // success
+    }
+  }
+  memset(rxbuf, 0x00, sizeof(rxbuf));
+
+}
 
 extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
   (void)extp;
