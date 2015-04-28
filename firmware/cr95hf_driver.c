@@ -156,11 +156,17 @@ void echo() {
 
 void idle() {
   msg_t message;
+  //////////////////////////////////////////////////////////////////////////
+  // Temporary!
+  // Remove before completing code!
+  //////////////////////////////////////////////////////////////////////////
+  uint8_t tempIdle[16] = {0x07, 0x0E, 0x02, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
+                      0x20, 0x60, 0x60, 0x40, 0x50, 0x3F, 0x1F};
 
   spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
   spiSend(&SPID1, 1, &CR95HF_CMD);
-  spiSend(&SPID1, 16, &idleCommand);
+  spiSend(&SPID1, 16, &tempIdle);//&idleCommand);
   spiUnselect(&SPID1);
   spiReleaseBus(&SPID1);
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);

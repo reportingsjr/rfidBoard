@@ -64,7 +64,8 @@ int main(void) {
 
   setProtocol();
   topazAdjustRegisters();
-  tagCalibrate();
+  // removed during dev since it is annoying
+  //tagCalibrate();
   idle();
   chThdSleep(TIME_INFINITE);
   
