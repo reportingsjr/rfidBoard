@@ -177,6 +177,7 @@ void idle() {
         // So we reset the protocol before trying to talk to the tag again.
         setProtocol();
         sendRecv(0x26);
+        sendRecv(0x78);
       }
     }
   }
@@ -293,12 +294,32 @@ void sendRecv(uint8_t rfidCommand) {
   txbuf[1] = 0x04; // SendRecv command
   length += 2;
   switch(rfidCommand) {
-    case 0x26:
-    case 0x52:
+    case 0x26: // REQA
+    case 0x52: // WUPA
       txbuf[2] = 0x02;
-      txbuf[3] = 0x26;
+      txbuf[3] = rfidCommand;
       txbuf[4] = 0x07;
       length += 3;
+      break;
+    case 0x78: // RID
+      txbuf[2] = 0x08;
+      txbuf[3] = rfidCommand;
+      // six dummy data frames
+      txbuf[4] = 0x00;
+      txbuf[5] = 0x00;
+      txbuf[6] = 0x00;
+      txbuf[7] = 0x00;
+      txbuf[8] = 0x00;
+      txbuf[9] = 0x00;
+      // topaz format, append CRC, and 8 bits in last byte
+      txbuf[10] = 0xA8;
+      length += 9;
+      break;
+    case 0x00: // RALL
+      break;
+    case 0x53: // WRITE-E
+      break;
+    case 0x1A: // WRITE-NE
       break;
   }
   spiAcquireBus(&SPID1);
