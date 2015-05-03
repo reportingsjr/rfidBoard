@@ -161,7 +161,7 @@ void idle() {
   // Remove before completing code!
   //////////////////////////////////////////////////////////////////////////
   uint8_t tempIdle[16] = {0x07, 0x0E, 0x02, 0x21, 0x00,  0x79, 0x01, 0x18, 0x00, 
-                      0x20, 0x60, 0x60, 0x40, 0x50, 0x3F, 0x1F};
+                      0x01, 0x60, 0x60, 0x40, 0x50, 0x3F, 0x01};
 
   spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
@@ -173,6 +173,9 @@ void idle() {
   if(rxbuf[0] == 0x00) {
     if(rxbuf[1] == 0x01) {
       if(rxbuf[2] == 0x02) {
+        // The idle command somehow changes how the IC communicates with tags.
+        // So we reset the protocol before trying to talk to the tag again.
+        setProtocol();
         sendRecv(0x26);
       }
     }
