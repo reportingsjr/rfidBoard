@@ -118,19 +118,7 @@ void setProtocol() {
   memset(rxbuf, 0x00, sizeof(rxbuf));
 }
 
-void rfidREQA() {
-  uint8_t sendRecv = 0x04;
-  uint8_t length = 0x02;
-  uint8_t data[2] = {0x26, 0x07}; //REQA, topaz send format respectively
 
-  spiSelect(&SPID1);
-  // send command byte
-  spiSend(&SPID1, 1, &CR95HF_CMD);
-  spiSend(&SPID1, 1, &sendRecv);
-  spiSend(&SPID1, 1, &length);
-  spiSend(&SPID1, 2, &data);
-  spiUnselect(&SPID1);
-}
 
 // Echo is a special command since it does not require a data length to be sent.
 // Sends 0x55 and expects to receive 0x55 back if SPI is working.
@@ -176,8 +164,8 @@ void idle() {
         // The idle command somehow changes how the IC communicates with tags.
         // So we reset the protocol before trying to talk to the tag again.
         setProtocol();
-        sendRecv(0x26);
-        sendRecv(0x78);
+        topazREQA();
+        topazRID();
       }
     }
   }
@@ -276,52 +264,22 @@ void tagCalibrate() {
   memcpy(idleCommand, thisdata, sizeof(idleCommand));
 }
 
-void sendRecv(uint8_t rfidCommand) {
-  // list of RFID commands:
-  // REQA = 0x26 (request type a)
-  // WUPA = 0x52 (wake up type a)
-  // the commands below need an address operand that is:
-  //  b0xxxxyyy where x is the block (0 to E) and y is the byte in that block
-  // they also need a 2 byte CRC
-  // RID = 0x78 (read ID)
-  // RALL = 0x00 (read all)
-  // WRITE-E = 0x53 (write with erase)
-  // WRITE-NE = 0x1A (write with no erase)
+void sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame, 
+              uint8_t crc, uint8_t sigBits) {
   uint8_t length = 0;
   msg_t message;
   
   txbuf[0] = CR95HF_CMD;
   txbuf[1] = 0x04; // SendRecv command
-  length += 2;
-  switch(rfidCommand) {
-    case 0x26: // REQA
-    case 0x52: // WUPA
-      txbuf[2] = 0x02;
-      txbuf[3] = rfidCommand;
-      txbuf[4] = 0x07;
-      length += 3;
-      break;
-    case 0x78: // RID
-      txbuf[2] = 0x08;
-      txbuf[3] = rfidCommand;
-      // six dummy data frames
-      txbuf[4] = 0x00;
-      txbuf[5] = 0x00;
-      txbuf[6] = 0x00;
-      txbuf[7] = 0x00;
-      txbuf[8] = 0x00;
-      txbuf[9] = 0x00;
-      // topaz format, append CRC, and 8 bits in last byte
-      txbuf[10] = 0xA8;
-      length += 9;
-      break;
-    case 0x00: // RALL
-      break;
-    case 0x53: // WRITE-E
-      break;
-    case 0x1A: // WRITE-NE
-      break;
+  txbuf[2] = dataSize + 1;
+  length += 3;
+  for(uint8_t i = 0; i < dataSize; i++) {
+    txbuf[3 + i] = *(data + i);
   }
+  length += dataSize;
+  txbuf[length] = (topaz << 7) | (splitFrame << 6) | (crc << 5) | sigBits;
+  length += 1;
+
   spiAcquireBus(&SPID1);
   spiSelect(&SPID1);
   spiSend(&SPID1, length, &txbuf);
@@ -371,6 +329,50 @@ void sendRecv(uint8_t rfidCommand) {
   }
   memset(rxbuf, 0x00, sizeof(rxbuf));
   memset(txbuf, 0x00, sizeof(txbuf));
+}
+
+
+// list of RFID commands:
+// REQA = 0x26 (request type a)
+// WUPA = 0x52 (wake up type a)
+// the commands below need an address operand that is:
+//  b0xxxxyyy where x is the block (0 to E) and y is the byte in that block
+// they also need a 2 byte CRC
+// RID = 0x78 (read ID)
+// READ 0x01
+// RALL = 0x00 (read all)
+// WRITE-E = 0x53 (write with erase)
+// WRITE-NE = 0x1A (write with no erase)
+
+void topazREQA() {
+  uint8_t data = 0x26; //REQA, topaz send format respectively
+  sendRecv(&data, 1, 0, 0, 0, 7);
+}
+
+void topazWUPA() {
+  uint8_t data = 0x52; //WUPA
+  sendRecv(&data, 1, 0, 0, 0, 7);
+}
+
+void topazRID() {
+  uint8_t data[7] = {0x78, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  sendRecv(data, 7, 1, 0, 1, 8);
+}
+
+void topazRALL() {
+  //
+}
+
+void topazREAD() {
+  //
+}
+
+void topazWRITEE() {
+  //
+}
+
+void topazWRITENE() {
+  //
 }
 
 void topazAdjustRegisters() {
