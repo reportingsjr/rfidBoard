@@ -166,6 +166,7 @@ void idle() {
         setProtocol();
         topazREQA();
         topazRID();
+        topazRALL();
       }
     }
   }
@@ -290,7 +291,7 @@ void sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame
   switch(rxbuf[0]) {
     case 0x80:
       // decode data
-      memset(rxbuf, 0x00, sizeof(rxbuf));
+      //memset(rxbuf, 0x00, sizeof(rxbuf));
       break;
     case 0x90:
       // non integer number of bytes received
@@ -327,7 +328,7 @@ void sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame
       // ruh roh
       break;
   }
-  memset(rxbuf, 0x00, sizeof(rxbuf));
+  //memset(rxbuf, 0x00, sizeof(rxbuf));
   memset(txbuf, 0x00, sizeof(txbuf));
 }
 
@@ -360,7 +361,15 @@ void topazRID() {
 }
 
 void topazRALL() {
-  //
+  uint8_t data[7] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+  // read the ID so we get the four UID bits we need
+  topazRID();
+  data[3] = rxbuf[4];
+  data[4] = rxbuf[5];
+  data[5] = rxbuf[6];
+  data[6] = rxbuf[7];
+  sendRecv(data, 7, 1, 0, 1, 8);
 }
 
 void topazREAD() {
