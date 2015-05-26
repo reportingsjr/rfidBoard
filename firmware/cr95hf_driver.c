@@ -446,19 +446,27 @@ void topazAdjustRegisters() {
 
 // List of NFC Forum type 2 commands
 // SENS_REQ 0x26 - short frame (REQA)
-// ALL_REQ 0x52h - short frame (WUPA)
+// ALL_REQ 0x52 - short frame (WUPA)
 // SDD_REQ 0x93, 0x95 (anti collision CL1 or CL2)
-// SEL_REQ 0x93, 0x95 (select CL1 or CL2)
-// SLP_REQ 0x50 (halt)
+// SEL_REQ 0x93, 0x95 (select CL1 or CL2) // requires CRC
+// SLP_REQ 0x50 (halt) // requires CRC
 // READ    0x30
 // WRITE   0xA2
 
 void sens_req() {
-  //
+  uint8_t data = 0x26; 
+  uint8_t returnData[255];
+  // send the individual bit. No CRC, etc, but it is a short frame (7 bits)
+  sendRecv(&data, 1, 0, 0, 0, 7, returnData);
+  // check ATQA response to see what bits 7 and 8 are to determine UID size.
 }
 
 void all_req() {
-  //
+  uint8_t data = 0x52;
+  uint8_t returnData[255];
+  // send the individual bit. No CRC, etc, but it is a short frame (7 bits)
+  sendRecv(&data, 1, 0, 0, 0, 7, returnData);
+  // check ATQA response to see what bits 7 and 8 are to determine UID size.
 }
 
 void sdd_req() {
