@@ -21,5 +21,12 @@ void topazRALL(void);
 void topazREAD(void);
 void topazWRITEE(void);
 void topazWRITENE(void);
+void sens_req(void);
+void all_req(void);
+void sdd_req(void);
+void sel_req(void);
+void slp_req(void);
+void read(void);
+void write(void);
 extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel);
 

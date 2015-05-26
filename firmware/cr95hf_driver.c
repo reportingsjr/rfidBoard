@@ -343,7 +343,7 @@ uint8_t sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFr
 }
 
 
-// list of RFID commands:
+// list of topaz RFID commands:
 // REQA = 0x26 (request type a)
 // WUPA = 0x52 (wake up type a)
 // the commands below need an address operand that is:
@@ -442,6 +442,43 @@ void topazAdjustRegisters() {
   }
   memset(rxbuf, 0x00, sizeof(rxbuf));
 
+}
+
+// List of NFC Forum type 2 commands
+// SENS_REQ 0x26 - short frame (REQA)
+// ALL_REQ 0x52h - short frame (WUPA)
+// SDD_REQ 0x93, 0x95 (anti collision CL1 or CL2)
+// SEL_REQ 0x93, 0x95 (select CL1 or CL2)
+// SLP_REQ 0x50 (halt)
+// READ    0x30
+// WRITE   0xA2
+
+void sens_req() {
+  //
+}
+
+void all_req() {
+  //
+}
+
+void sdd_req() {
+  
+}
+
+void sel_req() {
+  //
+}
+
+void slp_req() {
+  //
+}
+
+void read() {
+  //
+}
+
+void write() {
+  //
 }
 
 extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {
