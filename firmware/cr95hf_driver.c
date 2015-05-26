@@ -165,7 +165,6 @@ void idle() {
         // So we reset the protocol before trying to talk to the tag again.
         setProtocol();
         topazREQA();
-        topazRID();
         topazRALL();
       }
     }
@@ -265,8 +264,16 @@ void tagCalibrate() {
   memcpy(idleCommand, thisdata, sizeof(idleCommand));
 }
 
-void sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame, 
-              uint8_t crc, uint8_t sigBits) {
+// This function takes parameters for ISO 14443 type A protocol only
+// data is the NFC command to be sent
+// dataSize is length (in bytes) of the NFC command to be sent
+// topaz is 0 or 1 based on if topaz format should be used
+// splitFrame is 
+// crc is 0 or 1 depending on if a CRC needs to be appended
+// sigBits is number of signifcant bits in the last byte
+// returns uint8_t that is the result code. Full data is copied to returnData
+uint8_t sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame, 
+              uint8_t crc, uint8_t sigBits, uint8_t *returnData) {
   uint8_t length = 0;
   msg_t message;
   
@@ -288,7 +295,12 @@ void sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame
   spiReleaseBus(&SPID1);
 
   chMBFetch(&cr95hfMailbox, &message, TIME_INFINITE);
-  switch(rxbuf[0]) {
+  
+  memcpy(returnData, rxbuf, 255);
+  memset(rxbuf, 0x00, sizeof(rxbuf));
+  memset(txbuf, 0x00, sizeof(txbuf));
+  return returnData[0];
+  /*switch(rxbuf[0]) {
     case 0x80:
       // decode data
       //memset(rxbuf, 0x00, sizeof(rxbuf));
@@ -327,9 +339,7 @@ void sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame
     default:
       // ruh roh
       break;
-  }
-  //memset(rxbuf, 0x00, sizeof(rxbuf));
-  memset(txbuf, 0x00, sizeof(txbuf));
+  }*/
 }
 
 
@@ -347,29 +357,43 @@ void sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFrame
 
 void topazREQA() {
   uint8_t data = 0x26; //REQA, topaz send format respectively
-  sendRecv(&data, 1, 0, 0, 0, 7);
+  uint8_t returnData[255];
+  sendRecv(&data, 1, 0, 0, 0, 7, returnData);
 }
 
 void topazWUPA() {
   uint8_t data = 0x52; //WUPA
-  sendRecv(&data, 1, 0, 0, 0, 7);
+  uint8_t returnData[255];
+  sendRecv(&data, 1, 0, 0, 0, 7, returnData);
 }
 
-void topazRID() {
+// returns response code and copies 6 bytes of header + UID to returnID 
+uint8_t topazRID(uint8_t * returnID) {
   uint8_t data[7] = {0x78, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-  sendRecv(data, 7, 1, 0, 1, 8);
+  uint8_t returnData[255];
+  if(sendRecv(data, 7, 1, 0, 1, 8, returnData) == 0x80) {
+    returnID[0] = returnData[2];
+    returnID[1] = returnData[3];
+    returnID[2] = returnData[4];
+    returnID[3] = returnData[5];
+    returnID[4] = returnData[6];
+    returnID[5] = returnData[7];
+  }
+  return returnData[0];
 }
 
 void topazRALL() {
   uint8_t data[7] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
+  uint8_t returnData[255];
   // read the ID so we get the four UID bits we need
-  topazRID();
-  data[3] = rxbuf[4];
-  data[4] = rxbuf[5];
-  data[5] = rxbuf[6];
-  data[6] = rxbuf[7];
-  sendRecv(data, 7, 1, 0, 1, 8);
+  uint8_t id[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  if(topazRID(id) == 0x80) {
+    data[3] = id[2];
+    data[4] = id[3];
+    data[5] = id[4];
+    data[6] = id[5]; 
+    sendRecv(data, 7, 1, 0, 1, 8, returnData);
+  }
 }
 
 void topazREAD() {
