@@ -164,8 +164,20 @@ void idle() {
         // The idle command somehow changes how the IC communicates with tags.
         // So we reset the protocol before trying to talk to the tag again.
         setProtocol();
-        topazREQA();
-        topazRALL();
+        sens_req();
+        uint8_t nfcid[10];
+        if(sdd_req(1, nfcid) == 1) {
+          sel_req(1, 1, nfcid);
+          if(sdd_req(2, nfcid) == 1) {
+            sel_req(2, 1, nfcid);
+            sdd_req(3, nfcid);
+            sel_req(3, 0, nfcid);
+          } else {
+            sel_req(2, 0, nfcid);
+          }
+        } else {
+          sel_req(1, 0, nfcid);
+        }
       }
     }
   }
@@ -354,7 +366,7 @@ uint8_t sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFr
 // RALL = 0x00 (read all)
 // WRITE-E = 0x53 (write with erase)
 // WRITE-NE = 0x1A (write with no erase)
-
+/*
 void topazREQA() {
   uint8_t data = 0x26; //REQA, topaz send format respectively
   uint8_t returnData[255];
@@ -407,8 +419,9 @@ void topazWRITEE() {
 void topazWRITENE() {
   //
 }
+*/
 
-void topazAdjustRegisters() {
+void typeAAdjustRegisters() {
   msg_t message;
 
   uint8_t adjustModAndGain[6] = {0x09, 0x04, 0x68, 0x01, 0x01, 0xD1};
@@ -453,28 +466,193 @@ void topazAdjustRegisters() {
 // READ    0x30
 // WRITE   0xA2
 
-void sens_req() {
+// Sends a sens_req (REQA) to the NFC device
+// Checks the return value to see what NFCID1 size the device is
+// returns 1, 2, or 3 for single, double, or triple. Returns 0 for other.
+uint8_t sens_req() {
   uint8_t data = 0x26; 
   uint8_t returnData[255];
   // send the individual bit. No CRC, etc, but it is a short frame (7 bits)
   sendRecv(&data, 1, 0, 0, 0, 7, returnData);
+
   // check ATQA response to see what bits 7 and 8 are to determine UID size.
+
+  // check it bits 7 and 8 are 0
+  if(~(returnData[2] & 1<<7) && ~(returnData[2] & 1<<6)) { // 00
+    // NFCID1 size: single (4 bytes)
+    return 1;
+  } else if (~(returnData[2] & 1<<7) && (returnData[2] & 1<<6)) { // 01
+    // NFCID1 size: double (7 bytes)
+    return 2;
+  } else if ((returnData[2] & 1<<7) && ~(returnData[2] & 1<<6)) { // 10
+    // NFCID1 size: triple (10 bytes)
+    return 3;
+  } else {
+    // RFU, so nothing
+    return 0;
+  }
 }
 
-void all_req() {
-  uint8_t data = 0x52;
+// Sends an all_req (WUPA) to the NFC device
+// Checks the return value to see what NFCID1 size the device is
+// returns 1, 2, or 3 for single, double, or triple. Returns 0 for other.
+uint8_t all_req() {
+  uint8_t data = 0x52; 
   uint8_t returnData[255];
   // send the individual bit. No CRC, etc, but it is a short frame (7 bits)
   sendRecv(&data, 1, 0, 0, 0, 7, returnData);
-  // check ATQA response to see what bits 7 and 8 are to determine UID size.
-}
 
-void sdd_req() {
+  // should do error checking here. Make sure the first byte is 0x80
   
+  // check ATQA response to see what bits 7 and 8 are to determine UID size.
+  // we could also check returnData[3] to see if it is 0x0C which means it is
+  // a type 1 device (basically topaz/broadcom)
+
+  // check it bits 7 and 8 are 0
+  if(~(returnData[2] & 1<<7) && ~(returnData[2] & 1<<6)) { // 00
+    // NFCID1 size: single (4 bytes)
+    return 1;
+  } else if (~(returnData[2] & 1<<7) && (returnData[2] & 1<<6)) { // 01
+    // NFCID1 size: double (7 bytes)
+    return 2;
+  } else if ((returnData[2] & 1<<7) && ~(returnData[2] & 1<<6)) { // 10
+    // NFCID1 size: triple (10 bytes)
+    return 3;
+  } else {
+    // RFU, so nothing
+    return 0;
+  }
 }
 
-void sel_req() {
-  //
+// accepts current anti collision cascade level (1, 2, or 3) and
+// if applicable parts of the uid. Returns 1 if the cascade tag is present
+// which means that another level of sdd_req needs to be sent.
+// returns 0 if sdd_req was unsuccessful
+// returns 2 if no cascade tag and sdd_req was successful.
+// fills out nficid param with the returned 3 or 4 bytes of NFCID1 
+uint8_t sdd_req(uint8_t cascadeLevel, uint8_t *nfcid) {
+  uint8_t returnData[255];
+  uint8_t data[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+  uint8_t dataSize = 0;
+
+  // TODO: make these so they can send parts of the nfcid along with them.
+  //       this would help if there ever is a collision of devices.
+  switch(cascadeLevel) {
+    case 1:
+      data[0] = 0x93;
+      data[1] = 0x20;
+      dataSize = 2;
+      break;
+    case 2:
+      data[0] = 0x95;
+      data[1] = 0x20;
+      dataSize = 2;
+      break;
+    case 3:
+      data[0] = 0x97;
+      data[1] = 0x20;
+      dataSize = 2;
+      break;
+    default:
+      //return
+      break;
+  }
+  
+  sendRecv(data, dataSize, 0, 0, 0, 8, returnData);
+  // cr95hf error
+  if(returnData[0] != 0x80) {
+    return 0;
+  }
+  // cascade tag, only 3 bytes returned
+  if(returnData[2] == 0x88) {
+    switch(cascadeLevel) {
+      case 1:
+        nfcid[0] = returnData[3];
+        nfcid[1] = returnData[4];
+        nfcid[2] = returnData[5];
+        break;
+      case 2:
+        nfcid[3] = returnData[3];
+        nfcid[4] = returnData[4];
+        nfcid[5] = returnData[5];
+        break;
+    }
+    return 1;
+  } else {
+    switch(cascadeLevel) {
+      case 1:
+        nfcid[0] = returnData[2];
+        nfcid[1] = returnData[3];
+        nfcid[2] = returnData[4];
+        nfcid[3] = returnData[5];
+        break;
+      case 2:
+        nfcid[3] = returnData[2];
+        nfcid[4] = returnData[3];
+        nfcid[5] = returnData[4];
+        nfcid[6] = returnData[5];
+        break;
+      case 3:
+        nfcid[6] = returnData[2];
+        nfcid[7] = returnData[3];
+        nfcid[8] = returnData[4];
+        nfcid[9] = returnData[5];
+    }
+    return 2;
+  }
+}
+
+void sel_req(uint8_t cascadeLevel, uint8_t cascadeTag, uint8_t *nfcid) {
+  uint8_t returnData[255];
+  uint8_t data[7];
+
+  switch(cascadeLevel) {
+    case 1:
+      data[0] = 0x93;
+      data[1] = 0x70;
+      if(cascadeTag == 0) {
+        data[2] = nfcid[0];
+        data[3] = nfcid[1];
+        data[4] = nfcid[2];
+        data[5] = nfcid[3];
+      } else {
+        data[2] = 0x88;
+        data[3] = nfcid[0];
+        data[4] = nfcid[1];
+        data[5] = nfcid[2];
+      }
+      data[6] = data[2] ^ data[3] ^ data[4] ^ data[5];
+      break;
+    case 2:
+      data[0] = 0x95;
+      data[1] = 0x70;
+      if(cascadeTag == 0) {
+        data[2] = nfcid[3];
+        data[3] = nfcid[4];
+        data[4] = nfcid[5];
+        data[5] = nfcid[6];
+      } else {
+        data[2] = 0x88;
+        data[3] = nfcid[3];
+        data[4] = nfcid[4];
+        data[5] = nfcid[5];
+      }
+      data[6] = data[2] ^ data[3] ^ data[4] ^ data[5];
+      break;
+    case 3:
+      data[0] = 0x97;
+      data[1] = 0x70;
+      data[2] = nfcid[6];
+      data[3] = nfcid[7];
+      data[4] = nfcid[8];
+      data[5] = nfcid[9];
+      data[6] = data[2] ^ data[3] ^ data[4] ^ data[5];
+      break;
+    default:
+      break;
+  }
+
+  sendRecv(data, 7, 0, 0, 1, 8, returnData);
 }
 
 void slp_req() {

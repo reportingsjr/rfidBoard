@@ -63,7 +63,7 @@ int main(void) {
   
 
   setProtocol();
-  topazAdjustRegisters();
+  typeAAdjustRegisters();
   // removed during dev since it is annoying
   //tagCalibrate();
   idle();
