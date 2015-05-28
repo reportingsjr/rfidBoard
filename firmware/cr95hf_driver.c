@@ -355,72 +355,6 @@ uint8_t sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFr
 }
 
 
-// list of topaz RFID commands:
-// REQA = 0x26 (request type a)
-// WUPA = 0x52 (wake up type a)
-// the commands below need an address operand that is:
-//  b0xxxxyyy where x is the block (0 to E) and y is the byte in that block
-// they also need a 2 byte CRC
-// RID = 0x78 (read ID)
-// READ 0x01
-// RALL = 0x00 (read all)
-// WRITE-E = 0x53 (write with erase)
-// WRITE-NE = 0x1A (write with no erase)
-/*
-void topazREQA() {
-  uint8_t data = 0x26; //REQA, topaz send format respectively
-  uint8_t returnData[255];
-  sendRecv(&data, 1, 0, 0, 0, 7, returnData);
-}
-
-void topazWUPA() {
-  uint8_t data = 0x52; //WUPA
-  uint8_t returnData[255];
-  sendRecv(&data, 1, 0, 0, 0, 7, returnData);
-}
-
-// returns response code and copies 6 bytes of header + UID to returnID 
-uint8_t topazRID(uint8_t * returnID) {
-  uint8_t data[7] = {0x78, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-  uint8_t returnData[255];
-  if(sendRecv(data, 7, 1, 0, 1, 8, returnData) == 0x80) {
-    returnID[0] = returnData[2];
-    returnID[1] = returnData[3];
-    returnID[2] = returnData[4];
-    returnID[3] = returnData[5];
-    returnID[4] = returnData[6];
-    returnID[5] = returnData[7];
-  }
-  return returnData[0];
-}
-
-void topazRALL() {
-  uint8_t data[7] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-  uint8_t returnData[255];
-  // read the ID so we get the four UID bits we need
-  uint8_t id[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-  if(topazRID(id) == 0x80) {
-    data[3] = id[2];
-    data[4] = id[3];
-    data[5] = id[4];
-    data[6] = id[5]; 
-    sendRecv(data, 7, 1, 0, 1, 8, returnData);
-  }
-}
-
-void topazREAD() {
-  //
-}
-
-void topazWRITEE() {
-  //
-}
-
-void topazWRITENE() {
-  //
-}
-*/
-
 void typeAAdjustRegisters() {
   msg_t message;
 
@@ -602,7 +536,11 @@ uint8_t sdd_req(uint8_t cascadeLevel, uint8_t *nfcid) {
   }
 }
 
-void sel_req(uint8_t cascadeLevel, uint8_t cascadeTag, uint8_t *nfcid) {
+// returns 0 for error
+// returns 1 for NFCID1 not complete so we need another cascade level
+// returns 2 for NFC-DEP support, probably a phone
+// returns 3 for type 2 tag
+uint8_t sel_req(uint8_t cascadeLevel, uint8_t cascadeTag, uint8_t *nfcid) {
   uint8_t returnData[255];
   uint8_t data[7];
 
@@ -653,6 +591,26 @@ void sel_req(uint8_t cascadeLevel, uint8_t cascadeTag, uint8_t *nfcid) {
   }
 
   sendRecv(data, 7, 0, 0, 1, 8, returnData);
+
+  if(returnData[0] != 0x80) {
+    // return that it failed
+    return 0;
+  }
+  if(~(returnData[2] & 1<<2)) {
+    // NFCID1 not complete, on to the next cascade level!
+    return 1;
+  }
+  if(returnData[2] & 1<<5) {
+    // supports NFC-DEP protocol, probably a phone
+    rats();
+    return 2;
+  }
+  if(~(returnData[2] & 1<<5) && ~(returnData[2] & 1<<6)) {
+    // type 2 tag
+    return 3;
+  }
+  // if we made it here it is a type 4a tag which is currently unsupported
+  return 0;
 }
 
 void slp_req() {
@@ -665,6 +623,21 @@ void read() {
 
 void write() {
   //
+}
+
+void rats() {
+  uint8_t data[2] = {0xE0, 0x70}; // RATS with accepted frame size of 128 bytes
+  uint8_t returnData[255];
+
+  sendRecv(data, 2, 0, 0, 1, 8, returnData);
+  
+  if(returnData[0] != 0x80) {
+    // error
+  }
+  if((returnData[3] & 1<<4) &&(returnData[3] & 1<<5) &&(returnData[3] & 1<<6)) {
+    // TA(1), TB(1), and TC(1) are all included in this
+    // we should do verification here, but that will come later
+  }
 }
 
 extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel) {

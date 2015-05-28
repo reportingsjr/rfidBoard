@@ -24,9 +24,10 @@ void topazWRITENE(void);*/
 uint8_t sens_req(void);
 uint8_t all_req(void);
 uint8_t sdd_req(uint8_t, uint8_t *);
-void sel_req(uint8_t, uint8_t, uint8_t *);
+uint8_t sel_req(uint8_t, uint8_t, uint8_t *);
 void slp_req(void);
 void read(void);
 void write(void);
+void rats(void);
 extern void cr95hfInterrupt(EXTDriver *extp, expchannel_t channel);
 
