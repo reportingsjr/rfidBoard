@@ -178,6 +178,11 @@ void idle() {
         } else {
           sel_req(1, 0, nfcid);
         }
+        uint8_t blocks[16];
+        read(0x04, blocks);
+        uint8_t data[4] = {0xDE, 0xAD, 0xBE, 0xEF};
+        write(0x04, data);
+        read(0x04, blocks);
       }
     }
   }
@@ -617,12 +622,39 @@ void slp_req() {
   //
 }
 
-void read() {
-  //
+void read(uint8_t block, uint8_t *response) {
+  uint8_t returnData[255];
+  uint8_t data[2];
+  
+  data[0] = 0x30; // read command
+  data[1] = block; // block number
+
+  sendRecv(data, 2, 0, 0, 1, 8, returnData);
+
+  if(returnData[0] != 0x80) {
+    // error
+  }
+  if(returnData[1] == 0x04 && (returnData[2] == 0x00 ||
+     returnData[2] == 0x01 || returnData[2] == 0x04 ||
+     returnData[2] == 0x05)) {
+    // NACK sent back, treat as error)
+  }
+  // copy over the 16 response bytes starting from returnData[2]
+  memcpy(response, returnData + 2, 16);
+  // return 16 bytes that represent the 4 blocks that were read
 }
 
-void write() {
-  //
+// type 2 tag write
+// block is the block to be written
+// writeData is the data to be written and must be 4 bytes
+void write(uint8_t block, uint8_t *writeData) {
+  uint8_t returnData[255];
+  uint8_t data[6];
+  data[0] = 0xA2;
+  data[1] = block;
+  memcpy(data + 2, writeData, 4);
+
+  sendRecv(data, 6, 0, 0, 1, 8, returnData);
 }
 
 void rats() {
