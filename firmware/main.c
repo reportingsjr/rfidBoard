@@ -63,7 +63,7 @@ int main(void) {
   
 
   setProtocol();
-  typeAAdjustRegisters();
+  ISO14443AAdjustRegisters();
   // removed during dev since it is annoying
   //tagCalibrate();
   idle();

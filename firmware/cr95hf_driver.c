@@ -26,7 +26,7 @@ static uint8_t idleCommand[16];
 // thread that watches for messages in a mailbox
 // when the cr95hf sends a pulse on IRQ_OUT an interrupt is generated
 // which reads the message the IC has and puts it in the mailbox.
-// This thread loops every x ms and when it sees data parses it and
+// This thread infinitely loops and when it sees data parses it and
 // calls the appropriate function.
 static THD_WORKING_AREA(cr95hfMessageThreadWA, 512);
 static THD_FUNCTION(cr95hfMessageThread, arg) {
@@ -178,11 +178,11 @@ void idle() {
         } else {
           sel_req(1, 0, nfcid);
         }
-        uint8_t blocks[16];
-        read(0x04, blocks);
-        uint8_t data[4] = {0xDE, 0xAD, 0xBE, 0xEF};
-        write(0x04, data);
-        read(0x04, blocks);
+        //uint8_t blocks[16];
+        //type2Read(0x04, blocks);
+        //uint8_t data[4] = {0xDE, 0xAD, 0xBE, 0xEF};
+        //type2Write(0x04, data);
+        //type2Read(0x04, blocks);
       }
     }
   }
@@ -360,7 +360,7 @@ uint8_t sendRecv(uint8_t *data, uint8_t dataSize, uint8_t topaz, uint8_t splitFr
 }
 
 
-void typeAAdjustRegisters() {
+void ISO14443AAdjustRegisters() {
   msg_t message;
 
   uint8_t adjustModAndGain[6] = {0x09, 0x04, 0x68, 0x01, 0x01, 0xD1};
@@ -396,12 +396,14 @@ void typeAAdjustRegisters() {
 
 }
 
-// List of NFC Forum type 2 commands
+// List of NFC Forum NFC-A commands
 // SENS_REQ 0x26 - short frame (REQA)
 // ALL_REQ 0x52 - short frame (WUPA)
 // SDD_REQ 0x93, 0x95 (anti collision CL1 or CL2)
 // SEL_REQ 0x93, 0x95 (select CL1 or CL2) // requires CRC
 // SLP_REQ 0x50 (halt) // requires CRC
+
+// NFC forum type 2 commands
 // READ    0x30
 // WRITE   0xA2
 
@@ -601,17 +603,19 @@ uint8_t sel_req(uint8_t cascadeLevel, uint8_t cascadeTag, uint8_t *nfcid) {
     // return that it failed
     return 0;
   }
-  if(~(returnData[2] & 1<<2)) {
+  if(returnData[2] & 1<<2) {
     // NFCID1 not complete, on to the next cascade level!
     return 1;
   }
   if(returnData[2] & 1<<5) {
     // supports NFC-DEP protocol, probably a phone
-    rats();
+    type4aRATS();
     return 2;
   }
   if(~(returnData[2] & 1<<5) && ~(returnData[2] & 1<<6)) {
     // type 2 tag
+    uint8_t blocks[16];
+    type2Read(0x04, blocks);
     return 3;
   }
   // if we made it here it is a type 4a tag which is currently unsupported
@@ -622,7 +626,10 @@ void slp_req() {
   //
 }
 
-void read(uint8_t block, uint8_t *response) {
+// type 2 tag read
+// block is the starting block to read
+// response contains the 16 bytes (4 blocks) that were read if successful
+void type2Read(uint8_t block, uint8_t *response) {
   uint8_t returnData[255];
   uint8_t data[2];
   
@@ -647,7 +654,7 @@ void read(uint8_t block, uint8_t *response) {
 // type 2 tag write
 // block is the block to be written
 // writeData is the data to be written and must be 4 bytes
-void write(uint8_t block, uint8_t *writeData) {
+void type2Write(uint8_t block, uint8_t *writeData) {
   uint8_t returnData[255];
   uint8_t data[6];
   data[0] = 0xA2;
@@ -657,7 +664,7 @@ void write(uint8_t block, uint8_t *writeData) {
   sendRecv(data, 6, 0, 0, 1, 8, returnData);
 }
 
-void rats() {
+void type4aRATS() {
   uint8_t data[2] = {0xE0, 0x70}; // RATS with accepted frame size of 128 bytes
   uint8_t returnData[255];
 
