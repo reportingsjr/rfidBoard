@@ -209,3 +209,19 @@ ULIBS =
 
 RULESPATH = $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC
 include $(RULESPATH)/rules.mk
+
+GDB = arm-none-eabi-gdb
+OOCD = openocd
+OOCDFLAGS = -f interface/stlink-v1.cfg -f target/stm32f1x_stlink.cfg
+
+BINNAME = build/ch.elf
+
+program: $(BINNAME)
+	$(OOCD) $(OOCDFLAGS) \
+	  -c "init" -c "targets" -c "reset halt" \
+	  -c "flash write_image erase $<" -c "verify_image $<" \
+	  -c "reset run" -c "shutdown"
+
+debug: $(BINNAME)
+	$(GDB) -iex 'target extended | $(OOCD) $(OOCDFLAGS) -c "gdb_port pipe"' \
+               -iex 'mon halt' $<

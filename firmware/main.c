@@ -23,8 +23,6 @@ static const EXTConfig extcfg = {
   {
     {EXT_CH_MODE_DISABLED, NULL},  
     {EXT_CH_MODE_DISABLED, NULL},
-    {EXT_CH_MODE_FALLING_EDGE | EXT_MODE_GPIOA, 
-     cr95hfInterrupt},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
@@ -32,7 +30,10 @@ static const EXTConfig extcfg = {
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_FALLING_EDGE | EXT_MODE_GPIOA, cr95hfInterrupt},
     {EXT_CH_MODE_DISABLED, NULL}, 
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL},
     {EXT_CH_MODE_DISABLED, NULL}
@@ -54,16 +55,18 @@ int main(void) {
   halInit();
   chSysInit();
 
-  struct pin IRQ_OUT = {GPIOA, 2};
-  struct pin IRQ_IN = {GPIOA, 3};
+  struct pin IRQ_OUT = {GPIOA, 10};
+  struct pin IRQ_IN = {GPIOA, 11};
   
-  extStart(&EXTD1, &extcfg);
-  cr95hf_init(&IRQ_IN, &IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
-  extChannelEnable(&EXTD1, (expchannel_t) 2);
-  
+  //extStart(&EXTD1, &extcfg);
+  //cr95hf_init(&IRQ_IN, &IRQ_OUT, GPIOA, GPIOA_SPI1NSS);
+  //extChannelEnable(&EXTD1, (expchannel_t) 2);
+ 
+  palSetPadMode(GPIOB, 8, PAL_MODE_OUTPUT_PUSHPULL);
+  palClearPad(GPIOB, 8);
 
-  setProtocol();
-  ISO14443AAdjustRegisters();
+  //setProtocol();
+  //ISO14443AAdjustRegisters();
   // removed during dev since it is annoying
   //tagCalibrate();
   idle();
