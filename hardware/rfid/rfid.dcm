@@ -1,0 +1,27 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 0813-1X1T-57-F
+D RJ45 with transformer + leds WURTH
+K RJ45
+$ENDCMP
+#
+$CMP CDNBS04-B08200
+D Pont de Diodes
+K Pont Diode
+$ENDCMP
+#
+$CMP SI3440DV
+F transistors/mos/*.*
+$ENDCMP
+#
+$CMP SW_PUSH
+D Push Button
+K Switch
+$ENDCMP
+#
+$CMP SW_PUSH_4
+D Push Button
+K Switch
+$ENDCMP
+#
+#End Doc Library
