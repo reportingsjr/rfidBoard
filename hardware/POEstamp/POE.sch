@@ -1598,4 +1598,12 @@ Wire Wire Line
 Wire Wire Line
 	12070 4315 12390 4315
 Connection ~ 12390 4315
+Wire Notes Line
+	5675 2480 5675 1935
+Wire Notes Line
+	5675 1935 9790 1935
+Wire Notes Line
+	9790 1935 9790 2410
+Text Notes 6350 1800 0    59   ~ 0
+Several of the components in this area need thermal \nanalysis and replacement with appropriate packages.
 $EndSCHEMATC
