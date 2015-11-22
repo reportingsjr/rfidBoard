@@ -721,19 +721,6 @@ $EndComp
 Text Notes 3825 5330 0    60   ~ 0
 GNDA is the input ground from ethernet.\nGND is isolated ground.
 $Comp
-L LED-RESCUE-POE D12
-U 1 1 52A27A6E
-P 15270 3555
-F 0 "D12" H 15270 3655 50  0000 C CNN
-F 1 "5V LED" H 15275 3440 50  0000 C CNN
-F 2 "LEDs:LED-0603" H 15270 3555 60  0001 C CNN
-F 3 "http://www.osram-os.com/Graphics/XPic9/00128783_0.pdf" H 15270 3555 60  0001 C CNN
-F 4 "Digikey" H 15270 3555 60  0001 C CNN "Vend1"
-F 5 "475-1409-1-ND" H 15270 3555 60  0001 C CNN "Vend1Id"
-	1    15270 3555
-	0    1    1    0   
-$EndComp
-$Comp
 L GND-RESCUE-POE #PWR013
 U 1 1 52A27D1F
 P 15270 3820
@@ -1578,4 +1565,17 @@ Wire Notes Line
 	9790 1935 9790 2410
 Text Notes 6350 1800 0    59   ~ 0
 Several of the components in this area need thermal \nanalysis and replacement with appropriate packages.
+$Comp
+L LED D12
+U 1 1 5656CBC8
+P 15270 3555
+F 0 "D12" H 15270 3655 50  0000 C CNN
+F 1 "5V LED" H 15270 3455 50  0000 C CNN
+F 2 "LEDs:LED-0603" H 15270 3555 60  0001 C CNN
+F 3 "http://www.osram-os.com/Graphics/XPic9/00128783_0.pdf" H 15270 3555 60  0001 C CNN
+F 4 "Digikey" H 15270 3555 60  0001 C CNN "Vend1"
+F 5 "475-1409-1-ND" H 15270 3555 60  0001 C CNN "Vend1Id"
+	1    15270 3555
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC
