@@ -212,7 +212,7 @@ include $(RULESPATH)/rules.mk
 
 GDB = arm-none-eabi-gdb
 OOCD = openocd
-OOCDFLAGS = -f interface/stlink-v1.cfg -f target/stm32f1x_stlink.cfg
+OOCDFLAGS = -f interface/stlink-v1.cfg -f target/stm32f1x.cfg
 
 BINNAME = build/ch.elf
 
